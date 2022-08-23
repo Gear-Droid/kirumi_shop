@@ -157,7 +157,7 @@ LOCALE_PATHS = (
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+MEDIA_URL = 'mediafiles/'
 
 # where to collect static and media
 STATIC_ROOT = BASE_DIR / '../staticfiles/'
@@ -189,7 +189,6 @@ LOGGING = {
     },
     'handlers': {
         'logfile': {
-            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'server.log',
         },
@@ -197,7 +196,6 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['logfile'],
-            'level': 'DEBUG',
             'propagate': True,
         },
     },
