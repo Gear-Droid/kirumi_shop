@@ -1,0 +1,139 @@
+{% extends 'homepage.html' %}
+
+{% load product_filters %}
+{% load thumbnail %}
+{% load static %}
+
+{% block header %}
+
+  <!--===============================================================================================-->
+    <!-- Product Details CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/product/product_details.css' %}">
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+  <!--===============================================================================================-->
+
+{% endblock header %}
+
+{% block style %}
+{% endblock style %}
+
+{% block intro %}
+{% endblock intro %}
+
+{% block content %}
+
+  <div class="container mt-3 mb-5">
+    <div class="product_details_card">
+      <div class="row g-0">
+        <div class="col-md-8 border-end">
+          <div class="d-flex flex-row justify-content-center">
+
+            <div class="thumbnail_images">
+              <ul class="d-flex flex-column">
+                {% for thumbnail_img in images %}
+                  <li>
+                    {% thumbnail thumbnail_img.image "70x98" crop="center" as im %}
+                      <img
+                        src="{{ im.url }}"
+                        alt="{{ thumbnail_img.description }}"
+                        onclick='changeMainImage("{{ thumbnail_img.image.url }}");'
+                        width="70"
+                      />
+                    {% endthumbnail %}
+                  </li>
+                {% endfor %}
+                <script type="text/javascript">
+                  function changeMainImage(new_src) {
+                    document.getElementById("main_product_image").src=new_src;
+                  }
+                </script>
+              </ul>
+            </div>
+
+            <div class="main_image">
+              <img src="{{ images.first.image.url }}"
+                id="main_product_image"
+                alt="{{ images.first.description }}"
+                width="500" height="700"
+                loading="eager" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="p-3 right-side">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3>{{ colored_product.product.name }}</h3>
+            </div>
+            <div class="mx-2 mt-2 mb-4 pr-3 content">
+              <p class="description">
+                {{ colored_product.product.description }}
+              </p>
+            </div>
+
+            <h3 class="title">Цвет</h3>
+            <div class="my-2 pr-3 content">
+              <p class="color-name">
+                {{ colored_product.name }}
+              </p>
+            </div>
+
+            <div class="color-container mt-3">
+              <h3 class="title">Другие цвета товара</h3>
+              <div class="colors">
+
+                {% for color in colored_product.product.colors.all|is_active %}
+
+                  <a class="colored-product-link" style="color: #{{ color.color_hex_code }};"
+                    href="{% url 'product_page' color.product.slug color.slug %}">
+                    <span class="color {% if color == colored_product %}active{% endif %}"
+                      primary="#{{ color.color_hex_code }}" color="{{ color.name }}"
+                      style="{% if color == product_color %}border-color: #{{ color.color_hex_code }};{% endif %}
+                      background: #{{ color.color_hex_code }};"></span>
+                  </a>
+                
+                {% endfor %}
+  
+              </div>
+            </div>
+
+            <form action="{% url 'product_page' colored_product.product.slug colored_product.slug %}"
+              method="post" style="text-align: center;">
+              {% csrf_token %}
+
+              <h3 class="title">Размер</h3>
+              <div class="mt-2 mb-4 pr-3 content">
+                <div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+                  {% for size in colored_product.product.sizes.all|is_active %}
+                    <input type="radio" class="btn-check" name="size" id="{{ size }}" value="{{ size }}" required>
+                    <label class="btn btn-outline-dark" for="{{ size }}">{{ size }}</label>
+                  {% endfor %}
+                </div>
+              </div>
+
+              {% if colored_product.old_price is not none %}
+                <h3 class="old_price">{{ colored_product.old_price }} Р</h3>
+              {% endif %}
+              <h3 class="new_price">{{ colored_product.price }} Р</h3>
+
+              <input type="hidden" name="add_to_cart" />
+              <div class="buttons d-flex flex-row mt-4">
+                <button type="submit" class="btn btn-dark">Добавить в корзину</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block scripts %}
+{% endblock scripts %}
