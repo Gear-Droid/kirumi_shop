@@ -104,6 +104,7 @@ class ProductImageInline(admin.TabularInline):
     fields = (
         'sort_order', 'pub_date',
         'image', 'get_current_image',
+        'description',
         'is_active',
     )
     readonly_fields = ('pub_date', 'get_current_image', )
