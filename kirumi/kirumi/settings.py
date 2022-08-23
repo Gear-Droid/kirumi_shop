@@ -189,6 +189,7 @@ LOGGING = {
     },
     'handlers': {
         'logfile': {
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'server.log',
         },
@@ -196,6 +197,8 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
     },
 }
