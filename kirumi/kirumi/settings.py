@@ -30,9 +30,7 @@ if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.102']
 else:
     ALLOWED_HOSTS = [
-        os.environ.get('ALLOWED_HOST1', '127.0.0.1'),
-        os.environ.get('ALLOWED_HOST2', 'localhost'),
-        os.environ.get('ALLOWED_HOST2', 'kirumi.ru'),
+        os.environ.get('ALLOWED_HOST1', 'kirumi.ru'),
         os.environ.get('ALLOWED_HOST2', 'www.kirumi.ru'),
     ]
 
@@ -190,21 +188,17 @@ LOGGING = {
         }
     },
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console'
-        },
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'formatter': 'file',
-            'filename': 'debug.log'
-        }
+            'filename': '/path/to/django/debug.log',
+        },
     },
     'loggers': {
-        'django.db.backends': {
+        'django': {
+            'handlers': ['file'],
             'level': 'DEBUG',
-            'handlers': ['file',]
+            'propagate': True,
         },
     },
 }
