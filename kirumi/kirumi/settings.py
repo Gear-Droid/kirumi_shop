@@ -157,11 +157,11 @@ LOCALE_PATHS = (
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = 'mediafiles/'
+MEDIA_URL = 'media/'
 
 # where to collect static and media
-STATIC_ROOT = BASE_DIR / '../staticfiles/'
-MEDIA_ROOT = BASE_DIR / '../mediafiles/'
+STATIC_ROOT = BASE_DIR / '../static/'
+MEDIA_ROOT = BASE_DIR / '../media/'
 
 if DEBUG:
     STATICFILES_DIRS = (
