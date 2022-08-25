@@ -103,7 +103,7 @@
               </div>
 
               <div class="container">
-                <button class="mt-4 mb-4 w-100 btn btn-dark btn-lg"
+                {% comment %} <button class="mt-4 mb-4 w-100 btn btn-dark btn-lg"
                   hx-get="{% url 'delivery_widget' %}"
                   hx-trigger="click"
                   hx-include="[name='country_selector']"
@@ -111,13 +111,14 @@
                   hx-swap="innerHTML"
                 >
                   Отобразить способы доставки
-                </button>
+                </button> {% endcomment %}
               </div>
 
               <div class="row" style="" id="fulladdress-div"></div>
 
             </div>
 
+            <div class="mb-4" id="forpvz" style="height:600px;"></div>
             <script>
               var widjet = new ISDEKWidjet({
                 defaultCity: 'Москва',

@@ -1,14 +1,14 @@
 {% if SDEK %}
 
 	<script>
-    var widjet = new ISDEKWidjet({
-        defaultCity: 'Москва',
-        cityFrom: 'Москва',
-        link: 'forpvz',
-        path: 'https://widget.cdek.ru/widget/scripts/',
-		// servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте
-		servicepath: {% static 'php/SDEK/service.php' %} //ссылка на файл service.php на вашем сайте
-    });
+		var widjet = new ISDEKWidjet({
+			defaultCity: 'Москва',
+			cityFrom: 'Москва',
+			link: 'forpvz',
+			path: 'https://widget.cdek.ru/widget/scripts/',
+			// servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте
+			servicepath: {% static 'php/SDEK/service.php' %} //ссылка на файл service.php на вашем сайте
+		});
 	</script>
 	<div class="mb-4" id="forpvz" style="height:600px;"></div>
 
