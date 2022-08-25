@@ -1,0 +1,41 @@
+{% extends 'homepage.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block header %}
+
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+  <!--===============================================================================================-->
+
+{% endblock header %}
+
+{% block style %}
+  h2, .container{
+    padding: 5vw;
+    font-family: system-ui;
+    text-align: center;
+  }
+{% endblock style %}
+
+{% block intro %}
+{% endblock intro %}
+
+{% block content %}
+<h2 class="fade-in pb-2 my-3 border-bottom">{% trans "Контакты" %}</h2>
+<div class="container mb-3">
+  <br>
+  <br>
+  Мы крайне ценим наших покупателей и будем признательны за отзыв и обратную связь.<br>
+  Почта: kirumiwork@gmail.com<br>
+  <br>
+</div>
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block scripts %}
+{% endblock scripts %}

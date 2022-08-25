@@ -114,7 +114,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "О бренде" %}</a>
+              <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
             </li>
 
             <li class="nav-item">
@@ -128,7 +128,7 @@
 
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "Контакты" %}</a>
+              <a class="nav-link" href="{% url 'contacts' %}">{% trans "Контакты" %}</a>
             </li>
 
             <li class="nav-item">
@@ -311,8 +311,8 @@
     </a>
 
     <ul class="nav col-md-4 justify-content-end">
-      <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "О бренде" %}</a></li>
-      <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
+      <li class="nav-item"><a href="{% url 'about_brand' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "О бренде" %}</a></li>
+      <li class="nav-item"><a href="{% url 'contacts' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
       <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
       <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Возрат-обмен" %}</a></li>
       <li class="nav-item"><a href="{% url 'public_offer' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Публичная оферта" %}</a></li>

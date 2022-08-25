@@ -28,6 +28,7 @@ from .views import (
     PaymentView,
     TermsOfUseView,
     PublicOfferView,
+    ContactsView,
 )
 
 urlpatterns = [
@@ -41,7 +42,8 @@ urlpatterns = [
     path('cart/<int:cart_product_id>/delete/', DeleteCartProductView.as_view(), name='delete_cart_product'),
     path('cart/<int:cart_product_id>/changeqty/', ChangeCartProductQtyView.as_view(), name='change_qty'),
     path('cart/delivery_widget/', DeliveryWidgetView.as_view(), name='delivery_widget'),
-    path('payment/', PaymentView.as_view(), name='payment'),
+    path('cart/checkout/payment/', PaymentView.as_view(), name='payment'),
     path('terms_of_use/', TermsOfUseView.as_view(), name='terms_of_use'),
     path('public_offer/', PublicOfferView.as_view(), name='public_offer'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
 ]

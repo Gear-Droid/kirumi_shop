@@ -217,7 +217,7 @@ class DeliveryWidgetView(CartMixin, CartProductMixin):
 
     def get(self, request, *args, **kwargs):
         select_series = request.GET.getlist('select_series', [])
-        print(request.GET.get('country_selector', None))
+        # print(request.GET.get('country_selector', None))
         country_selector = request.GET.get('country_selector', None)
         if country_selector == "":
             html = '<html><body>Пожалуйста, выберите страну!</body></html>'
@@ -239,7 +239,7 @@ class PaymentView(CartMixin, CartProductMixin):
         addresPost = request.POST.get('addresPost')     # адрес
         pricePost = request.POST.get('pricePost')       # стоимость доставки
         timePost = request.POST.get('timePost')         # приблизительное время доставки
-        email = request.POST.get('email')         # приблизительное время доставки
+        email = request.POST.get('email')               # приблизительное время доставки
         html = f"""
         <html>
             <body>
@@ -251,8 +251,20 @@ class PaymentView(CartMixin, CartProductMixin):
             </body>
         </html>
         """
-
-        return HttpResponse(html)
+        context = {
+            'meta': {
+                'Title': 'Оплата заказа',
+            },
+            'delivery_details':{
+                'chosenPost': chosenPost,
+                'addresPost': addresPost,
+                'pricePost': pricePost,
+                'timePost': timePost,
+            },
+            'cart': self.cart,
+            'products_in_cart': self.products_in_cart,
+        }
+        return render(request, 'cart/checkout/payment/payment.html', context=context)
 
 
 class TermsOfUseView(CartMixin, CartProductMixin):
@@ -275,3 +287,14 @@ class PublicOfferView(CartMixin, CartProductMixin):
             },
         }
         return render(request, 'public_offer/public_offer.html', context=context)
+
+
+class ContactsView(CartMixin, CartProductMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "Контакты",
+            },
+        }
+        return render(request, 'contacts/contacts.html', context=context)
