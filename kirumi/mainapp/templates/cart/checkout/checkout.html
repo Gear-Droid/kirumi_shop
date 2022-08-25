@@ -118,16 +118,17 @@
 
             </div>
 
-            {% comment %} <script>
+            <script>
               var widjet = new ISDEKWidjet({
-                  defaultCity: 'Уфа',
-                  cityFrom: 'Омск',
-                  link: 'forpvz',
-                  path: 'https://widget.cdek.ru/widget/scripts/',
-                  servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте
+                defaultCity: 'Москва',
+                cityFrom: 'Москва',
+                link: 'forpvz',
+                path: 'https://widget.cdek.ru/widget/scripts/',
+                // servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте            
+                servicepath: {% static 'php/SDEK/service.php' %} //ссылка на файл service.php на вашем сайте
               });
-            </script> {% endcomment %}
-            
+            </script>
+
             <input class="mb-5 w-100 btn btn-primary btn-lg" value="Перейти к оплате" type="submit"></input>
           </form>
         </div>
