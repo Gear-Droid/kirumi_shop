@@ -128,7 +128,7 @@
                 link: 'forpvz',
                 path: 'https://widget.cdek.ru/widget/scripts/',
                 // servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте            
-                servicepath: '{% static 'php/SDEK/service.php' %}', //ссылка на файл service.php на вашем сайте
+                servicepath: {% static 'php/SDEK/service.php' %}, //ссылка на файл service.php на вашем сайте
                 hidedress: true,
                 onChoose : function(info){ // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
                   ipjq('[name="chosenPost"]').val(info.id);
