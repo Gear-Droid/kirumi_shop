@@ -1,5 +1,6 @@
-﻿
-__pycache__/
+﻿__pycache__/
 *.py[cod]
+*.log
 *$py.class
 static/
+settings.py
