@@ -7,9 +7,10 @@
     <!-- Card CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
   <!--===============================================================================================-->
-    <!-- Card CSS style -->
-      <script type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" id="ISDEKscript" ></script>
+    <!-- SDEK widget -->
+      <script id="ISDEKscript" type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" charset="utf-8"></script>
   <!--===============================================================================================-->
+
 {% endblock header %}
 
 {% block style %}
@@ -126,7 +127,7 @@
                 link: 'forpvz',
                 path: 'https://widget.cdek.ru/widget/scripts/',
                 // servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте            
-                servicepath: {% static 'php/SDEK/service.php' %} //ссылка на файл service.php на вашем сайте
+                servicepath: '{% static 'php/SDEK/service.php' %}' //ссылка на файл service.php на вашем сайте
               });
             </script>
 
