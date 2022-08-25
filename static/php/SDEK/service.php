@@ -240,7 +240,6 @@ namespace SDEKService {
                         );
                     }
 
-                
                     $arImgs = array();
 
                     foreach ($val->OfficeImage as $img) {
