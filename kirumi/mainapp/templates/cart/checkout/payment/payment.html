@@ -27,7 +27,7 @@
   <div class="container">
     <main>
       <div class="py-4 text-center">
-        <h1>Оформление заказа</h1>
+        <h1>Форма оплаты заказа</h1>
         <p class="lead"></p>
       </div>
   
@@ -65,28 +65,28 @@
         </div>
 
         <div class="col-lg-8">
-          <form class="needs-validation" action="{% url 'payment' %}" method="post" no-validation="">
+          <form class="needs-validation" action="/" method="post" no-validation="">
             {% csrf_token %}
             <div class="row g-3  mb-4">
 
               <div class="col-sm-5">
                 <label for="firstName" class="form-label">Имя <span class="text-muted">*</span></label>
-                <input type="text" class="form-control" id="firstName" required>
+                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
               </div>
 
               <div class="col-sm-7">
                 <label for="lastName" class="form-label">Фамилия <span class="text-muted">*</span></label>
-                <input type="text" class="form-control" id="lastName" required>
+                <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
               </div>
 
-              <div class="col-sm-7">
+              <div class="col-8">
                 <label for="email" class="form-label">Email <span class="text-muted">*</span></label>
-                <input type="email" class="form-control" id="email" placeholder="email@example.com" required>
+                <input type="email" class="form-control" id="email" placeholder="email@example.com">
               </div>
 
-              <div class="col-sm-5">
+              <div class="col-md-4">
                 <label for="phone" class="form-label">Номер телефона <span class="text-muted">*</span></label>
-                <input type="phone" class="form-control" id="phone" required>
+                <input type="text" class="form-control" id="phone" placeholder="" required="">
               </div>
 
               <div class="col-12">
@@ -156,7 +156,7 @@
             <p><input type="hidden" name="pricePost" value=""></p>
             <p><input type="hidden" name="timePost" value=""></p>
 
-            <input class="mb-5 mt-4 w-100 btn btn-primary btn-lg" value="Перейти к оплате" type="submit"></input>
+            <input class="mb-5 w-100 btn btn-primary btn-lg" value="Перейти к оплате" type="submit"></input>
           </form>
         </div>
       </div>

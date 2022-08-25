@@ -233,6 +233,22 @@ class DeliveryWidgetView(CartMixin, CartProductMixin):
 
 class PaymentView(CartMixin, CartProductMixin):
 
-    def get(self, request, *args, **kwargs):
-        html = '<html><body>It is now %s.</body></html>' % 666
+    def post(self, request, *args, **kwargs):
+        chosenPost = request.POST.get('chosenPost')     # номер поста
+        addresPost = request.POST.get('addresPost')     # адрес
+        pricePost = request.POST.get('pricePost')       # стоимость доставки
+        timePost = request.POST.get('timePost')         # приблизительное время доставки
+        email = request.POST.get('email')         # приблизительное время доставки
+        html = f"""
+        <html>
+            <body>
+                chosenPost: {chosenPost} <br>
+                addresPost: {addresPost} <br>
+                pricePost: {pricePost} <br>
+                timePost: {timePost} <br>
+                email: {email} <br>
+            </body>
+        </html>
+        """
+
         return HttpResponse(html)
