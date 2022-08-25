@@ -1,0 +1,25 @@
+{% extends 'homepage.html' %}
+
+{% load static %}
+
+{% block header %}
+
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+  <!--===============================================================================================-->
+
+{% endblock header %}
+
+{% block intro %}
+{% endblock intro %}
+
+{% block content %}
+  {% include 'product/products_wrapper.html' %}
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block scripts %}
+{% endblock scripts %}

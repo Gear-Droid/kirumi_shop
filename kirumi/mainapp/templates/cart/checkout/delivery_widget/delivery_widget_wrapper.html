@@ -1,0 +1,32 @@
+{% if SDEK %}
+
+	<script>
+		var widjet = new ISDEKWidjet({
+			defaultCity: 'Москва',
+			cityFrom: 'Москва',
+			link: 'forpvz',
+			path: 'https://widget.cdek.ru/widget/scripts/',
+			// servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте
+			servicepath: {% static 'php/SDEK/service.php' %} //ссылка на файл service.php на вашем сайте
+		});
+	</script>
+	<div class="mb-4" id="forpvz" style="height:600px;"></div>
+
+{% else %}
+
+	<div class="row mb-3">
+		<div class="col-md-3">
+			<label for="zip" class="form-label">Почтовый индекс</label>
+			<input type="text" class="form-control" id="zip" placeholder="" required="">
+		</div>
+		<div class="col-md-9">
+			<label for="address" class="form-label">Основной адрес</label>
+			<input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+		</div>
+	</div>
+	<div class="col-12 mb-4">
+		<label for="address2" class="form-label">Дополнительный адрес<span class="text-muted">(Опционально)</span></label>
+		<input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+	</div>
+
+{% endif %}

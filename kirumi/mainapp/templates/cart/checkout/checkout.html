@@ -1,0 +1,162 @@
+{% extends 'homepage.html' %}
+
+{% load static %}
+{% load thumbnail %}
+{% block header %}
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
+  <!--===============================================================================================-->
+    <!-- SDEK widget -->
+      <script id="ISDEKscript" type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" charset="utf-8"></script>
+  <!--===============================================================================================-->
+
+{% endblock header %}
+
+{% block style %}
+{% endblock %}
+
+{% block intro %}
+{% endblock intro %}
+
+{% block content %}
+
+  <div class="container">
+    <main>
+      <div class="py-4 text-center">
+        <h1>Форма оплаты заказа</h1>
+        <p class="lead"></p>
+      </div>
+  
+      <div class="row g-5">
+        <div class="col-lg-4 order-md-last">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Заказ</span>
+            <span class="badge bg-primary rounded-pill"> {{ cart.total_products }} </span>
+          </h4>
+          <ul class="list-group mb-3">
+
+            {% for item in products_in_cart %}
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">{{ item.qty }} x {{ item.colored_product.product.name }}</h6>
+                  <small class="text-muted">{{ item.colored_product.name }} - {{ item.size }} размер</small>
+                </div>
+                <span class="text-muted">{{ item.colored_product.price }}</span>
+              </li>
+            {% endfor %}
+
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Промокод</h6>
+                <small>EXAMPLECODE</small>
+              </div>
+              <span class="text-success">−0 руб.</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Итого</span>
+              <strong>{{cart.final_price}} руб.</strong>
+            </li>
+
+          </ul>
+        </div>
+
+        <div class="col-lg-8">
+          <form class="needs-validation" action="/" method="post" no-validation="">
+            {% csrf_token %}
+            <div class="row g-3  mb-4">
+
+              <div class="col-sm-5">
+                <label for="firstName" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+              </div>
+
+              <div class="col-sm-7">
+                <label for="lastName" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+              </div>
+
+              <div class="col-8">
+                <label for="email" class="form-label">Email <span class="text-muted">(Опционально)</span></label>
+                <input type="email" class="form-control" id="email" placeholder="email@example.com">
+              </div>
+
+              <div class="col-md-4">
+                <label for="phone" class="form-label">Номер телефона</label>
+                <input type="text" class="form-control" id="phone" placeholder="" required="">
+              </div>
+
+              <p><input type="hidden" name="chosenPost" value=""></p>
+              <p>Адрес пункта: <input type="text" name="addresPost" value=""></p>
+              <p><input type="hidden" name="pricePost" value=""></p>
+              <p><input type="hidden" name="timePost" value=""></p>
+
+              {% comment %} <div class="col-md-12">
+                <label for="country" class="form-label">Страна</label>
+                <select x-ref="select" class="form-select" id="country" required=""
+                  name="country_selector"
+                  hx-include="[name='country_selector']"
+                  hx-get="{% url 'delivery_widget' %}"
+                  hx-vals="javascript:{...get_parameters()}"
+                  hx-trigger="changed"
+                  hx-target="#fulladdress-div"
+                  hx-swap="innerHTML"
+                >
+                  <option value="">Выберите...</option>
+                  <option value="RU">Россия</option>
+                  <option value="OTHER">США</option>
+                </select>
+              </div>
+
+              <div class="container">
+                <button class="mt-4 mb-4 w-100 btn btn-dark btn-lg"
+                  hx-get="{% url 'delivery_widget' %}"
+                  hx-trigger="click"
+                  hx-include="[name='country_selector']"
+                  hx-target="#fulladdress-div"
+                  hx-swap="innerHTML"
+                >
+                  Отобразить способы доставки
+                </button>
+              </div>
+
+              <div class="row" style="" id="fulladdress-div"></div> {% endcomment %}
+
+            </div>
+
+            <div class="mb-4" id="forpvz" style="height:600px;"></div>
+            <script>
+              var widjet = new ISDEKWidjet({
+                country: 'Россия',
+                defaultCity: 'Москва',
+                cityFrom: 'Москва',
+                link: 'forpvz',
+                path: 'https://widget.cdek.ru/widget/scripts/',
+                // servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте            
+                servicepath: '{% static 'php/SDEK/service.php' %}', //ссылка на файл service.php на вашем сайте
+                hidedress: true,
+                onChoose : function(info){ // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
+                  ipjq('[name="chosenPost"]').val(info.id);
+                  ipjq('[name="addresPost"]').val(info.PVZ.Address);
+                  // расчет стоимости доставки
+                  var price = (info.price < 500) ? 500 : Math.ceil( info.price/100 ) * 100;
+                  ipjq('[name="pricePost"]').val(price);
+                  ipjq('[name="timePost"]').val(info.term);
+                }
+              });
+            </script>
+
+            <input class="mb-5 w-100 btn btn-primary btn-lg" value="Перейти к оплате" type="submit"></input>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block scripts %}
+{% endblock scripts %}

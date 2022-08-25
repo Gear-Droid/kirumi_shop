@@ -1,0 +1,136 @@
+{% extends 'homepage.html' %}
+
+{% load static i18n thumbnail %}
+
+{% block header %}
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
+  <!--===============================================================================================-->
+{% endblock header %}
+
+{% block style %}
+{% endblock %}
+
+{% block intro %}
+{% endblock intro %}
+
+{% block content %}
+  <h1 style="text-align: center;" class="h1 mt-5">{% trans "Ваша корзина" %}{% if not products_in_cart|length %} {% trans "пуста" %}{% endif %}</h1>
+
+    <section class="h-100 h-custom">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12">
+            <div class="card card-registration card-registration-2">
+              <div class="card-body p-0">
+                <div class="row g-0">
+                  <div class="col-lg-8">
+                    <div class="p-5">
+                      <div class="d-flex justify-content-between align-items-center mt-2 mb-4">
+                        <h1 class="fw-bold mb-0 text-black">{% trans "Корзина покупок" %}</h1>
+                        <h6 class="mb-0 text-muted">{{ products_in_cart|length }} {% trans "продукта(-ов)" %}</h6>
+                      </div>
+
+                      {% for item in products_in_cart %}
+                        <div class="cart-product-row">
+                          <a class="product-link" style="text-decoration: none; color: darkblue;"
+                            href="{% url 'product_page' item.colored_product.product.slug item.colored_product.slug %}">
+                            <p class="" style="max-width: 180px; text-align: center; padding: 5px;">
+                              {{ item.colored_product }} - {{ item.size }} {% trans "размер" %}
+                            </p>
+                          </a>
+
+                          <a class="product-link"
+                            href="{% url 'product_page' item.colored_product.product.slug item.colored_product.slug %}">
+                            <div class="main-image">
+                              {% thumbnail item.colored_product.images.first.image "200x280" crop="center" as im %}
+                                <img src="{{ im.url }}" alt="{{ img.description }}"
+                                  width="100" height="140"
+                                  class="productImg show"
+                                  loading="eager" />
+                              {% endthumbnail %}
+                            </div>
+                          </a>
+
+                          <form id="qtyForm" action="{% url 'change_qty' item.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="row-qt-control">
+                              <button class="btn px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                >-
+                              </button>
+                              <input type="hidden" name="cart_product_id" value="{{ item.id }}"/>
+                              <input min="1" max="29" name="qty" value="{{ item.qty }}" type="number"
+                                class="form-control" required readonly/>
+                              <button class="btn px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                >+
+                              </button>
+                            </div>
+                          </form>
+
+                          <span style="font-weight: bold; text-align: right; min-width:86px;">
+                            {{ item.colored_product.price }} {% trans "Р" %}
+                          </span>
+
+                          <form id="deleteForm" action="{% url 'delete_cart_product' item.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cart_product_id" value="{{ item.id }}"/>
+                            <input type="hidden" name="delete" value="True"/>
+                            <button type="submit" class="btn btn-outline-danger btn-delete">
+                              <svg xmlns="{% static "images/cart/trash.svg" %}" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                              </svg>
+                            </button>
+                          </form>
+
+                        </div>
+                      {% endfor %}
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4 bg-grey">
+                    <div class="p-5">
+                      <h3 class="fw-bold mb-5 mt-2 pt-1">{% trans "Итого" %}</h3>
+                      <div class="d-flex justify-content-between mb-4">
+                        <h5 class="text-uppercase">{{ cart.total_products }} {% trans "вещи(-ей)" %}</h5>
+                        <h5>{{ cart.final_price }} {% trans "руб." %}</h5>
+                      </div>
+
+                      <hr class="my-4">
+
+                      <h5 class="text-uppercase mb-3">{% trans "Промокод" %}</h5>
+                      <div class="mb-5">
+                        <div class="input-group form-outline">
+                          <input type="text" id="promocodeArea" class="form-control form-control-lg" placeholder="{% trans "Промокод" %}">
+                          <button type="submit" class="btn btn-secondary">{% trans "Применить" %}</button>
+                        </div>
+                        <label class="form-label" for="promocodeArea">{% trans "Введите ваш промокод" %}</label>
+                       </div>
+
+                      <hr class="my-4">
+
+                      <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-uppercase">{% trans "Сумма" %}</h5>
+                        <h5>{{ cart.final_price }} {% trans "руб." %}</h5>
+                      </div>
+                      <a href="{% url 'checkout' %}">
+                        <button type="button" class="checkout btn btn-dark btn-block btn-lg">{% trans "Оформить заказ" %}</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  {% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block scripts %}
+{% endblock scripts %}
