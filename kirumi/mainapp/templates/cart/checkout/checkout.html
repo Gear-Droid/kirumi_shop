@@ -86,7 +86,7 @@
                 <input type="text" class="form-control" id="phone" placeholder="" required="">
               </div>
 
-              <div class="col-md-12">
+              {% comment %} <div class="col-md-12">
                 <label for="country" class="form-label">Страна</label>
                 <select x-ref="select" class="form-select" id="country" required=""
                   name="country_selector"
@@ -104,7 +104,7 @@
               </div>
 
               <div class="container">
-                {% comment %} <button class="mt-4 mb-4 w-100 btn btn-dark btn-lg"
+                <button class="mt-4 mb-4 w-100 btn btn-dark btn-lg"
                   hx-get="{% url 'delivery_widget' %}"
                   hx-trigger="click"
                   hx-include="[name='country_selector']"
@@ -112,10 +112,10 @@
                   hx-swap="innerHTML"
                 >
                   Отобразить способы доставки
-                </button> {% endcomment %}
+                </button>
               </div>
 
-              <div class="row" style="" id="fulladdress-div"></div>
+              <div class="row" style="" id="fulladdress-div"></div> {% endcomment %}
 
             </div>
 
