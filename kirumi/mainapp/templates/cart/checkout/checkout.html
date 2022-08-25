@@ -114,15 +114,11 @@
                 </button>
               </div>
 
-
-
               <div class="row" style="" id="fulladdress-div"></div>
 
-
             </div>
-  
 
-            <script>
+            {% comment %} <script>
               var widjet = new ISDEKWidjet({
                   defaultCity: 'Уфа',
                   cityFrom: 'Омск',
@@ -130,8 +126,7 @@
                   path: 'https://widget.cdek.ru/widget/scripts/',
                   servicepath: 'https://widget.cdek.ru/widget/scripts/service.php' //ссылка на файл service.php на вашем сайте
               });
-            </script>
-
+            </script> {% endcomment %}
             
             <input class="mb-5 w-100 btn btn-primary btn-lg" value="Перейти к оплате" type="submit"></input>
           </form>
@@ -139,8 +134,6 @@
       </div>
     </main>
   </div>
-
-
 
 {% endblock content %}
 

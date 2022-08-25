@@ -14,10 +14,10 @@ namespace {
             array(234, 136, 138, 15, 17, 10, 12, 5, 62, 63),
             /** Вставьте свой аккаунт\идентификатор для интеграции */
             /** Put your account for integration here */
-            '',
+            '8wwwo6Q8ixJ6XjzUU5tcFDPOf3ONVSk4',
             /** Вставьте свой пароль для интеграции */
             /** Put your password for integration here */
-            ''
+            'OOmGpJ2lqFUhFSlTCp8IGAbNayTT2tUx'
         )
     );
 }
@@ -506,7 +506,7 @@ namespace SDEKService {
 
         protected function getCountries()
         {
-            return array('Россия', 'Беларусь', 'Армения', 'Казахстан', 'Киргизия', 'Молдова', 'Таджикистан', 'Узбекистан');
+            return array('Россия', 'Беларусь');
         }
 
         protected function getRegion()
