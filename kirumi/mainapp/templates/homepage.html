@@ -315,8 +315,8 @@
       <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
       <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
       <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Возрат-обмен" %}</a></li>
-      <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Публичная оферта" %}</a></li>
-      <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Пользовательское соглашение" %}</a></li>
+      <li class="nav-item"><a href="{% url 'public_offer' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Публичная оферта" %}</a></li>
+      <li class="nav-item"><a href="{% url 'terms_of_use' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Пользовательское соглашение" %}</a></li>
     </ul>
   </footer>
 

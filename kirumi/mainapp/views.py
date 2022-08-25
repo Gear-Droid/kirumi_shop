@@ -231,6 +231,7 @@ class DeliveryWidgetView(CartMixin, CartProductMixin):
 
         return HttpResponse(html)
 
+
 class PaymentView(CartMixin, CartProductMixin):
 
     def post(self, request, *args, **kwargs):
@@ -252,3 +253,25 @@ class PaymentView(CartMixin, CartProductMixin):
         """
 
         return HttpResponse(html)
+
+
+class TermsOfUseView(CartMixin, CartProductMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "Пользовательское соглашение",
+            },
+        }
+        return render(request, 'terms_of_use/terms_of_use.html', context=context)
+
+
+class PublicOfferView(CartMixin, CartProductMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "Публичная офферта",
+            },
+        }
+        return render(request, 'public_offer/public_offer.html', context=context)
