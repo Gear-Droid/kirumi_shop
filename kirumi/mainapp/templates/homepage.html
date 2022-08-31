@@ -18,8 +18,7 @@
 	<!-- <meta name="yandex-verification" content="6900977733fba006" /> -->
   <!-- <meta name="google-site-verification" content="HAaj6DI9-GH18Me0i4aGBNiA0T3ueYTMTYLOvMrX6uA" /> -->
 
-  <link rel="preload" href="{% static 'fonts/Righteous-Regular.ttf' %}" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="{% static 'fonts/TelluralBold.ttf' %}" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="{% static 'fonts/Inter-Regular.otf' %}" as="font" type="font/ttf" crossorigin>
 
   <!--===============================================================================================-->
     <!-- Bootstrap core CSS -->
@@ -49,16 +48,19 @@
 
     @font-face{
       font-family: "MyEngFont";
-      src: url('{% static 'fonts/Righteous-Regular.ttf' %}') format('truetype');
+      src: url('{% static 'fonts/Inter-Regular.otf' %}') format('truetype');
     }
     @font-face{
       font-family: "MyRuFont";
-      src: url('{% static 'fonts/TelluralBold.ttf' %}') format('truetype');
+      src: url('{% static 'fonts/Inter-Regular.otf' %}') format('truetype');
     }
     *{
       font-family: "MyEngFont", "MyRuFont";
     }
     a.nav-link, a.footer-nav-link, p.copyright-text{
+      color: grey;
+    }
+    .text-muted {
       color: grey !important;
     }
 
@@ -70,217 +72,240 @@
 </head>
 
 <body>
-  <div class="prefooter">
-    
-    <!-- Yandex.Metrika counter -->
-      <!-- <script type="text/javascript" >
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  <!-- Yandex.Metrika counter -->
+    <!-- <script type="text/javascript" >
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-        ym(88410462, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-        });
-      </script>
-      <noscript><div><img src="https://mc.yandex.ru/watch/88410462" style="position:absolute; left:-9999px;" alt="" /></div></noscript> -->
-    <!-- /Yandex.Metrika counter -->
+      ym(88410462, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+      });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/88410462" style="position:absolute; left:-9999px;" alt="" /></div></noscript> -->
+  <!-- /Yandex.Metrika counter -->
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top" aria-label="navbar">
-      <div class="container-fluid d-flex">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg fixed-top" aria-label="navbar">
+    <div class="container-fluid d-flex">
 
-        <button class="navbar-toggler hamburger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="line"></span>
-          <span class="line"></span>
-          <span class="line"></span>
-        </button>
+      <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 30px;">KIRUMI</a>
 
-        <a class="navbar-brand" href="{% url 'homepage' %}">KIRUMI</a>
+      <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:20px;">
+        <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
+      </a>
 
-        <a class="nav-link nav-link-with-icon on-collapse" style="padding: 8px 12px; position: absolute; right: 60px; top: 9px;" href="{% url 'cart' %}">
-          <svg xmlns="{% static 'images/cart.svg' %}" width="40" height="40" fill="currentColor" class="bi bi-cart" viewBox="0 0 20 20">
-            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-          </svg>
-        </a>
+      <button class="navbar-toggler hamburger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </button>
 
-        <div class="collapse navbar-collapse" id="navbarContent">
+      <div class="collapse navbar-collapse" id="navbarContent">
 
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'homepage' %}">{% trans "Магазин" %}</a>
-            </li>
+        <ul class="navbar-nav" style="">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'homepage' %}">{% trans "Магазин" %}</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'new_products' %}">{% trans "Новинки" %}</a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'new_products' %}">{% trans "Новинки" %}</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "Каталог" %}</a>
-            </li>
-          </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="#">{% trans "Каталог" %}</a>
+          </li>
+        </ul>
 
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'contacts' %}">{% trans "Контакты" %}</a>
-            </li>
+        <ul class="navbar-nav d-flex justify-content-start align-content-start" style="margin-left: 0; width: 100%;">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contacts' %}">{% trans "Контакты" %}</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "Доставка" %}</a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">{% trans "Доставка" %}</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}">
-                <svg xmlns="{% static 'images/cart.svg' %}" width="30" height="30" fill="currentColor" class="bi bi-cart" viewBox="0 0 20 20">
-                  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </svg>
-                {% trans "Корзина" %}
-              </a>
-            </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #343434;">
+              {% comment %} <svg xmlns="{% static 'images/cart.svg' %}" width="30" height="30" fill="currentColor" class="bi bi-cart" viewBox="0 0 20 20">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              </svg> {% endcomment %}
+              {% trans "Корзина" %}: <span style="color: grey;">[{{cart.total_products}}]</span>
+            </a>
+          </li>
+          {% comment %} 
+          <li class="nav-item dropdown languageSwitcher">
+            <a class="nav-link dropdown-toggle" href="#" id="languageSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if LANGUAGE_CODE == 'ru' %}  
+                <img class="ru_flag" src="{% static "images/Flag_of_Russia.svg" %}"
+                  alt="Russian flag" width="25px" height="15px" />
+              {% else %}
+                <img class="uk_flag" src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
+                  alt="UK flag" width="25px" height="15px" />
+              {% endif %}
+            </a>
 
-            <li class="nav-item dropdown languageSwitcher">
-              <a class="nav-link dropdown-toggle" href="#" id="languageSelector" data-bs-toggle="dropdown" aria-expanded="false">
-                {% if LANGUAGE_CODE == 'ru' %}  
-                  <img class="ru_flag" src="{% static "images/Flag_of_Russia.svg" %}"
-                    alt="Russian flag" width="25px" height="15px" />
-                {% else %}
-                  <img class="uk_flag" src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
-                    alt="UK flag" width="25px" height="15px" />
-                {% endif %}
-              </a>
+            <ul class="dropdown-menu language-dropdown" aria-labelledby="languageSelector">
+              <li>
+                <form action="{% url 'set_language' %}" method="post">
+                  {% csrf_token %}
+                  <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                  <input name="language" type="hidden" value="RU" />
+                  <div class="locale-container">
+                    <img class="ru_flag"
+                      src="{% static "images/Flag_of_Russia.svg" %}"
+                      alt="Russian flag" width="25px" height="15px" />
+                    <input class="dropdown-item" type="submit" value="RU">
+                  </div>
+                </form>
+              </li>
+              <li>
+                <form action="{% url 'set_language' %}" method="post">
+                  {% csrf_token %}
+                  <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                  <input name="language" type="hidden" value="EN" />
+                  <div class="locale-container">
+                    <img class="uk_flag"
+                      src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
+                      alt="UK flag" width="25px" height="15px" />
+                    <input class="dropdown-item" type="submit" value="EN">
+                  </div>
+                </form>
+              </li>
+            </ul>
+          </li>
+          {% endcomment %}
 
-              <ul class="dropdown-menu language-dropdown" aria-labelledby="languageSelector">
-                <li>
-                  <form action="{% url 'set_language' %}" method="post">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-                    <input name="language" type="hidden" value="RU" />
-                    <div class="locale-container">
-                      <img class="ru_flag"
-                        src="{% static "images/Flag_of_Russia.svg" %}"
-                        alt="Russian flag" width="25px" height="15px" />
-                      <input class="dropdown-item" type="submit" value="RU">
-                    </div>
-                  </form>
-                </li>
-                <li>
-                  <form action="{% url 'set_language' %}" method="post">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-                    <input name="language" type="hidden" value="EN" />
-                    <div class="locale-container">
-                      <img class="uk_flag"
-                        src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
-                        alt="UK flag" width="25px" height="15px" />
-                      <input class="dropdown-item" type="submit" value="EN">
-                    </div>
-                  </form>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <!-- <form>
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-          </form> -->
-
-        </div>
-        <!-- /.collapse -->
+        </ul>
+        <!-- <form>
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form> -->
 
       </div>
-    </nav>
-    <div class="nav-box"></div>
-
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show my-0" role="alert">
-          <strong>{{ message }}</strong>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      {% endfor %}
-    {% endif %}
-
-    {% block intro %}
-    {% endblock intro %}
-
-    <!-- Page Content -->
-    <div class="main-content">
-
-      {% block content %}
-
-        <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="3500">
-              <img height = "500" src="{% static 'images/anime-girl-gold-fish-flying-wallpaper-1920x600.jpg' %}"
-                class="d-block w-100" alt="anime-girl-gold-fish-flying-wallpaper"
-                loading="lazy">
-              <div class="overlay carousel-caption d-md-block">
-                <p>Свободный крой.</p>
-                <p>Оригинальные цвета. 100% хлопок.</p>
-                <p style="font-size: 200%; line-height: 30px;">Vintage</p>
-              </div>
-            </div>
-
-            <div class="carousel-item" data-bs-interval="3500">
-              <img height = "500" src="{% static 'images/anime-cool-blonde-girl-1920x600.jpg' %}"
-                class="d-block w-100" alt="anime-cool-blonde-girl"
-                loading="lazy">
-              <div class="overlay carousel-caption d-md-block">
-                <p>Свободный крой.</p>
-                <p>Оригинальные цвета. 100% хлопок.</p>
-                <p style="font-size: 200%; line-height: 30px;">Vintage</p>
-              </div>
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-
-        <!-- До лучших времен (когда появятся Коллекции) -->
-        <!-- <div class="container collections-container px-4">
-          <h2 class="fade-in pb-2 border-bottom">Коллекции</h2>
-          <div class="d-flex flex-wrap justify-content-around">
-
-            {% for collection in collections %}
-              <div class="card-container">
-                <div class="card">
-                  <div class="card-body">
-                    <p class="card-text text-center">{{ collection.name }}</p>
-                  </div>
-                  <img src="{{ collection.image.url }}" alt="{{ collection.name }}"
-                    class="card-img-top" style=""
-                    loading="lazy">
-                </div>
-              </div>
-            {% endfor %}
-
-          </div>
-        </div> -->
-
-        {% include 'product/products_wrapper.html' %}
-
-      {% endblock content %}
+      <!-- /.collapse -->
 
     </div>
-    <!-- /.content -->
+  </nav>
+  <div class="nav-box"></div>
 
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show my-0" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% block intro %}
+  {% endblock intro %}
+
+  <!-- Page Content -->
+  <div class="main-content">
+
+    {% block content %}
+
+      <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3500">
+            <img height = "600" src="{% static 'images/banner.png' %}"
+              class="d-block w-100" alt="anime-girl-gold-fish-flying-wallpaper"
+              loading="lazy">
+            <div class="overlay carousel-caption d-md-block">
+              <p>Свободный крой.</p>
+              <p>Оригинальные цвета. 100% хлопок.</p>
+              <div style="display: flex; flex-direction: row; height: 300px; align-items: center; justify-content: space-around;">
+                <p style="margin-left: 0; font-size: 60px; line-height: 60px; writing-mode: tb-rl; transform: rotate(-180deg); font-weight: bold;">FALL22</p>
+
+                <div style="display: flex; flex-direction: row;">
+                  <p style="font-size: 20px;">ПОДРОБНЕЕ
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
+                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" data-bs-interval="3500">
+            <img height = "600" src="{% static 'images/anime-cool-blonde-girl-1920x600.jpg' %}"
+              class="d-block w-100" alt="anime-cool-blonde-girl"
+              loading="lazy">
+            <div class="overlay carousel-caption d-md-block">
+              <p>Свободный крой.</p>
+              <p>Оригинальные цвета. 100% хлопок.</p>
+              <div style="display: flex; flex-direction: row; height: 300px; align-items: center; justify-content: space-around;">
+                <p style="margin-left: 0; font-size: 60px; line-height: 60px; writing-mode: tb-rl; transform: rotate(-180deg); font-weight: bold;">FALL22</p>
+
+                <div style="display: flex; flex-direction: row;">
+                  <p style="font-size: 20px;">ПОДРОБНЕЕ
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
+                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <!-- До лучших времен (когда появятся Коллекции) -->
+      <!-- <div class="container collections-container px-4">
+        <h2 class="fade-in pb-2 border-bottom">Коллекции</h2>
+        <div class="d-flex flex-wrap justify-content-around">
+
+          {% for collection in collections %}
+            <div class="card-container">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-text text-center">{{ collection.name }}</p>
+                </div>
+                <img src="{{ collection.image.url }}" alt="{{ collection.name }}"
+                  class="card-img-top" style=""
+                  loading="lazy">
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+      </div> -->
+
+      {% include 'product/products_wrapper.html' %}
+
+    {% endblock content %}
+
+  </div>
+  <!-- /.content -->
+
+  <div class="prefooter">
     {% block prefooter %}
 
       <section class="showcase">

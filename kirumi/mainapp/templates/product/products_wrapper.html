@@ -4,7 +4,7 @@
 {% load i18n %}
 
 <div class="product-cards-container container">
-  <h2 class="fade-in pb-2 my-4 border-bottom">{% trans "Новинки" %}</h2>
+  <h2 class="fade-in p-5 my-1">{% trans "Новинки" %}</h2>
 
   {% for product_color in new_products %}
 
@@ -23,24 +23,22 @@
         </a>
       </div>
 
-      <div class="info">
-        <div class="productName">
-          <h1 class="big"><div>{{ product_color.product.name }}</div></h1>
-        </div>
+      <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"
+        style="text-align: left; font-size: 16px; text-decoration: none;">
+        <div class="info">
+          <div class="productName">
+            <h1 class="big"><div>{{ product_color.product.name }}</div></h1>
+          </div>
 
-        <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"
-          style="text-align: center; font-size: 16px; text-decoration: none;">
-          <div class="buy-price price">
-            <button type="submit" class="buy">
+            <div class="buy-price price">
               {% if product_color.old_price is not none %}
-                <span style="font-size:80%;" class="old_price">{{ product_color.old_price }} {% trans "Р" %}<br></span>
+                <span class="old_price">{{ product_color.old_price }} {% trans "Р" %}<br></span>
               {% endif %}
               <span class="new_price">{{ product_color.price }} {% trans "Р" %}</span>
-            </button>
-          </div>
-        </a>
+            </div>
+        </div>
+      </a>
 
-      </div>
     </div>
 
   {% endfor %}

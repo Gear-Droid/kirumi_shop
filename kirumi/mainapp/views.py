@@ -29,6 +29,7 @@ class HomePageView(CartMixin, NewProductsMixin):
                 'Title': "Онлайн-магазин аниме-одежды Kirumi",
             },
             # 'collections': collections,
+            'cart': self.cart,
             'new_products': self.new_products,
         }
         return render(request, 'homepage.html', context=context)
@@ -55,6 +56,7 @@ class ProductView(CartMixin):
                 'keywords': colored_product.product.description,
                 'page_description': colored_product.product.description,
             },
+            'cart': self.cart,
             'images': colored_product.images.filter(is_active=True),
             'colored_product': colored_product,
         }
@@ -99,7 +101,7 @@ class ProductView(CartMixin):
         return HttpResponseRedirect(reverse('cart'))
 
 
-class AboutBrandView(View):
+class AboutBrandView(CartMixin):
 
     def get(self, request, *args, **kwargs):
 
@@ -107,6 +109,7 @@ class AboutBrandView(View):
             'meta':{
                 'Title': "О бренде Kirumi",
             },
+            'cart': self.cart,
         }
         return render(request, 'about_brand/about_brand.html', context=context)
 
@@ -118,6 +121,7 @@ class NewProductsView(CartMixin, NewProductsMixin):
             'meta':{
                 'Title': "Новинки аниме-одежды Kirumi",
             },
+            'cart': self.cart,
             'new_products': self.new_products,
         }
         return render(request, 'new/new.html', context=context)
@@ -296,5 +300,6 @@ class ContactsView(CartMixin, CartProductMixin):
             'meta':{
                 'Title': "Контакты",
             },
+            'cart': self.cart,
         }
         return render(request, 'contacts/contacts.html', context=context)
