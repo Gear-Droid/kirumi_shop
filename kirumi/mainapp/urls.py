@@ -29,6 +29,8 @@ from .views import (
     TermsOfUseView,
     PublicOfferView,
     ContactsView,
+    PrivacyPolicyView,
+    DeliveryAndPaymentView,
 )
 
 urlpatterns = [
@@ -46,4 +48,6 @@ urlpatterns = [
     path('terms_of_use/', TermsOfUseView.as_view(), name='terms_of_use'),
     path('public_offer/', PublicOfferView.as_view(), name='public_offer'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
+    path('privacy_policy/', PrivacyPolicyView.as_view(), name='privacy_policy'),
+    path('delivery_and_payment/', DeliveryAndPaymentView.as_view(), name='delivery_and_payment'),
 ]

@@ -14,23 +14,142 @@
 
 {% block style %}
   h2, .container{
-    padding: 5vw;
-    font-family: system-ui;
     text-align: center;
   }
+  .container{
+    padding: 5vw;
+  }
+  .requisites-container{
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .requisites-header{
+    flex: 1 1 150px;
+    align-self: flex-start;
+    overflow-wrap: anywhere;
+    text-align: start;
+  }
+  .requisites-info{
+    flex: 3 1 200px;
+    overflow-wrap: anywhere;
+  }
+
 {% endblock style %}
 
 {% block intro %}
 {% endblock intro %}
 
 {% block content %}
-<h2 class="fade-in pb-2 my-3">{% trans "Контакты" %}</h2>
+
+<h2 class="fade-in pb-2 mb-3">{% trans "Контакты" %}</h2>
 <div class="container mb-3">
+  Мы крайне ценим наших покупателей и будем признательны за отзыв и обратную связь.
   <br>
   <br>
-  Мы крайне ценим наших покупателей и будем признательны за отзыв и обратную связь.<br>
-  Почта: kirumiwork@gmail.com<br>
+  Почта: kirumiwork@gmail.com
   <br>
+  <br>
+
+  <h2 class="fade-in pb-2 my-5">{% trans "Реквизиты компании" %}</h2>
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Название организации
+    </div>
+    <div class="requisites-info">
+      ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ КИМ КОНСТАНТИН АНДРЕЕВИЧ
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Юридический адрес организации
+    </div>
+    <div class="requisites-info">
+      115211, РОССИЯ, Г МОСКВА, УЛ БОРИСОВСКИЕ ПРУДЫ, Д 6, КОРП 2, КВ 122
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      ИНН
+    </div>
+    <div class="requisites-info">
+      772410733168
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      ОГРН
+    </div>
+    <div class="requisites-info">
+      322774600367019
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Расчетный счет
+    </div>
+    <div class="requisites-info">
+      40802810500003383625
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Банк
+    </div>
+    <div class="requisites-info">
+      АО "ТИНЬКОФФ БАНК"
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      ИНН банка
+    </div>
+    <div class="requisites-info">
+      7710140679
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Расчетный счет
+    </div>
+    <div class="requisites-info">
+      40802810500003383625
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      БИК банка
+    </div>
+    <div class="requisites-info">
+      044525974
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Корреспондентский счет банка
+    </div>
+    <div class="requisites-info">
+      30101810145250000974
+    </div>
+  </div>
+
+  <div class="requisites-container">
+    <div class="requisites-header">
+      Юридический адрес банка
+    </div>
+    <div class="requisites-info">
+      Москва, 127287, ул. Хуторская 2-я, д. 38А, стр. 26
+    </div>
+  </div>
+
 </div>
 {% endblock content %}
 

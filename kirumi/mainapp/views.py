@@ -303,3 +303,27 @@ class ContactsView(CartMixin, CartProductMixin):
             'cart': self.cart,
         }
         return render(request, 'contacts/contacts.html', context=context)
+
+
+class PrivacyPolicyView(CartMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "Политика конфиденциальности",
+            },
+            'cart': self.cart,
+        }
+        return render(request, 'privacy_policy/privacy_policy.html', context=context)
+
+
+class DeliveryAndPaymentView(CartMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "Доставка и оплата",
+            },
+            'cart': self.cart,
+        }
+        return render(request, 'delivery_and_payment/delivery_and_payment.html', context=context)
