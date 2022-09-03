@@ -101,13 +101,13 @@
             <div class="mb-4" id="forpvz" style="height:600px;"></div>
             <script>
               var widjet = new ISDEKWidjet({
+                defaultCity: 'auto',
                 cityFrom: 'Москва',
                 country: 'Россия',
                 link: 'forpvz',
                 path: 'https://widget.cdek.ru/widget/scripts/',
                 servicepath: '{% static 'php/SDEK/service.php' %}', //ссылка на файл service.php на вашем сайте
                 choose: true,
-                region: true,
                 detailAddress: true,
                 hidedress: true,
                 onChoose: onChoose,
@@ -121,6 +121,10 @@
                     'срок ' + wat.term + " дн.\n" +
                     'город ' + wat.cityName + ', код города ' + wat.city
                 );
+                ipjq('[name="chosenPost"]').val(wat.id);
+                ipjq('[name="addresPost"]').val(wat.PVZ.Address);
+                ipjq('[name="pricePost"]').val(wat.price);
+                ipjq('[name="timePost"]').val(wat.term);
               }
               function onChooseProfile(wat) {
                 alert(
@@ -128,6 +132,10 @@
                     'цена ' + wat.price + "\n" +
                     'срок ' + wat.term + ' дн.'
                 );
+                ipjq('[name="chosenPost"]').val(wat.id);
+                ipjq('[name="addresPost"]').val(wat.Address);
+                ipjq('[name="pricePost"]').val(wat.price);
+                ipjq('[name="timePost"]').val(wat.term);
               }
 
               /*function onChoose(wat) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
