@@ -17,6 +17,9 @@
   label>.text-muted {
     color: red!important;
   }
+  input[data-readonly] {
+    pointer-events: none;
+  }
 {% endblock style %}
 
 {% block intro %}
@@ -132,7 +135,7 @@
               <input type="text" class="form-control"
                 id="addresPost" name="addresPost" value=""
                 placeholder="Выберите адрес доставки в виджете СДЭК"
-                required readonly
+                required data-readonly
               />
               </div>
             <p><input type="hidden" name="pricePost" value="" /></p>
