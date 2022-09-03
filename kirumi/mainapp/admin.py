@@ -56,8 +56,8 @@ class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdm
     fieldsets = (
         (None, {
             'fields': (
-                ('header_ru', 'header_en', 'is_active'),
-                ('description_ru', 'description_en'),
+                ('header', 'is_active'),
+                ('description', ),
                 ('link', ),
                 ('image', 'get_image'),
                 ('sort_order', 'pub_date'),
