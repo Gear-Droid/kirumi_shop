@@ -93,37 +93,6 @@
                 <label class="form-label"><span class="text-muted">*</span> - поля обязательные для заполнения</label>
               </div>
 
-              {% comment %} <div class="col-md-12">
-                <label for="country" class="form-label">Страна</label>
-                <select x-ref="select" class="form-select" id="country" required=""
-                  name="country_selector"
-                  hx-include="[name='country_selector']"
-                  hx-get="{% url 'delivery_widget' %}"
-                  hx-vals="javascript:{...get_parameters()}"
-                  hx-trigger="changed"
-                  hx-target="#fulladdress-div"
-                  hx-swap="innerHTML"
-                >
-                  <option value="">Выберите...</option>
-                  <option value="RU">Россия</option>
-                  <option value="OTHER">США</option>
-                </select>
-              </div>
-
-              <div class="container">
-                <button class="mt-4 mb-4 w-100 btn btn-dark btn-lg"
-                  hx-get="{% url 'delivery_widget' %}"
-                  hx-trigger="click"
-                  hx-include="[name='country_selector']"
-                  hx-target="#fulladdress-div"
-                  hx-swap="innerHTML"
-                >
-                  Отобразить способы доставки
-                </button>
-              </div>
-
-              <div class="row" style="" id="fulladdress-div"></div> {% endcomment %}
-
             </div>
 
             <div class="mb-4" id="forpvz" style="height:600px;"></div>
@@ -159,9 +128,13 @@
 
             <p><input type="hidden" name="chosenPost" value=""></p>
             <div class="col-md-12">
-              <label>Адрес <span class="text-muted">*</span></label>
-              <input type="text" class="form-control" name="addresPost" required readonly>
-            </div>
+              <label for="addresPost" class="form-label">Адрес <span class="text-muted">*</span></label>
+              <input type="text" class="form-control"
+                id="addresPost" name="addresPost"
+                placeholder="Выберите адрес доставки в виджете СДЭК"
+                required readonly
+              >
+              </div>
             <p><input type="hidden" name="pricePost" value=""></p>
             <p><input type="hidden" name="timePost" value=""></p>
 
