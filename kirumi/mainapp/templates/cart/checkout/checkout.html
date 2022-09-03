@@ -148,6 +148,7 @@
                 }
               });
               function onChooseAddress(wat) {
+                ipjq('[name="addresPost"]').val(wat.address);
                 alert('Выбрана доставка курьером по адресу ' + wat.address + "\n" +
                   'цена ' + wat.price + "\n" +
                   'срок ' + wat.term + ' дн.'
