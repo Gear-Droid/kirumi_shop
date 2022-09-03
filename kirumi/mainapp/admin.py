@@ -56,8 +56,8 @@ class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdm
     fieldsets = (
         (None, {
             'fields': (
-                ('header', 'is_active'),
-                ('description', ),
+                ('header_ru', 'header_en', 'is_active'),
+                ('description_ru', 'description_en'),
                 ('link', ),
                 ('image', 'get_image'),
                 ('sort_order', 'pub_date'),
@@ -281,7 +281,7 @@ class CartProductAdmin(admin.ModelAdmin):
     exclude = ('subtotal_price', )
 
 
-admin.site.register(Banner)
+admin.site.register(Banner, BannerAdmin)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Product, ProductAdmin)

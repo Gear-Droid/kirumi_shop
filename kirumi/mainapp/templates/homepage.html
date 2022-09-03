@@ -1,4 +1,5 @@
 {% load static i18n %}
+{% load thumbnail %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <!doctype html>
@@ -223,11 +224,14 @@
         </div>
 
         <div class="carousel-inner">
-          {% for banner in banners %}        
+          {% for banner in banners %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3500">
-              <img height = "600" src="{{ banner.image.url }}"
-                class="d-block" alt="anime-girl-gold-fish-flying-wallpaper"
-                style="" loading="lazy">
+              {% thumbnail banner.image "429x600" crop="center" as im %}
+                <img src="{{ im.url }}" alt="{{ img.description }}"
+                class="d-block" alt=""
+                height="600"
+                loading="lazy" />
+              {% endthumbnail %}
               <div class="overlay carousel-caption d-md-block">
                 <p class="banner-description">{{ banner.description }}</p>
                 <div style="display: flex; flex-direction: row; height: 360px; align-items: center; justify-content: space-around;">
