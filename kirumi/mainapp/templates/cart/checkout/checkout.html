@@ -111,27 +111,34 @@
                 detailAddress: true,
                 hidedress: true,
                 onChoose: onChoose,
-                onChooseAddress: onChooseAddress,
+                onChooseProfile: onChooseProfile,
                 onCalculate: onCalculate
               });
-              function onChoose(wat) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
+              function onChoose(wat) {
+                alert(
+                    'Выбран пункт выдачи заказа ' + wat.id + "\n" +
+                    'цена ' + wat.price + "\n" +
+                    'срок ' + wat.term + " дн.\n" +
+                    'город ' + wat.cityName + ', код города ' + wat.city
+                );
+              }
+              function onChooseProfile(wat) {
+                alert(
+                    'Выбрана доставка курьером в город ' + wat.cityName + ', код города ' + wat.city + "\n" +
+                    'цена ' + wat.price + "\n" +
+                    'срок ' + wat.term + ' дн.'
+                );
+              }
+
+              /*function onChoose(wat) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
                 ipjq('[name="chosenPost"]').val(info.id);
                 ipjq('[name="addresPost"]').val(info.PVZ.Address);
                 // расчет стоимости доставки
                 var price = (info.price < 500) ? 500 : Math.ceil( info.price/100 ) * 100;
                 ipjq('[name="pricePost"]').val(price);
                 ipjq('[name="timePost"]').val(info.term);
-              }
-              function onChooseAddress(wat) {
-                ipjq('[name="addresPost"]').val(wat.address);
-                /*
-                alert('Выбрана доставка курьером по адресу ' + wat.address + "\n" +
-                  'цена ' + wat.price + "\n" +
-                  'срок ' + wat.term + ' дн.'
-                );
-                console.log('Выбрана доставка курьером по точному адресу', wat);
-                */
-              }
+              }*/
+
               function onCalculate(wat) {
                 alert('Расчет стоимости доставки произведен');
               }
