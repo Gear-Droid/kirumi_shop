@@ -129,15 +129,16 @@
             <div class="mb-4" id="forpvz" style="height:600px;"></div>
             <script>
               var widjet = new ISDEKWidjet({
-                country: 'Россия',
-                defaultCity: 'Москва',
+                defaultCity: 'auto',
                 cityFrom: 'Москва',
+                country: 'Россия',
                 link: 'forpvz',
                 path: 'https://widget.cdek.ru/widget/scripts/',
-                // servicepath: 'https://widget.cdek.ru/widget/scripts/service.php', //ссылка на файл service.php на вашем сайте            
                 servicepath: '{% static 'php/SDEK/service.php' %}', //ссылка на файл service.php на вашем сайте
+                detailAddress: true,
                 hidedress: true,
-                onChoose : function(info){ // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
+                onChooseAddress: onChooseAddress,
+                onChoose: function(info){ // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
                   ipjq('[name="chosenPost"]').val(info.id);
                   ipjq('[name="addresPost"]').val(info.PVZ.Address);
                   // расчет стоимости доставки
@@ -146,6 +147,13 @@
                   ipjq('[name="timePost"]').val(info.term);
                 }
               });
+              function onChooseAddress(wat) {
+                alert('Выбрана доставка курьером по адресу ' + wat.address + "\n" +
+                  'цена ' + wat.price + "\n" +
+                  'срок ' + wat.term + ' дн.'
+                );
+                console.log('Выбрана доставка курьером по точному адресу', wat);
+              }
             </script>
 
             <p><input type="hidden" name="chosenPost" value=""></p>
