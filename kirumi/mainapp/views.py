@@ -1,14 +1,12 @@
-from multiprocessing import context
-from tokenize import Name
-from django.views.generic import View
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from django.db.models import Q
 from django.db import IntegrityError
+from django.db.models import Q
 from django.contrib import messages
 
 from .models import (
+    Banner,
     ColoredProduct,
     CartProduct,
 )
@@ -23,6 +21,7 @@ class HomePageView(CartMixin, NewProductsMixin):
 
     def get(self, request, *args, **kwargs):
         # collections = Collection.objects.filter(is_active=True).order_by('-sort_order')
+        self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
 
         context = {
             'meta':{
@@ -31,6 +30,7 @@ class HomePageView(CartMixin, NewProductsMixin):
             # 'collections': collections,
             'cart': self.cart,
             'new_products': self.new_products,
+            'banners': self.banners,
         }
         return render(request, 'homepage.html', context=context)
 
@@ -91,14 +91,18 @@ class ProductView(CartMixin):
             )
             cart_product.save()
         except IntegrityError as err:
+            message = "Товар уже добавлен в корзину!"
             if text_response is not None:
-                return HttpResponse("Товар уже добавлен в корзину!")
-            return HttpResponseRedirect(reverse('cart'))
+                return HttpResponse(message)
+            messages.add_message(request, messages.INFO, message)
+            return HttpResponseRedirect(reverse('product_page', args=(product_slug, color_slug, )))
 
         self.cart.save()
+        message = "Товар успешно добавлен в корзину!"
         if text_response is not None:
-            return HttpResponse("Товар успешно добавлен в корзину!")
-        return HttpResponseRedirect(reverse('cart'))
+            return HttpResponse(message)
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('product_page', args=(product_slug, color_slug, )))
 
 
 class AboutBrandView(CartMixin):
@@ -278,6 +282,7 @@ class TermsOfUseView(CartMixin, CartProductMixin):
             'meta':{
                 'Title': "Пользовательское соглашение",
             },
+            'cart': self.cart,
         }
         return render(request, 'terms_of_use/terms_of_use.html', context=context)
 
@@ -289,6 +294,7 @@ class PublicOfferView(CartMixin, CartProductMixin):
             'meta':{
                 'Title': "Публичная офферта",
             },
+            'cart': self.cart,
         }
         return render(request, 'public_offer/public_offer.html', context=context)
 

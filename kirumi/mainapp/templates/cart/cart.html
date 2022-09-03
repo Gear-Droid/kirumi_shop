@@ -26,7 +26,7 @@
               <div class="card-body p-0">
                 <div class="row g-0">
                   <div class="col-lg-8">
-                    <div class="p-5">
+                    <div class="p-4">
                       <div class="d-flex justify-content-between align-items-center mt-2 mb-4">
                         <h1 class="fw-bold mb-0 text-black">{% trans "Корзина покупок" %}</h1>
                         <h6 class="mb-0 text-muted">{{ products_in_cart|length }} {% trans "продукта(-ов)" %}</h6>
@@ -90,11 +90,11 @@
                     </div>
                   </div>
                   <div class="col-lg-4 bg-grey">
-                    <div class="p-5">
+                    <div class="p-4">
                       <h3 class="fw-bold mb-5 mt-2 pt-1">{% trans "Итого" %}</h3>
                       <div class="d-flex justify-content-between mb-4">
-                        <h5 class="text-uppercase">{{ cart.total_products }} {% trans "вещи(-ей)" %}</h5>
-                        <h5>{{ cart.final_price }} {% trans "руб." %}</h5>
+                        <h6 class="text-uppercase">{{ cart.total_products }} {% trans "вещи(-ей)" %} </h6>
+                        <h6>{{ cart.final_price }} {% trans "руб." %}</h6>
                       </div>
 
                       <hr class="my-4">

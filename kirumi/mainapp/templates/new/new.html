@@ -1,6 +1,7 @@
 {% extends 'homepage.html' %}
 
 {% load static %}
+{% load i18n %}
 
 {% block header %}
 
@@ -15,6 +16,9 @@
 {% endblock intro %}
 
 {% block content %}
+  <div class="container">
+    <h2 class="fade-in p-3 my-3">{% trans "Новинки" %}</h2>
+  </div>
   {% include 'product/products_wrapper.html' %}
 {% endblock content %}
 

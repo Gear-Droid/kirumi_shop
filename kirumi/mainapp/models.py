@@ -25,7 +25,7 @@ class KirumiBasicSlugNameModel(models.Model):
         abstract = True
 
     name = models.CharField(max_length=64, verbose_name='Наименование')
-    slug = models.SlugField(max_length=64, unique=True, verbose_name='Уникальное обозначение продукта')
+    slug = models.SlugField(max_length=64, unique=True, verbose_name='Уникальное обозначение')
 
     # def get_absolute_url(self):
     #     return reverse("category_detail", kwargs={"slug": self.slug})
@@ -42,6 +42,18 @@ class BasicSortOrderModel(models.Model):
     )
 
 
+class Banner(BasicIsActiveAndDateModel, BasicSortOrderModel):
+
+    class Meta:
+        verbose_name = 'Баннер'
+        verbose_name_plural = 'Баннеры'
+
+    header = models.TextField(max_length=128, verbose_name='Заголовок')
+    description = models.TextField(max_length=128, verbose_name='Описание')
+    link = models.TextField(max_length=256, verbose_name='Ссылка')
+    image = models.ImageField(upload_to="banner_image/%Y/%m", verbose_name='Изображение баннера')
+
+
 class Collection(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
 
     class Meta:
@@ -53,6 +65,10 @@ class Collection(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortO
     IMG_WIDTH_SCALED = 250
     IMG_HEIGHT_SCALED = 350
 
+    parent = models.ForeignKey(
+        'self', null=True, blank=True, default=None,
+        on_delete=models.CASCADE, verbose_name='Родительская коллекция'
+    )
     description = models.TextField(max_length=128, verbose_name='Описание')
     image = models.ImageField(upload_to="collection_image/%Y/%m", verbose_name='Изображение коллекции')
 
@@ -87,14 +103,14 @@ class Size(BasicIsActiveAndDateModel, BasicSortOrderModel):
 class Product(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel):
 
     class Meta:
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
 
     def allSizes():
         return Size.objects.exclude(size='ONESIZE').filter(is_active=True)
 
-    collection = models.ForeignKey(
-        Collection, verbose_name='Коллекция', on_delete=models.CASCADE,
+    collection = models.ManyToManyField(
+        Collection, verbose_name='Коллекции',
         related_name='products',
     )
     description = models.TextField(max_length=128, verbose_name='Описание')
@@ -109,14 +125,14 @@ class Product(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel):
 class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
 
     class Meta:
-        verbose_name = 'Продукт с цветом и изображением'
-        verbose_name_plural = 'Продукты с цветом и изображением'
+        verbose_name = 'Карточка товара'
+        verbose_name_plural = 'Карточки товаров'
         unique_together = (('product', 'sort_order'), ('product', 'slug'))
 
-    slug = models.SlugField(max_length=64, unique=False, verbose_name='Уникальное обозначение продукта')
+    slug = models.SlugField(max_length=64, unique=False, verbose_name='Уникальное обозначение товара')
     sort_order = models.PositiveIntegerField(verbose_name='Порядок сортировки')
     product = models.ForeignKey(
-        Product, verbose_name='Базовый продукт', on_delete=models.CASCADE,
+        Product, verbose_name='Базовый товар', on_delete=models.CASCADE,
         related_name='colors',
     )
     name = models.CharField(max_length=64, verbose_name='Название цвета', )
@@ -137,8 +153,8 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
 class ProductImage(BasicIsActiveAndDateModel, BasicSortOrderModel):
 
     class Meta:
-        verbose_name = 'Изображение продукта'
-        verbose_name_plural = 'Изображения продукта'
+        verbose_name = 'Изображение товара'
+        verbose_name_plural = 'Изображения товара'
         unique_together = (('product_color', 'sort_order'), )
         ordering = ['-sort_order']
 
@@ -152,7 +168,7 @@ class ProductImage(BasicIsActiveAndDateModel, BasicSortOrderModel):
         ColoredProduct, verbose_name='Product color', on_delete=models.CASCADE,
         related_name='images',
     )
-    image = models.ImageField(upload_to="product_images/%Y/%m", verbose_name='Изображение продукта')
+    image = models.ImageField(upload_to="product_images/%Y/%m", verbose_name='Изображение товара')
     description = models.CharField(unique=True, max_length=190, verbose_name='Описание')
 
     def __str__(self):
@@ -216,8 +232,8 @@ class Cart(models.Model):
 class CartProduct(models.Model):
 
     class Meta:
-        verbose_name = 'Продукт в корзине'
-        verbose_name_plural = 'Продукты в корзине'
+        verbose_name = 'Товар в корзине'
+        verbose_name_plural = 'Товары в корзине'
         unique_together = (('cart', 'colored_product', 'size'), )
 
     # user id field
@@ -225,7 +241,7 @@ class CartProduct(models.Model):
         Cart, verbose_name='Корзина', on_delete=models.CASCADE
     )
     colored_product = models.ForeignKey(
-        ColoredProduct, verbose_name='Продукт с цветом', on_delete=models.CASCADE,
+        ColoredProduct, verbose_name='Карточка товара', on_delete=models.CASCADE,
         related_name="cart_products"
     )
     size = models.ForeignKey(
@@ -242,7 +258,7 @@ class CartProduct(models.Model):
         self.cart.save()
 
     def __str__(self):
-        return "Продукт: ({} - {}) для корзины: ({})".format(
+        return "Карточка: ({} - {}) для корзины: ({})".format(
             self.colored_product.product.name, self.colored_product.name, self.cart)
 
 

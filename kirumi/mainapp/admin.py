@@ -52,11 +52,36 @@ class BasicSortOrderAdmin(admin.ModelAdmin):
         return {'sort_order': curr_max_sort_order_plus1}
 
 
+class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdmin):
+    fieldsets = (
+        (None, {
+            'fields': (
+                ('header_ru', 'header_en', 'is_active'),
+                ('description_ru', 'description_en'),
+                ('link', ),
+                ('image', 'get_image'),
+                ('sort_order', 'pub_date'),
+            )
+        }),
+    )
+    list_display = (
+        'sort_order', 'pub_date', 'header', 'link', 'get_image', 'is_active',
+    )
+    list_display_links = ('header', )
+    readonly_fields = ('pub_date','get_image', )
+    list_filter = ('is_active', 'pub_date', )
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="50" height="70" />')
+
+    get_image.short_description = "Текущее изображение"
+
+
 class CollectionAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin, BasicSortOrderAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                ('name_ru', 'name_en', 'is_active'),
+                ('parent', 'name_ru', 'name_en', 'is_active'),
                 ('description_ru', 'description_en'),
                 ('image', 'get_image'),
                 ('sort_order', 'pub_date', 'slug'),
@@ -256,6 +281,7 @@ class CartProductAdmin(admin.ModelAdmin):
     exclude = ('subtotal_price', )
 
 
+admin.site.register(Banner, BannerAdmin)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Product, ProductAdmin)

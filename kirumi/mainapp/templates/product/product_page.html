@@ -24,11 +24,11 @@
 
 {% block content %}
 
-  <div class="container mt-3 mb-5" style="padding: 0;">
-    <div class="product_details_card" style="overflow: visible;">
+  <div class="container mb-5" style="padding: 0;">
+    <div class="product_details_card pb-3" style="overflow: visible;">
       <div class="row g-0">
-        <div class="col-md-8 border-end" style="display: flex;">
-          <div style="width:100px; height:730px; padding:15px 0;"></div>
+        <div class="col-md-8 border-end justify-content-center" style="display: flex;">
+          <div class="carousel-indicators-container" style=""></div>
 
           <div class="left-side d-flex flex-row justify-content-center" style="padding: 15px 0;">
 
@@ -62,11 +62,11 @@
                 loading="eager" />
             </div> {% endcomment %}
 
-            <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-ride="carousel" style="max-width:500px;">
+            <div id="KirumiCarouselDark" class="carousel carousel-dark slide pointer-event" data-ride="carousel" style="max-width:500px;">
 
-              <div class="carousel-indicators" style="flex-direction:column; top:0; left:-110px; width:110px; margin:0;">
+              <div class="carousel-indicators" style="">
                 <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"
-                  style="width: 100px!important; height:140px!important; padding:0!important; border:3px solid white;"
+                  style=""
                 >
                   <img style="display:block;"
                     src="{{ images.first.image.url }}"
@@ -75,7 +75,7 @@
                 </button>
 
                 <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="1" class="" aria-current="false" aria-label="Slide 2"
-                  style="width: 100px!important; height:140px!important; padding:0!important; border:3px solid white;"
+                  style=" "
                 >
                   <img style="display:block;"
                     src="{{ images.last.image.url }}"
@@ -84,7 +84,7 @@
                 </button>
 
                 <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="2" class="" aria-current="false" aria-label="Slide 3"
-                  style="width: 100px!important; height:140px!important; padding:0!important; border:3px solid white;"
+                  style=" "
                 >
                   <img style="display:block;"
                     src="{{ images.first.image.url }}"

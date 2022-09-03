@@ -63,7 +63,6 @@
     .text-muted {
       color: grey !important;
     }
-
     {% block style %}
     {% endblock style %}
 
@@ -196,17 +195,17 @@
   </nav>
   <div class="nav-box"></div>
 
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show my-0" role="alert">
-        <strong>{{ message }}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endfor %}
-  {% endif %}
 
+  {% for message in messages %}
+    <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show my-0" role="alert">
+      <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  {% endfor %}
+
+  
   {% block intro %}
   {% endblock intro %}
 
@@ -218,55 +217,36 @@
       <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
         <div class="carousel-indicators">
-          <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          {% for banner in banners %}
+            <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+          {% endfor %}
         </div>
 
         <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="3500">
-            <img height = "600" src="{% static 'images/banner.png' %}"
-              class="d-block w-100" alt="anime-girl-gold-fish-flying-wallpaper"
-              loading="lazy">
-            <div class="overlay carousel-caption d-md-block">
-              <p>Свободный крой.</p>
-              <p>Оригинальные цвета. 100% хлопок.</p>
-              <div style="display: flex; flex-direction: row; height: 300px; align-items: center; justify-content: space-around;">
-                <p style="margin-left: 0; font-size: 60px; line-height: 60px; writing-mode: tb-rl; transform: rotate(-180deg); font-weight: bold;">FALL22</p>
-
-                <div style="display: flex; flex-direction: row;">
-                  <p style="font-size: 20px;">ПОДРОБНЕЕ
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
-                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                    </svg>
-                  </p>
+          {% for banner in banners %}        
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3500">
+              <img height = "600" src="{{ banner.image.url }}"
+                class="d-block" alt="anime-girl-gold-fish-flying-wallpaper"
+                style="" loading="lazy">
+              <div class="overlay carousel-caption d-md-block">
+                <p class="banner-description">{{ banner.description }}</p>
+                <div style="display: flex; flex-direction: row; height: 400px; align-items: center; justify-content: space-around;">
+                  <p class="banner-header" style="">{{ banner.header }}</p>
+                  <div style="display: flex; flex-direction: row;">
+                    <a class="text-decoration-none" href="{{ banner.link }}">
+                      <p style="font-size: 26px; background: #f6f6f6; padding: 5px;">ПОДРОБНЕЕ
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
+                          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                        </svg>
+                      </p>
+                    </a>
+                  </div>
                 </div>
-
               </div>
             </div>
-          </div>
-
-          <div class="carousel-item" data-bs-interval="3500">
-            <img height = "600" src="{% static 'images/anime-cool-blonde-girl-1920x600.jpg' %}"
-              class="d-block w-100" alt="anime-cool-blonde-girl"
-              loading="lazy">
-            <div class="overlay carousel-caption d-md-block">
-              <p>Свободный крой.</p>
-              <p>Оригинальные цвета. 100% хлопок.</p>
-              <div style="display: flex; flex-direction: row; height: 300px; align-items: center; justify-content: space-around;">
-                <p style="margin-left: 0; font-size: 60px; line-height: 60px; writing-mode: tb-rl; transform: rotate(-180deg); font-weight: bold;">FALL22</p>
-
-                <div style="display: flex; flex-direction: row;">
-                  <p style="font-size: 20px;">ПОДРОБНЕЕ
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
-                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                    </svg>
-                  </p>
-                </div>
-
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
+
         <button class="carousel-control-prev" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -297,7 +277,9 @@
 
         </div>
       </div> -->
-
+      <div class="container">
+        <h2 class="fade-in p-3 mt-5 mb-3">{% trans "Новинки" %}</h2>
+      </div>
       {% include 'product/products_wrapper.html' %}
 
     {% endblock content %}
@@ -324,9 +306,9 @@
 
   <!-- Footer -->
   <footer class="d-flex flex-wrap justify-content-between align-items-center">
-    <p class="copyright-text col-md-4 mb-0 text-muted">© {% trans "2022 Kirumi интернет-магазин аниме одежды" %}</p>
+    <p class="copyright-text col-lg-4 mb-0 text-muted">© {% trans "2022 Kirumi интернет-магазин аниме одежды" %}</p>
 
-    <a href="{% url 'homepage' %}" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
+    <a href="{% url 'homepage' %}" class="col-lg-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
       <!-- SVG place -->
       <img class="footer-kirumi-logo"
         src="{% static "images/kirumi-logo.svg" %}"
@@ -335,7 +317,7 @@
         loading="lazy" />
     </a>
 
-    <ul class="nav col-md-4 p-2 justify-content-end">
+    <ul class="nav col-lg-4 p-2 justify-content-end">
       <li class="nav-item"><a href="{% url 'about_brand' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "О бренде" %}</a></li>
       <li class="nav-item"><a href="{% url 'contacts' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
       <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
