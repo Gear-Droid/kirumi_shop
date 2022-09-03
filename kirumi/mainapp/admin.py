@@ -281,7 +281,7 @@ class CartProductAdmin(admin.ModelAdmin):
     exclude = ('subtotal_price', )
 
 
-admin.site.register(Banner, BannerAdmin)
+admin.site.register(Banner)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Product, ProductAdmin)
