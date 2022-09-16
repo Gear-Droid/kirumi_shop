@@ -75,7 +75,7 @@
       <div class="">
         <form class="needs-validation" action="/" method="post" no-validation="">
           {% csrf_token %}
-          <div class="col my-4">
+          {% comment %} <div class="col my-4">
             <div class="form-floating">
               <input class="form-control" id="firstName" value="Conor" readonly>
               <label for="firstName" class="form-label">Имя</label>
@@ -115,12 +115,28 @@
               <input type="text" class="form-control" id="timePost" value="{{ delivery_details.timePost }}" readonly>
               <label for="timePost" class="form-label">Приблизительное время доставки</label>
             </div>
-          </div>
+          </div> {% endcomment %}
 
           <h4 class="mb-3">Оплата</h4>
 
-          <form name="TinkoffPayForm needs-validation" onsubmit="pay(this); return false;">
-            <input class="tinkoffPayRow" type="hidden" name="terminalkey" 1663090406118DEMO="TinkoffBankTest">
+          <style>.tinkoffPayRow{display:block;margin:1%;width:160px;}</style>
+          <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
+          <form name="TinkoffPayForm" onsubmit="pay(this); return false;">
+            {% csrf_token %}
+            <input class="tinkoffPayRow" type="hidden" name="terminalkey" value="1663090406118DEMO">
+            <input class="tinkoffPayRow" type="hidden" name="frame" value="true">
+            <input class="tinkoffPayRow" type="hidden" name="language" value="ru"> 
+              <input class="tinkoffPayRow" type="text" placeholder="Сумма заказа" name="amount" required>
+              <input class="tinkoffPayRow" type="text" placeholder="Номер заказа" name="order">
+              <input class="tinkoffPayRow" type="text" placeholder="Описание заказа" name="description">
+              <input class="tinkoffPayRow" type="text" placeholder="ФИО плательщика" name="name">
+              <input class="tinkoffPayRow" type="text" placeholder="E-mail" name="email">
+              <input class="tinkoffPayRow" type="text" placeholder="Контактный телефон" name="phone">
+              <input class="tinkoffPayRow" type="submit" value="Оплатить">
+          </form>
+
+          {% comment %} <form name="TinkoffPayForm needs-validation" onsubmit="pay(this); return false;">
+            <input class="tinkoffPayRow" type="hidden" name="terminalkey" value="1663090406118DEMO">
             <input class="tinkoffPayRow" type="hidden" name="frame" value="true">
             <input class="tinkoffPayRow" type="hidden" name="language" value="ru">
 
@@ -149,8 +165,7 @@
               <label class="form-label">Контактный телефон</label>
             </div>
             <input class="tinkoffPayRow w-100 btn btn-primary btn-lg" type="submit" value="Оплатить">
-
-          </form>
+          </form> {% endcomment %}
 
         </form>
 

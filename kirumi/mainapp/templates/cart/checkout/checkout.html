@@ -73,27 +73,27 @@
             <div class="row g-3  mb-4">
 
               <div class="col-sm-5">
-                <label for="firstName" class="form-label">Имя <span class="text-muted">*</span></label>
-                <input type="text" class="form-control" id="firstName" required />
+                <label for="firstName" class="form-label">Имя <span class="text-muted"><!-- * --></span></label>
+                <input type="text" class="form-control" id="firstName"  />
               </div>
 
               <div class="col-sm-7">
-                <label for="lastName" class="form-label">Фамилия <span class="text-muted">*</span></label>
-                <input type="text" class="form-control" id="lastName" required />
+                <label for="lastName" class="form-label">Фамилия <span class="text-muted"><!-- * --></span></label>
+                <input type="text" class="form-control" id="lastName"  />
               </div>
 
               <div class="col-sm-7">
-                <label for="email" class="form-label">Email <span class="text-muted">*</span></label>
-                <input type="email" class="form-control" id="email" placeholder="email@example.com" required />
+                <label for="email" class="form-label">Email <span class="text-muted"><!-- * --></span></label>
+                <input type="email" class="form-control" id="email" placeholder="email@example.com"  />
               </div>
 
               <div class="col-sm-5">
-                <label for="phone" class="form-label">Номер телефона <span class="text-muted">*</span></label>
-                <input type="phone" class="form-control" id="phone" required />
+                <label for="phone" class="form-label">Номер телефона <span class="text-muted"><!-- * --></span></label>
+                <input type="phone" class="form-control" id="phone"  />
               </div>
 
               <div class="col-12">
-                <label class="form-label"><span class="text-muted">*</span> - поля обязательные для заполнения</label>
+                <label class="form-label"><span class="text-muted"><!-- * --></span><!-- - поля обязательные для заполнения --></label>
               </div>
 
             </div>
@@ -131,23 +131,23 @@
                 ipjq('[name="timePost"]').val(wat.term);
               }
 
-              /*function onChoose(wat) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
+              function onChoose(wat) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
                 ipjq('[name="chosenPost"]').val(info.id);
                 ipjq('[name="addresPost"]').val(info.PVZ.Address);
                 // расчет стоимости доставки
-                var price = (info.price < 500) ? 500 : Math.ceil( info.price/100 ) * 100;
+                var price = (info.price < 500) ? 500 : Math.ceil( info.price/100 ) <!-- * --> 100;
                 ipjq('[name="pricePost"]').val(price);
                 ipjq('[name="timePost"]').val(info.term);
-              }*/
+              }
             </script>
 
             <p><input type="hidden" name="chosenPost" value="" /></p>
             <div class="col-md-12">
-              <label for="addresPost" class="form-label">Адрес <span class="text-muted">*</span></label>
+              <label for="addresPost" class="form-label">Адрес <span class="text-muted"><!-- * --></span></label>
               <input type="text" class="form-control"
                 id="addresPost" name="addresPost" value=""
                 placeholder="Выберите адрес доставки в виджете СДЭК"
-                required
+                
               />
               </div>
             <p><input type="hidden" name="pricePost" value="" /></p>
