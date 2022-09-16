@@ -112,19 +112,12 @@
                 hidedress: true,
                 onChoose: onChoose,
                 onChooseProfile: onChooseProfile,
-                onCalculate: onCalculate
               });
               function onChoose(wat) {
-                alert(
-                    'Выбран пункт выдачи заказа ' + wat.id + "\n" +
-                    'цена ' + wat.price + "\n" +
-                    'срок ' + wat.term + " дн.\n" +
-                    'город ' + wat.cityName + ', код города ' + wat.city
-                );
-                ipjq('[name="chosenPost"]').val(wat.id);
-                ipjq('[name="addresPost"]').val(wat.PVZ.Address);
-                ipjq('[name="pricePost"]').val(wat.price);
-                ipjq('[name="timePost"]').val(wat.term);
+                ipjq('[name="chosenPost"]').val(info.id);
+                ipjq('[name="addresPost"]').val(info.PVZ.Address);
+                ipjq('[name="pricePost"]').val(info.price);
+                ipjq('[name="timePost"]').val(info.term);
               }
               function onChooseProfile(wat) {
                 alert(
@@ -146,10 +139,6 @@
                 ipjq('[name="pricePost"]').val(price);
                 ipjq('[name="timePost"]').val(info.term);
               }*/
-
-              function onCalculate(wat) {
-                alert('Расчет стоимости доставки произведен');
-              }
             </script>
 
             <p><input type="hidden" name="chosenPost" value="" /></p>
