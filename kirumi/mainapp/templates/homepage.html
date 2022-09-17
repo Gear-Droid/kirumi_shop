@@ -288,82 +288,79 @@
         <h2 class="fade-in p-3 mt-5 mb-3">{% trans "Новинки" %}</h2>
       </div>
       <div class="container desktop-container">
-        {% for product_card in new_products %}
-
-          {% if forloop.counter0 == 0 %}
-            <div class="fade-in card first-card">
-              <div class="productBackground">
-                <a class="product-link" {% if new_products.0.product.slug and new_products.0.slug %} href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}" {% endif %}>
-                  <div>
-                    {% for img in new_products.0.get_two_first_images %}
-                      {% thumbnail img.image "322x450" crop="center" as im %}
-                        <img src="{{ im.url }}" alt="{{ img.description }}"
-                          width="322" height="450"
-                          class="productImg"
-                          loading="lazy" />
-                      {% endthumbnail %}
-                    {% endfor %}
-                  </div>
-                </a>
-              </div>
-              <a {% if new_products.0.product.slug and new_products.0.slug %} href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}" {% endif %}
-                style="text-align: left; font-size: 16px; text-decoration: none;">
-                <div class="info">
-                  <div class="productName">
-                    <h1 class="big"><div>{{ new_products.0.product.name }}</div></h1>
-                  </div>
-                    <div class="buy-price price">
-                      {% if new_products.0.old_price is not none %}
-                        <span class="old_price">{{ new_products.0.old_price }} {% trans "Р" %}<br></span>
-                      {% endif %}
-                      <span class="new_price">{{ new_products.0.price }} {% trans "Р" %}</span>
-                    </div>
+        {% if new_products.0 %}
+          <div class="fade-in card first-card">
+            <div class="productBackground">
+              <a class="product-link" href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}">
+                <div>
+                  {% for img in new_products.0.get_two_first_images %}
+                    {% thumbnail img.image "322x450" crop="center" as im %}
+                      <img src="{{ im.url }}" alt="{{ img.description }}"
+                        width="322" height="450"
+                        class="productImg"
+                        loading="lazy" />
+                    {% endthumbnail %}
+                  {% endfor %}
                 </div>
               </a>
             </div>
-          {% endif %}
+            <a href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}"
+              style="text-align: left; font-size: 16px; text-decoration: none;">
+              <div class="info">
+                <div class="productName">
+                  <h1 class="big"><div>{{ new_products.0.product.name }}</div></h1>
+                </div>
+                  <div class="buy-price price">
+                    {% if new_products.0.old_price is not none %}
+                      <span class="old_price">{{ new_products.0.old_price }} {% trans "Р" %}<br></span>
+                    {% endif %}
+                    <span class="new_price">{{ new_products.0.price }} {% trans "Р" %}</span>
+                  </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
 
+        {% if new_products.1 %}
           <div class="second-row">
             <div class="col-3">
-              {% if forloop.counter0 == 1 %}
-                <div class="fade-in card second-card">
-                  <div class="productBackground">
-                    <a class="product-link" {% if new_products.1.product.slug and new_products.1.slug %} href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}" {% endif %}>
-                      <div>
-                        {% for img in new_products.1.get_two_first_images %}
-                          {% thumbnail img.image "322x450" crop="center" as im %}
-                            <img src="{{ im.url }}" alt="{{ img.description }}"
-                              width="322" height="450"
-                              class="productImg"
-                              loading="lazy" />
-                          {% endthumbnail %}
-                        {% endfor %}
-                      </div>
-                    </a>
-                  </div>
-                  <a {% if new_products.1.product.slug and new_products.1.slug %} href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}" {% endif %}
-                    style="text-align: left; font-size: 16px; text-decoration: none;">
-                    <div class="info">
-                      <div class="productName">
-                        <h1 class="big"><div>{{ new_products.1.product.name }}</div></h1>
-                      </div>
-                        <div class="buy-price price">
-                          {% if new_products.1.old_price is not none %}
-                            <span class="old_price">{{ new_products.1.old_price }} {% trans "Р" %}<br></span>
-                          {% endif %}
-                          <span class="new_price">{{ new_products.1.price }} {% trans "Р" %}</span>
-                        </div>
+              <div class="fade-in card second-card">
+                <div class="productBackground">
+                  <a class="product-link" href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}">
+                    <div>
+                      {% for img in new_products.1.get_two_first_images %}
+                        {% thumbnail img.image "322x450" crop="center" as im %}
+                          <img src="{{ im.url }}" alt="{{ img.description }}"
+                            width="322" height="450"
+                            class="productImg"
+                            loading="lazy" />
+                        {% endthumbnail %}
+                      {% endfor %}
                     </div>
                   </a>
                 </div>
-              {% endif %}
+                <a href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}"
+                  style="text-align: left; font-size: 16px; text-decoration: none;">
+                  <div class="info">
+                    <div class="productName">
+                      <h1 class="big"><div>{{ new_products.1.product.name }}</div></h1>
+                    </div>
+                      <div class="buy-price price">
+                        {% if new_products.1.old_price is not none %}
+                          <span class="old_price">{{ new_products.1.old_price }} {% trans "Р" %}<br></span>
+                        {% endif %}
+                        <span class="new_price">{{ new_products.1.price }} {% trans "Р" %}</span>
+                      </div>
+                  </div>
+                </a>
+              </div>
             </div>
 
             <div class="col-5">
-              {% if forloop.counter0 == 2 %}
+              {% if new_products.2 %}
                 <div class="fade-in third-card">
                   <div class="productBackground">
-                    <a class="product-link" {% if new_products.2.product.slug and new_products.2.slug %} href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}" {% endif %}>
+                    <a class="product-link" href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}">
                       <div>
                         {% for img in new_products.2.get_two_first_images %}
                           {% thumbnail img.image "500x700" crop="center" as im %}
@@ -375,7 +372,7 @@
                       </div>
                     </a>
                   </div>
-                  <a {% if new_products.2.product.slug and new_products.2.slug %} href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}" {% endif %}
+                  <a href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}"
                     style="text-align: left; font-size: 16px; text-decoration: none;">
                     <div class="info">
                       <div class="productName">
@@ -391,48 +388,47 @@
                   </a>
                 </div>
               {% endif %}
-
             </div>
           </div>
+        {% endif %}
 
+        {% if new_products.3 %}
           <div class="product-cards-container container mt-5" style="justify-content: space-between;">
-            {% if forloop.counter0 == 3 %}
-              <div class="fade-in card fourth-card">
-                <div class="productBackground">
-                  <a class="product-link" {% if new_products.3.product.slug and new_products.3.slug %} href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}" {% endif %}>
-                    <div>
-                      {% for img in new_products.3.get_two_first_images %}
-                        {% thumbnail img.image "322x450" crop="center" as im %}
-                          <img src="{{ im.url }}" alt="{{ img.description }}"
-                            width="322" height="450"
-                            class="productImg"
-                            loading="lazy" />
-                        {% endthumbnail %}
-                      {% endfor %}
-                    </div>
-                  </a>
-                </div>
-                <a {% if new_products.3.product.slug and new_products.3.slug %} href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}" {% endif %}
-                  style="text-align: left; font-size: 16px; text-decoration: none;">
-                  <div class="info">
-                    <div class="productName">
-                      <h1 class="big"><div>{{ new_products.3.product.name }}</div></h1>
-                    </div>
-                      <div class="buy-price price">
-                        {% if new_products.3.old_price is not none %}
-                          <span class="old_price">{{ new_products.3.old_price }} {% trans "Р" %}<br></span>
-                        {% endif %}
-                        <span class="new_price">{{ new_products.3.price }} {% trans "Р" %}</span>
-                      </div>
+            <div class="fade-in card fourth-card">
+              <div class="productBackground">
+                <a class="product-link" href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}">
+                  <div>
+                    {% for img in new_products.3.get_two_first_images %}
+                      {% thumbnail img.image "322x450" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ img.description }}"
+                          width="322" height="450"
+                          class="productImg"
+                          loading="lazy" />
+                      {% endthumbnail %}
+                    {% endfor %}
                   </div>
                 </a>
               </div>
-            {% endif %}
+              <a href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}"
+                style="text-align: left; font-size: 16px; text-decoration: none;">
+                <div class="info">
+                  <div class="productName">
+                    <h1 class="big"><div>{{ new_products.3.product.name }}</div></h1>
+                  </div>
+                  <div class="buy-price price">
+                    {% if new_products.3.old_price is not none %}
+                      <span class="old_price">{{ new_products.3.old_price }} {% trans "Р" %}<br></span>
+                    {% endif %}
+                    <span class="new_price">{{ new_products.3.price }} {% trans "Р" %}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
 
-            {% if forloop.counter0 == 4 %}
+            {% if new_products.4 %}
               <div class="fade-in card fifth-card">
                 <div class="productBackground">
-                  <a class="product-link" {% if new_products.4.product.slug and new_products.4.slug %} href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}" {% endif %}>
+                  <a class="product-link" href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}">
                     <div>
                       {% for img in new_products.4.get_two_first_images %}
                         {% thumbnail img.image "322x450" crop="center" as im %}
@@ -445,27 +441,27 @@
                     </div>
                   </a>
                 </div>
-                <a {% if new_products.4.product.slug and new_products.4.slug %} href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}" {% endif %}
+                <a href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}"
                   style="text-align: left; font-size: 16px; text-decoration: none;">
                   <div class="info">
                     <div class="productName">
                       <h1 class="big"><div>{{ new_products.4.product.name }}</div></h1>
                     </div>
-                      <div class="buy-price price">
-                        {% if new_products.4.old_price is not none %}
-                          <span class="old_price">{{ new_products.4.old_price }} {% trans "Р" %}<br></span>
-                        {% endif %}
-                        <span class="new_price">{{ new_products.4.price }} {% trans "Р" %}</span>
-                      </div>
+                    <div class="buy-price price">
+                      {% if new_products.4.old_price is not none %}
+                        <span class="old_price">{{ new_products.4.old_price }} {% trans "Р" %}<br></span>
+                      {% endif %}
+                      <span class="new_price">{{ new_products.4.price }} {% trans "Р" %}</span>
+                    </div>
                   </div>
                 </a>
               </div>
             {% endif %}
 
-            {% if forloop.counter0 == 5 %}
+            {% if new_products.5 %}
               <div class="fade-in card sixth-card">
                 <div class="productBackground">
-                  <a class="product-link" {% if new_products.5.product.slug and new_products.5.slug %} href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}" {% endif %}>
+                  <a class="product-link" href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}">
                     <div>
                       {% for img in new_products.5.get_two_first_images %}
                         {% thumbnail img.image "322x450" crop="center" as im %}
@@ -478,7 +474,7 @@
                     </div>
                   </a>
                 </div>
-                <a {% if new_products.5.product.slug and new_products.5.slug %} href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}" {% endif %}
+                <a href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}"
                   style="text-align: left; font-size: 16px; text-decoration: none;">
                   <div class="info">
                     <div class="productName">
@@ -495,8 +491,8 @@
               </div>
             {% endif %}
           </div>
+        {% endif %}
 
-        {% endfor %}
       </div>
 
       <div class="container mobile-container">
