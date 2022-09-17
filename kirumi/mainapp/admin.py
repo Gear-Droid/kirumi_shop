@@ -115,7 +115,7 @@ class GetCurrentColor(object):
     def get_color(self, obj):
         return mark_safe(
             f'<div style="background: #{ obj.color_hex_code }; min-height: 16px; \
-                min-width: 32px; max-width: 32px; border: 1px solid; margin: auto;"></div>'
+                min-width: 28px; max-width: 28px; border: 1px solid; margin: auto;"></div>'
         )
 
     get_color.short_description = "Изображение цвета"
@@ -192,6 +192,11 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
 
 
 class ColoredProductInline(admin.TabularInline, GetCurrentColor):
+    
+    class Media:
+        css = {
+            'all': ('admin/css/user_changes/columns.css',)
+        }
 
     model = ColoredProduct
     extra = 0
@@ -235,8 +240,9 @@ class ProductAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin):
         model = Product
 
     fields = (
-        ('collection', 'name_ru', 'name_en', 'is_active'),
-        ('description_ru', 'description_en'), 'sizes',
+        ('name_ru', 'name_en', 'is_active'),
+        ('description_ru', 'description_en'),
+        ('collection', 'sizes'),
         ('pub_date', 'slug'),
     )
     list_display = ('pub_date', 'slug', 'name', 'is_active', )

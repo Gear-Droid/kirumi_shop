@@ -129,7 +129,7 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
         verbose_name_plural = 'Карточки товаров'
         unique_together = (('product', 'sort_order'), ('product', 'slug'))
 
-    slug = models.SlugField(max_length=64, unique=False, verbose_name='Уникальное обозначение товара')
+    slug = models.SlugField(max_length=64, unique=False, verbose_name='Уникальное обозначение карточки')
     sort_order = models.PositiveIntegerField(verbose_name='Порядок сортировки')
     product = models.ForeignKey(
         Product, verbose_name='Базовый товар', on_delete=models.CASCADE,

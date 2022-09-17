@@ -49,7 +49,7 @@ class NewProductsMixin(View):
                 Q(is_active=True) & Q(product__is_active=True) & \
                 Q(product__collection__is_active=True) & \
                 Q(images__is_active=True)
-            ).distinct().order_by('-pub_date').defer(
+            ).distinct().order_by('-pub_date', '-sort_order').defer(
                 'id', 'is_active', 'sort_order', 'product_id',
                 'product__is_active', 'product__pub_date',
             )[:6]

@@ -31,6 +31,9 @@
     <!-- Navbar CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
   <!--===============================================================================================-->
+    <!-- Homepage CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+  <!--===============================================================================================-->
 
   <title>{{ meta.Title }}</title>
   <meta name="keywords" content="{{ meta.keywords }}">
@@ -94,7 +97,7 @@
 
       <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 30px;">KIRUMI</a>
 
-      <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:20px;">
+      <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:30px;">
         <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
       </a>
 
@@ -138,7 +141,7 @@
               {% comment %} <svg xmlns="{% static 'images/cart.svg' %}" width="30" height="30" fill="currentColor" class="bi bi-cart" viewBox="0 0 20 20">
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
               </svg> {% endcomment %}
-              {% trans "Корзина" %}: <span style="color: grey;">[{{cart.total_products}}]</span>
+              {% trans "Корзина" %}: <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
             </a>
           </li>
           {% comment %} 
@@ -233,7 +236,7 @@
                 loading="lazy" />
               {% endthumbnail %}
               <div class="overlay carousel-caption d-md-block">
-                <p class="banner-description">{{ banner.description }}</p>
+                <span class="banner-description">{{ banner.description|linebreaks }}</span>
                 <div style="display: flex; flex-direction: row; height: 360px; align-items: center; justify-content: space-around;">
                   <p class="banner-header" style="">{{ banner.header }}</p>
                   <div style="display: flex; flex-direction: row;">
@@ -284,7 +287,236 @@
       <div class="container">
         <h2 class="fade-in p-3 mt-5 mb-3">{% trans "Новинки" %}</h2>
       </div>
-      {% include 'product/products_wrapper.html' %}
+      <div class="container desktop-container">
+
+        <div class="fade-in card first-card">
+          <div class="productBackground">
+            <a class="product-link" href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}">
+              <div>
+                {% for img in new_products.0.get_two_first_images %}
+                  {% thumbnail img.image "322x450" crop="center" as im %}
+                    <img src="{{ im.url }}" alt="{{ img.description }}"
+                      width="322" height="450"
+                      class="productImg"
+                      loading="lazy" />
+                  {% endthumbnail %}
+                {% endfor %}
+              </div>
+            </a>
+          </div>
+          <a href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}"
+            style="text-align: left; font-size: 16px; text-decoration: none;">
+            <div class="info">
+              <div class="productName">
+                <h1 class="big"><div>{{ new_products.0.product.name }}</div></h1>
+              </div>
+                <div class="buy-price price">
+                  {% if new_products.0.old_price is not none %}
+                    <span class="old_price">{{ new_products.0.old_price }} {% trans "Р" %}<br></span>
+                  {% endif %}
+                  <span class="new_price">{{ new_products.0.price }} {% trans "Р" %}</span>
+                </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="second-row">
+          <div class="col-3">
+            <div class="fade-in card second-card">
+              <div class="productBackground">
+                <a class="product-link" href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}">
+                  <div>
+                    {% for img in new_products.1.get_two_first_images %}
+                      {% thumbnail img.image "322x450" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ img.description }}"
+                          width="322" height="450"
+                          class="productImg"
+                          loading="lazy" />
+                      {% endthumbnail %}
+                    {% endfor %}
+                  </div>
+                </a>
+              </div>
+              <a href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}"
+                style="text-align: left; font-size: 16px; text-decoration: none;">
+                <div class="info">
+                  <div class="productName">
+                    <h1 class="big"><div>{{ new_products.1.product.name }}</div></h1>
+                  </div>
+                    <div class="buy-price price">
+                      {% if new_products.1.old_price is not none %}
+                        <span class="old_price">{{ new_products.1.old_price }} {% trans "Р" %}<br></span>
+                      {% endif %}
+                      <span class="new_price">{{ new_products.1.price }} {% trans "Р" %}</span>
+                    </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-5">
+            <div class="fade-in third-card">
+              <div class="productBackground">
+                <a class="product-link" href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}">
+                  <div>
+                    {% for img in new_products.2.get_two_first_images %}
+                      {% thumbnail img.image "500x700" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ img.description }}"
+                          width="500" height="700"
+                          class="productImg"/>
+                      {% endthumbnail %}
+                    {% endfor %}
+                  </div>
+                </a>
+              </div>
+              <a href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}"
+                style="text-align: left; font-size: 16px; text-decoration: none;">
+                <div class="info">
+                  <div class="productName">
+                    <h1 class="big"><div>{{ new_products.2.product.name }}</div></h1>
+                  </div>
+                    <div class="buy-price price">
+                      {% if new_products.2.old_price is not none %}
+                        <span class="old_price">{{ new_products.2.old_price }} {% trans "Р" %}<br></span>
+                      {% endif %}
+                      <span class="new_price">{{ new_products.2.price }} {% trans "Р" %}</span>
+                    </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-cards-container container mt-5" style="justify-content: space-between;">
+          <div class="fade-in card fourth-card">
+            <div class="productBackground">
+              <a class="product-link" href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}">
+                <div>
+                  {% for img in new_products.3.get_two_first_images %}
+                    {% thumbnail img.image "322x450" crop="center" as im %}
+                      <img src="{{ im.url }}" alt="{{ img.description }}"
+                        width="322" height="450"
+                        class="productImg"
+                        loading="lazy" />
+                    {% endthumbnail %}
+                  {% endfor %}
+                </div>
+              </a>
+            </div>
+            <a href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}"
+              style="text-align: left; font-size: 16px; text-decoration: none;">
+              <div class="info">
+                <div class="productName">
+                  <h1 class="big"><div>{{ new_products.3.product.name }}</div></h1>
+                </div>
+                  <div class="buy-price price">
+                    {% if new_products.3.old_price is not none %}
+                      <span class="old_price">{{ new_products.3.old_price }} {% trans "Р" %}<br></span>
+                    {% endif %}
+                    <span class="new_price">{{ new_products.3.price }} {% trans "Р" %}</span>
+                  </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="fade-in card fifth-card">
+            <div class="productBackground">
+              <a class="product-link" href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}">
+                <div>
+                  {% for img in new_products.4.get_two_first_images %}
+                    {% thumbnail img.image "322x450" crop="center" as im %}
+                      <img src="{{ im.url }}" alt="{{ img.description }}"
+                        width="322" height="450"
+                        class="productImg"
+                        loading="lazy" />
+                    {% endthumbnail %}
+                  {% endfor %}
+                </div>
+              </a>
+            </div>
+            <a href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}"
+              style="text-align: left; font-size: 16px; text-decoration: none;">
+              <div class="info">
+                <div class="productName">
+                  <h1 class="big"><div>{{ new_products.4.product.name }}</div></h1>
+                </div>
+                  <div class="buy-price price">
+                    {% if new_products.4.old_price is not none %}
+                      <span class="old_price">{{ new_products.4.old_price }} {% trans "Р" %}<br></span>
+                    {% endif %}
+                    <span class="new_price">{{ new_products.4.price }} {% trans "Р" %}</span>
+                  </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="fade-in card sixth-card">
+            <div class="productBackground">
+              <a class="product-link" href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}">
+                <div>
+                  {% for img in new_products.5.get_two_first_images %}
+                    {% thumbnail img.image "322x450" crop="center" as im %}
+                      <img src="{{ im.url }}" alt="{{ img.description }}"
+                        width="322" height="450"
+                        class="productImg"
+                        loading="lazy" />
+                    {% endthumbnail %}
+                  {% endfor %}
+                </div>
+              </a>
+            </div>
+            <a href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}"
+              style="text-align: left; font-size: 16px; text-decoration: none;">
+              <div class="info">
+                <div class="productName">
+                  <h1 class="big"><div>{{ new_products.5.product.name }}</div></h1>
+                </div>
+                  <div class="buy-price price">
+                    {% if new_products.5.old_price is not none %}
+                      <span class="old_price">{{ new_products.5.old_price }} {% trans "Р" %}<br></span>
+                    {% endif %}
+                    <span class="new_price">{{ new_products.5.price }} {% trans "Р" %}</span>
+                  </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mobile-container">
+        {% for product_card in new_products %}
+          <div class="fade-in card first-card" style="padding: 5vw 0 5vw 7vw;">
+            <div class="productBackground">
+              <a class="product-link" href="{% url 'product_page' product_card.product.slug product_card.slug %}">
+                <div>
+                  {% for img in product_card.get_two_first_images %}
+                    {% thumbnail img.image "322x450" crop="center" as im %}
+                      <img src="{{ im.url }}" alt="{{ img.description }}"
+                        width="322" height="450"
+                        class="productImg"
+                        loading="lazy" />
+                    {% endthumbnail %}
+                  {% endfor %}
+                </div>
+              </a>
+            </div>
+            <a href="{% url 'product_page' product_card.product.slug product_card.slug %}"
+              style="text-align: left; font-size: 16px; text-decoration: none;">
+              <div class="info">
+                <div class="productName">
+                  <h1 class="big"><div>{{ product_card.product.name }}</div></h1>
+                </div>
+                  <div class="buy-price price">
+                    {% if product_card.old_price is not none %}
+                      <span class="old_price">{{ product_card.old_price }} {% trans "Р" %}<br></span>
+                    {% endif %}
+                    <span class="new_price">{{ product_card.price }} {% trans "Р" %}</span>
+                  </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
 
     {% endblock content %}
 
