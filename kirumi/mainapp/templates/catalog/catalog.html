@@ -1,11 +1,17 @@
 
 {% extends 'homepage.html' %}
 
+{% block style %}
+    span.new{
+    display: none;
+  }
+{% endblock style %}
+
 {% block intro %}
 {% endblock intro %}
 
 {% block content %}
-  {% include 'new/new_products_wrapper.html' %}
+  {% include 'product/products_wrapper.html' %}
 {% endblock content %}
 
 {% block prefooter %}

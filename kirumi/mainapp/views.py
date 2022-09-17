@@ -136,8 +136,9 @@ class CatalogView(CartMixin, NewProductsMixin):
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
-                'Title': "Новинки аниме-одежды Kirumi",
+                'Title': "Каталог аниме-одежды Kirumi",
             },
+            'cart': self.cart,
             'new_products': self.new_products,
         }
         return render(request, 'catalog/catalog.html', context=context)

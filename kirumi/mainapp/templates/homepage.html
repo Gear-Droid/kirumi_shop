@@ -31,9 +31,6 @@
     <!-- Navbar CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
   <!--===============================================================================================-->
-    <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
-  <!--===============================================================================================-->
 
   <title>{{ meta.Title }}</title>
   <meta name="keywords" content="{{ meta.keywords }}">
@@ -45,6 +42,10 @@
       <!-- Product Card CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
     <!--===============================================================================================-->
+      <!-- Homepage CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+    <!--===============================================================================================-->
+  
 
   {% endblock header %}
 
@@ -123,7 +124,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">{% trans "Каталог" %}</a>
+            <a class="nav-link" href="{% url 'catalog' %}">{% trans "Каталог" %}</a>
           </li>
         </ul>
 
@@ -240,7 +241,7 @@
                 <div style="display: flex; flex-direction: row; height: 360px; align-items: center; justify-content: space-around;">
                   <p class="banner-header" style="">{{ banner.header }}</p>
                   <div style="display: flex; flex-direction: row;">
-                    <a class="text-decoration-none" href="{{ banner.link }}">
+                    <a class="text-decoration-none more-button" href="{{ banner.link }}">
                       <p style="font-size: 26px; background: #f6f6f6; padding: 5px;">ПОДРОБНЕЕ
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
                           <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -250,6 +251,13 @@
                   </div>
                 </div>
               </div>
+                <a class="text-decoration-none more-button-visible" style="display:none; color: #343434;" href="{{ banner.link }}">
+                  <p style="padding: 5px; font-size: 26px; background: #f6f6f6;">ПОДРОБНЕЕ
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6;">
+                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                  </p>
+                </a>
             </div>
           {% endfor %}
         </div>
