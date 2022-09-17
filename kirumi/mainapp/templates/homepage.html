@@ -291,7 +291,7 @@
 
         <div class="fade-in card first-card">
           <div class="productBackground">
-            <a class="product-link" href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}">
+            <a class="product-link" {% if new_products.0.product.slug and new_products.0.slug %} href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}" {% endif %}>
               <div>
                 {% for img in new_products.0.get_two_first_images %}
                   {% thumbnail img.image "322x450" crop="center" as im %}
@@ -304,7 +304,7 @@
               </div>
             </a>
           </div>
-          <a href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}"
+          <a {% if new_products.0.product.slug and new_products.0.slug %} href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}" {% endif %}
             style="text-align: left; font-size: 16px; text-decoration: none;">
             <div class="info">
               <div class="productName">
@@ -324,7 +324,7 @@
           <div class="col-3">
             <div class="fade-in card second-card">
               <div class="productBackground">
-                <a class="product-link" href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}">
+                <a class="product-link" {% if new_products.1.product.slug and new_products.1.slug %} href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}" {% endif %}>
                   <div>
                     {% for img in new_products.1.get_two_first_images %}
                       {% thumbnail img.image "322x450" crop="center" as im %}
@@ -337,7 +337,7 @@
                   </div>
                 </a>
               </div>
-              <a href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}"
+              <a {% if new_products.1.product.slug and new_products.1.slug %} href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}" {% endif %}
                 style="text-align: left; font-size: 16px; text-decoration: none;">
                 <div class="info">
                   <div class="productName">
@@ -357,7 +357,7 @@
           <div class="col-5">
             <div class="fade-in third-card">
               <div class="productBackground">
-                <a class="product-link" href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}">
+                <a class="product-link" {% if new_products.2.product.slug and new_products.2.slug %} href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}" {% endif %}>
                   <div>
                     {% for img in new_products.2.get_two_first_images %}
                       {% thumbnail img.image "500x700" crop="center" as im %}
@@ -369,7 +369,7 @@
                   </div>
                 </a>
               </div>
-              <a href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}"
+              <a {% if new_products.2.product.slug and new_products.2.slug %} href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}" {% endif %}
                 style="text-align: left; font-size: 16px; text-decoration: none;">
                 <div class="info">
                   <div class="productName">
@@ -390,7 +390,7 @@
         <div class="product-cards-container container mt-5" style="justify-content: space-between;">
           <div class="fade-in card fourth-card">
             <div class="productBackground">
-              <a class="product-link" href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}">
+              <a class="product-link" {% if new_products.3.product.slug and new_products.3.slug %} href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}" {% endif %}>
                 <div>
                   {% for img in new_products.3.get_two_first_images %}
                     {% thumbnail img.image "322x450" crop="center" as im %}
@@ -403,7 +403,7 @@
                 </div>
               </a>
             </div>
-            <a href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}"
+            <a {% if new_products.3.product.slug and new_products.3.slug %} href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}" {% endif %}
               style="text-align: left; font-size: 16px; text-decoration: none;">
               <div class="info">
                 <div class="productName">
@@ -421,7 +421,7 @@
 
           <div class="fade-in card fifth-card">
             <div class="productBackground">
-              <a class="product-link" href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}">
+              <a class="product-link" {% if new_products.4.product.slug and new_products.4.slug %} href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}" {% endif %}>
                 <div>
                   {% for img in new_products.4.get_two_first_images %}
                     {% thumbnail img.image "322x450" crop="center" as im %}
@@ -434,7 +434,7 @@
                 </div>
               </a>
             </div>
-            <a href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}"
+            <a {% if new_products.4.product.slug and new_products.4.slug %} href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}" {% endif %}
               style="text-align: left; font-size: 16px; text-decoration: none;">
               <div class="info">
                 <div class="productName">
@@ -452,7 +452,7 @@
 
           <div class="fade-in card sixth-card">
             <div class="productBackground">
-              <a class="product-link" href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}">
+              <a class="product-link" {% if new_products.5.product.slug and new_products.5.slug %} href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}" {% endif %}>
                 <div>
                   {% for img in new_products.5.get_two_first_images %}
                     {% thumbnail img.image "322x450" crop="center" as im %}
@@ -465,7 +465,7 @@
                 </div>
               </a>
             </div>
-            <a href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}"
+            <a {% if new_products.5.product.slug and new_products.5.slug %} href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}" {% endif %}
               style="text-align: left; font-size: 16px; text-decoration: none;">
               <div class="info">
                 <div class="productName">
