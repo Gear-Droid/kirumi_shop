@@ -20,3 +20,8 @@ class ProductTranslationOptions(TranslationOptions):
 @register(ColoredProduct)
 class ProductTranslationOptions(TranslationOptions):
     fields = ('name', )
+
+
+@register(ProductVariation)
+class ProductTranslationOptions(TranslationOptions):
+    fields = ('name', 'description', )

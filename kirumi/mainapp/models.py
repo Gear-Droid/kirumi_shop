@@ -122,6 +122,21 @@ class Product(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel):
         return self.name
 
 
+class ProductVariation(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
+
+    class Meta:
+        verbose_name = 'Вариация товара'
+        verbose_name_plural = 'Вариации товара'
+
+    name = models.CharField(max_length=256, verbose_name='Наименование вариации', )
+    description = models.TextField(
+        max_length=512, verbose_name='Описание вариации товара', null=True, blank=True
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
 
     class Meta:
@@ -136,6 +151,10 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
         related_name='colors',
     )
     name = models.CharField(max_length=64, verbose_name='Название цвета', )
+    variation = models.ForeignKey(
+        ProductVariation, verbose_name='Вариация', on_delete=models.CASCADE,
+        related_name='variations', null=True, blank=True
+    )
     color_hex_code = models.CharField(max_length=6, verbose_name='Hex code цвета товара (после #)', )
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Актуальная цена', )
     old_price = models.DecimalField(

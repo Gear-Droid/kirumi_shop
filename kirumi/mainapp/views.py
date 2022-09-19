@@ -50,12 +50,23 @@ class ProductView(CartMixin):
         if colored_product is None:
             return HttpResponseRedirect(reverse('homepage'))
 
+        self.new_products = ColoredProduct.objects.select_related('product')  \
+            .prefetch_related('images').prefetch_related('product__sizes').filter(
+                Q(is_active=True) & Q(product__is_active=True) & \
+                Q(product__collection__is_active=True) & \
+                Q(images__is_active=True) & Q(color_hex_code=colored_product.color_hex_code)
+            ).distinct().order_by('-pub_date', '-sort_order').defer(
+                'id', 'is_active', 'sort_order', 'product_id',
+                'product__is_active', 'product__pub_date',
+            )
+
         context = {
             'meta':{
                 'Title': str(colored_product),
                 'keywords': colored_product.product.description,
                 'page_description': colored_product.product.description,
             },
+            'new_products': self.new_products,
             'cart': self.cart,
             'images': colored_product.images.filter(is_active=True),
             'colored_product': colored_product,

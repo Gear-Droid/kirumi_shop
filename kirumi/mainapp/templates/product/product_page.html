@@ -2,6 +2,7 @@
 
 {% load product_filters %}
 {% load thumbnail %}
+{% load i18n %}
 {% load static %}
 
 {% block header %}
@@ -141,11 +142,11 @@
                 <h3 class="title">Другие цвета товара</h3>
                 <div class="colors">
 
-                  {% for color in colored_product.product.colors.all|is_active %}
+                  {% for color in colored_product.product.colors.all|is_active|distinct_colors %}
 
                     <a class="colored-product-link" style="color: #{{ color.color_hex_code }};"
                       href="{% url 'product_page' color.product.slug color.slug %}">
-                      <span class="color {% if color == colored_product %}active{% endif %}"
+                      <span class="color {% if color.color_hex_code == colored_product.color_hex_code %}active{% endif %}"
                         primary="#{{ color.color_hex_code }}" color="{{ color.name }}"
                         style="{% if color == product_color %}border-color: #{{ color.color_hex_code }};{% endif %}
                         background: #{{ color.color_hex_code }};"></span>
@@ -161,7 +162,7 @@
               method="post" style="text-align: center;">
               {% csrf_token %}
 
-              <h3 class="title mt-2">Размер</h3>
+              <h3 class="title mt-2">Выберите размер</h3>
               <div class="mb-4 pr-3 content">
                 <div class="btn-group btn-group-lg" style="" role="group" aria-label="Basic radio toggle button group">
                   {% for size in colored_product.product.sizes.all|is_active %}
@@ -175,11 +176,78 @@
               <div class="buttons d-flex flex-row mt-5">
                 <button type="submit" class="btn btn-dark">Добавить в корзину</button>
               </div>
-
             </form>
           </div>
         </div>
       </div>
+
+      <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
+        <div class="row" style="margin: 0px 15px; min-width: 240px;">
+          <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+            type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Другие вариации
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="variations collapse" id="collapseExample">
+          <div class="container variations-container p-1">
+
+            {% for product_color in new_products %}
+              <div class="fade-in card">
+                <div class="productBackground">
+                  <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
+                    {% for img in product_color.get_two_first_images %}
+                      {% thumbnail img.image "142x200" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ img.description }}"
+                          width="142" height="200"
+                          class="productImg"
+                          loading="lazy" />
+                      {% endthumbnail %}
+                    {% endfor %}
+                  </a>
+                </div>
+                <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"
+                  style="text-align: left; font-size: 16px; text-decoration: none;">
+                  <div class="info">
+                    <div class="productName">
+                      <h1 class="big"><div>{{ product_color.variation.name }}</div></h1>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
+        <div class="row" style="margin: 0px 15px; min-width: 240px;">
+          <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+            type="button" data-bs-toggle="collapse" data-bs-target="#variationDetails"
+            aria-expanded="false" aria-controls="variationDetails">
+            Характеристики
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="variations collapse" id="variationDetails">
+          <div class="container p-5">
+            {{ colored_product.variation.description }}
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 

@@ -161,10 +161,11 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
         ('name_ru', 'name_en', 'color_hex_code', 'get_color', 'is_active'),
         ('price', 'old_price'),
         ('sort_order', 'pub_date', 'slug'),
+        'variation',
     )
     list_display = (
         'sort_order', 'pub_date', 'slug',
-        'name_ru', 'name_en', 'color_hex_code', 'price',
+        'name_ru', 'name_en', 'variation', 'color_hex_code', 'price',
         'old_price', 'is_active',
     )
     list_filter = ('is_active', 'pub_date', )
@@ -187,8 +188,11 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
             ProductImage.objects.get_or_create(
                 product_color=obj, image=afile,
                 description="{}-{}-{}".format(
-                    product_slug, product_color_slug, curr_max_sort_order_plus1),
+                    product_slug, product_color_slug, curr_max_sort_order_plus1
+                ),
                 sort_order=curr_max_sort_order_plus1)
+
+        super().save_model(request, obj, form, change)
 
 
 class ColoredProductInline(admin.TabularInline, GetCurrentColor):
@@ -232,6 +236,21 @@ class ColoredProductInline(admin.TabularInline, GetCurrentColor):
             return ' - '
 
     edit_link.short_description = "Ссылка для изменения"
+
+
+class ProductVariationAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin):
+
+    class Meta:
+        model = ProductVariation
+
+    fields = (
+        ('name_ru', 'name_en', 'is_active'),
+        ('description_ru', 'description_en'),
+        ('sort_order', 'pub_date', 'slug'),
+    )
+    list_display = ('sort_order', 'pub_date', 'slug', 'name_ru', 'name_en', 'is_active', )
+    list_filter = ('is_active', 'pub_date', )
+    readonly_fields = ('pub_date', )
 
 
 class ProductAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin):
@@ -296,3 +315,4 @@ admin.site.register(Promocode, PromocodeAdmin)
 admin.site.register(Cart)
 admin.site.register(CartProduct, CartProductAdmin)
 admin.site.register(Order)
+admin.site.register(ProductVariation, ProductVariationAdmin)
