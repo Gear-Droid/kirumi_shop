@@ -207,7 +207,7 @@ class ColoredProductInline(admin.TabularInline, GetCurrentColor):
 
     fields = (
         'sort_order', 'pub_date',
-        'name_ru', 'name_en', 'color_hex_code', 'get_color',
+        'name_ru', 'name_en', 'variation', 'color_hex_code', 'get_color',
         'price', 'old_price', 'get_first_image', 'get_second_image',
         'edit_link', 'slug', 'is_active',
     )
