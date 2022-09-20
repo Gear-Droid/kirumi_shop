@@ -2,8 +2,12 @@
 {% extends 'homepage.html' %}
 
 {% block style %}
-    span.new{
+  span.new{
     display: none;
+  }
+  .product-cards-container.container{
+    margin: auto;
+    padding: 0px;
   }
 {% endblock style %}
 
@@ -11,7 +15,72 @@
 {% endblock intro %}
 
 {% block content %}
-  {% include 'product/products_wrapper.html' %}
+  <div class="d-flex p-1">
+    <div class="mx-3 col-md-9 mb-3">
+      <div class="container">
+
+        <ul class="d-flex justify-content-center list-inline m-0">
+          {% for collection in collections %}
+            <li class="nav-item" style="text-align: center; width: min-content;"><a class="nav-link" href="{% url 'catalog' %}">{{ collection }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dropdown d-flex justify-content-center">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"
+          style="
+            background: transparent;
+            color: #343434;
+            border-radius: 0px;">
+          Сортировать по
+        </a>
+        <ul class="dropdown-menu" style="display: block!important;" aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex m-0">
+    <div class="col-md-3">
+
+      <div class="container p-3">
+        <div class="d-flex justify-content-space-around my-3">
+          <div class="col">
+            <div class="input-group w-75 m-auto">
+              <div class="input-group-prepend">
+                <label for="customRange2" class="form-label">Минимальная цена</label>
+              </div>
+              <input type="text" class="form-control" name="input_text1" id="input_text1" max="20000" value="1000" onchange="customRange2.value = input_text1.value"/>
+              <input type="range" oninput="input_text1.value = customRange2.value" class="form-control-range form-range slider" type="range" min="100" max="20000" value="1000" id="customRange2" step="100" onchange="input_text1.value = customRange2.value" >
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="input-group w-75 m-auto">
+              <div class="input-group-prepend">
+                <label for="customRange3" class="form-label">Максимальная цена</label>
+              </div>
+              <input type="text" class="form-control w-100" name="input_text2" id="input_text2" max="20000" value="1000" onchange="customRange3.value = input_text2.value"/>
+              <input type="range" oninput="input_text2.value = customRange3.value" class="form-control-range form-range slider" type="range" min="100" max="20000" value="1000" id="customRange3" step="100" onchange="input_text2.value = customRange3.value" >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="buttons my-3">
+            <button type="submit" class="btn btn-dark w-100">Применить</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-md-9 m-0 p-0">
+      {% include 'product/products_wrapper.html' %}
+    </div>
+  </div>
 {% endblock content %}
 
 {% block prefooter %}

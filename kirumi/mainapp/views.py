@@ -9,25 +9,29 @@ from .models import (
     Banner,
     ColoredProduct,
     CartProduct,
+    Collection
 )
 from .mixins import (
     CartMixin,
     CartProductMixin,
     NewProductsMixin,
+    CollectionsMixin,
 )
 
+class BasePageView(CartMixin, CollectionsMixin):
+    pass
 
-class HomePageView(CartMixin, NewProductsMixin):
+
+class HomePageView(BasePageView, NewProductsMixin):
 
     def get(self, request, *args, **kwargs):
-        # collections = Collection.objects.filter(is_active=True).order_by('-sort_order')
         self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
 
         context = {
             'meta':{
                 'Title': "Онлайн-магазин аниме-одежды Kirumi",
             },
-            # 'collections': collections,
+            'collections': self.collections,
             'cart': self.cart,
             'new_products': self.new_products,
             'banners': self.banners,
@@ -35,7 +39,7 @@ class HomePageView(CartMixin, NewProductsMixin):
         return render(request, 'homepage.html', context=context)
 
 
-class ProductView(CartMixin):
+class ProductView(BasePageView):
 
     def get(self, request, *args, **kwargs):
 
@@ -67,6 +71,7 @@ class ProductView(CartMixin):
                 'page_description': colored_product.product.description,
             },
             'new_products': self.new_products,
+            'collections': self.collections,
             'cart': self.cart,
             'images': colored_product.images.filter(is_active=True),
             'colored_product': colored_product,
@@ -116,7 +121,7 @@ class ProductView(CartMixin):
         return HttpResponseRedirect(reverse('product_page', args=(product_slug, color_slug, )))
 
 
-class AboutBrandView(CartMixin):
+class AboutBrandView(BasePageView):
 
     def get(self, request, *args, **kwargs):
 
@@ -124,38 +129,43 @@ class AboutBrandView(CartMixin):
             'meta':{
                 'Title': "О бренде Kirumi",
             },
+            'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'about_brand/about_brand.html', context=context)
 
 
-class NewProductsView(CartMixin, NewProductsMixin):
+class NewProductsView(BasePageView, NewProductsMixin):
 
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Новинки аниме-одежды Kirumi",
             },
+            'collections': self.collections,
             'cart': self.cart,
             'new_products': self.new_products,
         }
         return render(request, 'new/new.html', context=context)
 
 
-class CatalogView(CartMixin, NewProductsMixin):
+class CatalogView(BasePageView, NewProductsMixin):
 
     def get(self, request, *args, **kwargs):
+
+
         context = {
             'meta':{
                 'Title': "Каталог аниме-одежды Kirumi",
             },
+            'collections': self.collections,
             'cart': self.cart,
             'new_products': self.new_products,
         }
         return render(request, 'catalog/catalog.html', context=context)
 
 
-class CartView(CartMixin, CartProductMixin):
+class CartView(BasePageView, CartProductMixin):
 
     def get(self, request, *args, **kwargs):
 
@@ -163,6 +173,7 @@ class CartView(CartMixin, CartProductMixin):
             'meta':{
                 'Title': "Ваша корзина покупок Kirumi",
             },
+            'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
         }
@@ -213,7 +224,7 @@ class ChangeCartProductQtyView(CartMixin, CartProductMixin):
         return HttpResponseRedirect(reverse('cart'))
 
 
-class CheckoutView(CartMixin, CartProductMixin):
+class CheckoutView(CartProductMixin, BasePageView):
 
     def get(self, request, *args, **kwargs):
         if self.products_in_cart.count() == 0:
@@ -227,13 +238,14 @@ class CheckoutView(CartMixin, CartProductMixin):
             'meta':{
                 'Title': "Детали заказа",
             },
+            'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
         }
         return render(request, 'cart/checkout/checkout.html', context=context)
 
 
-class DeliveryWidgetView(CartMixin, CartProductMixin):
+class DeliveryWidgetView(CartProductMixin, BasePageView):
 
     def get(self, request, *args, **kwargs):
         select_series = request.GET.getlist('select_series', [])
@@ -252,7 +264,7 @@ class DeliveryWidgetView(CartMixin, CartProductMixin):
         return HttpResponse(html)
 
 
-class PaymentView(CartMixin, CartProductMixin):
+class PaymentView(CartProductMixin, BasePageView):
 
     def post(self, request, *args, **kwargs):
         chosenPost = request.POST.get('chosenPost')     # номер поста
@@ -281,67 +293,73 @@ class PaymentView(CartMixin, CartProductMixin):
                 'pricePost': pricePost,
                 'timePost': timePost,
             },
+            'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
         }
         return render(request, 'cart/checkout/payment/payment.html', context=context)
 
 
-class TermsOfUseView(CartMixin, CartProductMixin):
+class TermsOfUseView(CartProductMixin, BasePageView):
 
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Пользовательское соглашение",
             },
+            'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'terms_of_use/terms_of_use.html', context=context)
 
 
-class PublicOfferView(CartMixin, CartProductMixin):
+class PublicOfferView(CartProductMixin, BasePageView):
 
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Публичная офферта",
             },
+            'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'public_offer/public_offer.html', context=context)
 
 
-class ContactsView(CartMixin, CartProductMixin):
+class ContactsView(CartProductMixin, BasePageView):
 
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Контакты",
             },
+            'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'contacts/contacts.html', context=context)
 
 
-class PrivacyPolicyView(CartMixin):
+class PrivacyPolicyView(BasePageView):
 
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Политика конфиденциальности",
             },
+            'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'privacy_policy/privacy_policy.html', context=context)
 
 
-class DeliveryAndPaymentView(CartMixin):
+class DeliveryAndPaymentView(BasePageView):
 
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Доставка и оплата",
             },
+            'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'delivery_and_payment/delivery_and_payment.html', context=context)

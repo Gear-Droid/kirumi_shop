@@ -6,6 +6,7 @@ from .models import (
     Cart,
     CartProduct,
     ColoredProduct,
+    Collection,
 )
 
 
@@ -53,4 +54,11 @@ class NewProductsMixin(View):
                 'id', 'is_active', 'sort_order', 'product_id',
                 'product__is_active', 'product__pub_date',
             )[:6]
+        return super().dispatch(request, *args, **kwargs)
+
+
+class CollectionsMixin(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.collections = Collection.objects.filter(is_active=True).order_by('-sort_order')
         return super().dispatch(request, *args, **kwargs)

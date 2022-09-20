@@ -172,78 +172,151 @@
                 </div>
               </div>
 
+              <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
+                <div class="row" style="margin: 0px 15px; min-width: 240px;">
+                  <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#sizesTable"
+                    aria-expanded="false" aria-controls="sizesTable">
+                    Таблица размеров
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="sizes-table-container collapse" id="sizesTable">
+                  <div class="container">
+
+                    <div class="table-content">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>S</th>
+                            <th>M</th>
+                            <th>L</th>
+                            <th>XL</th>
+                            <th>+/-</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Длина по спине</td>
+                            <td>62,9</td>
+                            <td>64,5</td>
+                            <td>66,1</td>
+                            <td>68,2</td>
+                            <td>1 см</td>
+                          </tr>
+                          <tr>
+                            <td>Ширина по груди</td>
+                            <td>57</td>
+                            <td>59</td>
+                            <td>61</td>
+                            <td>63</td>
+                            <td>1,0</td>
+                          </tr>
+                          <tr>
+                            <td>Длина рукава</td>
+                            <td>56</td>
+                            <td>57</td>
+                            <td>58</td>
+                            <td>59</td>
+                            <td>1,0</td>
+                          </tr>
+                          <tr>
+                            <td>Длина плеча</td>
+                            <td>23</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>24,5</td>
+                            <td>0,5</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
               <input type="hidden" name="add_to_cart" />
               <div class="buttons d-flex flex-row mt-5">
                 <button type="submit" class="btn btn-dark">Добавить в корзину</button>
               </div>
             </form>
-          </div>
-        </div>
-      </div>
 
-      <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
-        <div class="row" style="margin: 0px 15px; min-width: 240px;">
-          <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
-            type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample">
-            Другие вариации
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-            </svg>
-          </button>
-        </div>
-        <div class="variations collapse" id="collapseExample">
-          <div class="container variations-container p-1">
-
-            {% for product_color in new_products %}
-              <div class="fade-in card">
-                <div class="productBackground">
-                  <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
-                    {% for img in product_color.get_two_first_images %}
-                      {% thumbnail img.image "142x200" crop="center" as im %}
-                        <img src="{{ im.url }}" alt="{{ img.description }}"
-                          width="142" height="200"
-                          class="productImg"
-                          loading="lazy" />
-                      {% endthumbnail %}
-                    {% endfor %}
-                  </a>
+            <div class="col">
+              <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
+                <div class="row" style="margin: 0px 15px; min-width: 240px;">
+                  <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    Другие вариации
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                    </svg>
+                  </button>
                 </div>
-                <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"
-                  style="text-align: left; font-size: 16px; text-decoration: none;">
-                  <div class="info">
-                    <div class="productName">
-                      <h1 class="big"><div>{{ product_color.variation.name }}</div></h1>
-                    </div>
+                <div class="variations collapse" id="collapseExample">
+                  <div class="container variations-container p-1">
+
+                    {% for product_color in new_products %}
+                      <div class="fade-in card">
+                        <div class="productBackground">
+                          <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
+                            {% for img in product_color.get_two_first_images %}
+                              {% thumbnail img.image "142x200" crop="center" as im %}
+                                <img src="{{ im.url }}" alt="{{ img.description }}"
+                                  width="142" height="200"
+                                  class="productImg"
+                                  loading="lazy" />
+                              {% endthumbnail %}
+                            {% endfor %}
+                          </a>
+                        </div>
+                        <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"
+                          style="text-align: left; font-size: 16px; text-decoration: none;">
+                          <div class="info">
+                            <div class="productName">
+                              <h1 class="big"><div>{{ product_color.variation.name }}</div></h1>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    {% endfor %}
+
                   </div>
-                </a>
+                </div>
               </div>
-            {% endfor %}
 
-          </div>
-        </div>
-      </div>
+              <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
+                <div class="row" style="margin: 0px 15px; min-width: 240px;">
+                  <button class="btn w-100" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#variationDetails"
+                    aria-expanded="true" aria-controls="variationDetails">
+                    Характеристики
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="variations collapse show" id="variationDetails">
+                  <div class="container p-5">
+                    {{ colored_product.variation.description }}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
-        <div class="row" style="margin: 0px 15px; min-width: 240px;">
-          <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
-            type="button" data-bs-toggle="collapse" data-bs-target="#variationDetails"
-            aria-expanded="false" aria-controls="variationDetails">
-            Характеристики
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-            </svg>
-          </button>
-        </div>
-        <div class="variations collapse" id="variationDetails">
-          <div class="container p-5">
-            {{ colored_product.variation.description }}
           </div>
         </div>
       </div>

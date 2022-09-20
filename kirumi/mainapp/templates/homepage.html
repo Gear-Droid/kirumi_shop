@@ -12,7 +12,7 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}"/> -->
   <!-- <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}"> -->
@@ -96,7 +96,14 @@
   <nav class="navbar navbar-expand-lg fixed-top" aria-label="navbar">
     <div class="container-fluid d-flex">
 
-      <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 30px;">KIRUMI</a>
+      <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 30px;">
+        <!-- SVG place -->
+        <img class=""
+          src="{% static "images/new_logo_black_wear_2.svg" %}"
+          alt="Kirumi logo"
+          width="100px"
+          loading="lazy" />
+      </a>
 
       <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:30px;">
         <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
@@ -112,10 +119,6 @@
 
         <ul class="navbar-nav" style="">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'homepage' %}">{% trans "Магазин" %}</a>
-          </li>
-
-          <li class="nav-item">
             <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
           </li>
 
@@ -123,19 +126,31 @@
             <a class="nav-link" href="{% url 'new_products' %}">{% trans "Новинки" %}</a>
           </li>
 
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="{% url 'catalog' %}">{% trans "Каталог" %}</a>
+          </li> {% endcomment %}
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Каталог" %}</a>
+            <ul class="dropdown-menu sticky pb-3" aria-labelledby="navbarDarkDropdownCatalogMenuLink"
+              style="
+                width: 100vw;
+                position: fixed;
+                padding: 0;
+                top: 70px;
+                border: 0;
+                background: #f6f6f6;
+                z-index: 1001;
+              ">
+              {% for collection in collections %}
+                <li class="nav-item" style="text-align:center; width: min-content;"><a class="dropdown-item nav-link" href="{% url 'catalog' %}">{{ collection }}</a></li>
+              {% endfor %}
+            </ul>
           </li>
+
         </ul>
 
         <ul class="navbar-nav d-flex justify-content-start align-content-start" style="margin-left: 0; width: 100%;">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'contacts' %}">{% trans "Контакты" %}</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'delivery_and_payment' %}">{% trans "Доставка и оплата" %}</a>
-          </li>
 
           <li class="nav-item ms-auto">
             <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #343434;">
@@ -202,11 +217,11 @@
 
 
   {% for message in messages %}
-    <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show my-0" role="alert">
+    <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show" role="alert">
       <strong>{{ message }}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
     </div>
   {% endfor %}
 
@@ -587,6 +602,11 @@
 
   <!-- Bootstrap Bundle with Popper -->
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap.min.js with jquery -->
+    <script src="{% static 'js/bootstrap/jquery-3.2.1.slim.min.js' %}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
   <!-- HTMX -->
     <script src="{% static 'js/htmx.min.js' %}" defer></script>
 
