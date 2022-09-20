@@ -164,7 +164,7 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
         'variation',
     )
     list_display = (
-        'sort_order', 'pub_date', 'slug',
+        'sort_order', 'pub_date', 'product', 'slug',
         'name_ru', 'name_en', 'variation', 'color_hex_code', 'price',
         'old_price', 'is_active',
     )
