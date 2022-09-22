@@ -4,11 +4,17 @@
 {% load i18n %}
 
 <div class="product-cards-container container">
-  {% for product_color in new_products %}
+  {% for product_color in colored_products %}
 
     <div class="fade-in card">
       <div class="productBackground">
         <span class="new">{% trans "Новинка" %}</span>
+        {% with discount=product_color|get_discount %}
+          {% if discount > 0 %}
+            <span class="discount">-{{ discount }} %</span>
+          {% endif %}
+        {% endwith %}
+
         <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
           {% for img in product_color.get_two_first_images %}
             {% thumbnail img.image "322x450" crop="center" as im %}
@@ -30,9 +36,9 @@
 
             <div class="buy-price price">
               {% if product_color.old_price is not none %}
-                <span class="old_price">{{ product_color.old_price }} {% trans "Р" %}<br></span>
+                <span class="old_price">{{ product_color.old_price.normalize }} {% trans "₽" %}<br></span>
               {% endif %}
-              <span class="new_price">{{ product_color.price }} {% trans "Р" %}</span>
+              <span class="new_price">{{ product_color.price.normalize }} {% trans "₽" %}</span>
             </div>
         </div>
       </a>

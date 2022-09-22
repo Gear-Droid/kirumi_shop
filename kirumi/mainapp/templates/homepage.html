@@ -37,20 +37,16 @@
   <meta name="description" content="{{ meta.page_description }}">
 
   {% block header %}
-
     <!--===============================================================================================-->
       <!-- Product Card CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
     <!--===============================================================================================-->
       <!-- Homepage CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
-    <!--===============================================================================================-->
-  
-
+    <!--===============================================================================================-->  
   {% endblock header %}
 
   <style>
-
     @font-face{
       font-family: "MyEngFont";
       src: url('{% static 'fonts/Inter-Regular.otf' %}') format('truetype');
@@ -70,9 +66,7 @@
     }
     {% block style %}
     {% endblock style %}
-
-  </style>
-  
+  </style>  
 </head>
 
 <body>
@@ -116,8 +110,11 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarContent">
-
         <ul class="navbar-nav" style="">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'homepage' %}">{% trans "Главная" %}</a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
           </li>
@@ -126,91 +123,92 @@
             <a class="nav-link" href="{% url 'new_products' %}">{% trans "Новинки" %}</a>
           </li>
 
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="{% url 'catalog' %}">{% trans "Каталог" %}</a>
-          </li> {% endcomment %}
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Каталог" %}</a>
-            <ul class="dropdown-menu sticky pb-3" aria-labelledby="navbarDarkDropdownCatalogMenuLink"
-              style="
-                width: 100vw;
-                position: fixed;
-                padding: 0;
-                top: 70px;
-                border: 0;
-                background: #f6f6f6;
-                z-index: 1001;
-              ">
+          <li class="nav-item dropdown" id="navbarDarkDropdownCatalogMenu">
+            <a class="nav-link desktop" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink">
+              {% trans "Каталог" %}
+            </a>
+            <a class="nav-link dropdown-toggle mobile" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink"
+              style="display:none;"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Каталог" %}
+            </a>
+            <ul class="hide dropdown-menu dropdown-menu-dark" style="
+              padding: 30px 20px;
+              width: 100vw;
+              display: flex;
+              background: #f6f6f6;
+              border: 0;
+              display: none;
+              justify-content: center;
+              list-style: none;
+              position: fixed;
+              left: 0;
+              top: 70px;
+              z-index: 101;
+            ">
               {% for collection in collections %}
-                <li class="nav-item" style="text-align:center; width: min-content;"><a class="dropdown-item nav-link" href="{% url 'catalog' %}">{{ collection }}</a></li>
+                <li class="nav-item" style="text-align:center; width:min-content;">
+                  <a class="dropdown-item nav-link" style="color: grey;" href="{% url 'catalog' collection.slug %}">{{ collection }}</a>
+                </li>
               {% endfor %}
             </ul>
           </li>
-
         </ul>
 
         <ul class="navbar-nav d-flex justify-content-start align-content-start" style="margin-left: 0; width: 100%;">
-
           <li class="nav-item ms-auto">
             <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #343434;">
-              {% comment %} <svg xmlns="{% static 'images/cart.svg' %}" width="30" height="30" fill="currentColor" class="bi bi-cart" viewBox="0 0 20 20">
-                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg> {% endcomment %}
               {% trans "Корзина" %}: <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
             </a>
           </li>
           {% comment %} 
-          <li class="nav-item dropdown languageSwitcher">
-            <a class="nav-link dropdown-toggle" href="#" id="languageSelector" data-bs-toggle="dropdown" aria-expanded="false">
-              {% if LANGUAGE_CODE == 'ru' %}  
-                <img class="ru_flag" src="{% static "images/Flag_of_Russia.svg" %}"
-                  alt="Russian flag" width="25px" height="15px" />
-              {% else %}
-                <img class="uk_flag" src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
-                  alt="UK flag" width="25px" height="15px" />
-              {% endif %}
-            </a>
+            <li class="nav-item dropdown languageSwitcher">
+              <a class="nav-link dropdown-toggle" href="#" id="languageSelector" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if LANGUAGE_CODE == 'ru' %}  
+                  <img class="ru_flag" src="{% static "images/Flag_of_Russia.svg" %}"
+                    alt="Russian flag" width="25px" height="15px" />
+                {% else %}
+                  <img class="uk_flag" src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
+                    alt="UK flag" width="25px" height="15px" />
+                {% endif %}
+              </a>
 
-            <ul class="dropdown-menu language-dropdown" aria-labelledby="languageSelector">
-              <li>
-                <form action="{% url 'set_language' %}" method="post">
-                  {% csrf_token %}
-                  <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-                  <input name="language" type="hidden" value="RU" />
-                  <div class="locale-container">
-                    <img class="ru_flag"
-                      src="{% static "images/Flag_of_Russia.svg" %}"
-                      alt="Russian flag" width="25px" height="15px" />
-                    <input class="dropdown-item" type="submit" value="RU">
-                  </div>
-                </form>
-              </li>
-              <li>
-                <form action="{% url 'set_language' %}" method="post">
-                  {% csrf_token %}
-                  <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-                  <input name="language" type="hidden" value="EN" />
-                  <div class="locale-container">
-                    <img class="uk_flag"
-                      src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
-                      alt="UK flag" width="25px" height="15px" />
-                    <input class="dropdown-item" type="submit" value="EN">
-                  </div>
-                </form>
-              </li>
-            </ul>
-          </li>
+              <ul class="dropdown-menu language-dropdown" aria-labelledby="languageSelector">
+                <li>
+                  <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                    <input name="language" type="hidden" value="RU" />
+                    <div class="locale-container">
+                      <img class="ru_flag"
+                        src="{% static "images/Flag_of_Russia.svg" %}"
+                        alt="Russian flag" width="25px" height="15px" />
+                      <input class="dropdown-item" type="submit" value="RU">
+                    </div>
+                  </form>
+                </li>
+                <li>
+                  <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                    <input name="language" type="hidden" value="EN" />
+                    <div class="locale-container">
+                      <img class="uk_flag"
+                        src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
+                        alt="UK flag" width="25px" height="15px" />
+                      <input class="dropdown-item" type="submit" value="EN">
+                    </div>
+                  </form>
+                </li>
+              </ul>
+            </li>
           {% endcomment %}
-
         </ul>
+
         <!-- <form>
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
         </form> -->
-
       </div>
       <!-- /.collapse -->
-
     </div>
   </nav>
   <div class="nav-box"></div>
@@ -231,25 +229,21 @@
 
   <!-- Page Content -->
   <div class="main-content">
-
     {% block content %}
-
       <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-
         <div class="carousel-indicators">
           {% for banner in banners %}
             <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
           {% endfor %}
         </div>
-
         <div class="carousel-inner">
           {% for banner in banners %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3500">
-              {% thumbnail banner.image "429x600" crop="center" as im %}
-                <img src="{{ im.url }}" alt="{{ img.description }}"
-                class="d-block" alt=""
-                height="600"
-                loading="lazy" />
+              {% thumbnail banner.image "428x600" crop="center" as im %}
+                <img src="{{ im.url }}" alt="{{ banner.description }}"
+                  class="d-block"
+                  height="600"
+                  loading="lazy" />
               {% endthumbnail %}
               <div class="overlay carousel-caption d-md-block">
                 <span class="banner-description">{{ banner.description|linebreaks }}</span>
@@ -276,7 +270,6 @@
             </div>
           {% endfor %}
         </div>
-
         <button class="carousel-control-prev" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -287,36 +280,17 @@
         </button>
       </div>
 
-      <!-- До лучших времен (когда появятся Коллекции) -->
-      <!-- <div class="container collections-container px-4">
-        <h2 class="fade-in pb-2 border-bottom">Коллекции</h2>
-        <div class="d-flex flex-wrap justify-content-around">
-
-          {% for collection in collections %}
-            <div class="card-container">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text text-center">{{ collection.name }}</p>
-                </div>
-                <img src="{{ collection.image.url }}" alt="{{ collection.name }}"
-                  class="card-img-top" style=""
-                  loading="lazy">
-              </div>
-            </div>
-          {% endfor %}
-
-        </div>
-      </div> -->
       <div class="container">
         <h2 class="fade-in p-3 mt-5 mb-3">{% trans "Новинки" %}</h2>
       </div>
+
       <div class="container desktop-container">
-        {% if new_products.0 %}
+        {% if colored_products.0 %}
           <div class="fade-in card first-card">
             <div class="productBackground">
-              <a class="product-link" href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}">
+              <a class="product-link" href="{% url 'product_page' colored_products.0.product.slug colored_products.0.slug %}">
                 <div>
-                  {% for img in new_products.0.get_two_first_images %}
+                  {% for img in colored_products.0.get_two_first_images %}
                     {% thumbnail img.image "322x450" crop="center" as im %}
                       <img src="{{ im.url }}" alt="{{ img.description }}"
                         width="322" height="450"
@@ -327,34 +301,34 @@
                 </div>
               </a>
             </div>
-            <a href="{% url 'product_page' new_products.0.product.slug new_products.0.slug %}"
+            <a href="{% url 'product_page' colored_products.0.product.slug colored_products.0.slug %}"
               style="text-align: left; font-size: 16px; text-decoration: none;">
               <div class="info">
                 <div class="productName">
-                  <h1 class="big"><div>{{ new_products.0.product.name }}</div></h1>
+                  <h1 class="big"><div>{{ colored_products.0.product.name }}</div></h1>
                 </div>
                   <div class="buy-price price">
-                    {% if new_products.0.old_price is not none %}
-                      <span class="old_price">{{ new_products.0.old_price }} {% trans "Р" %}<br></span>
+                    {% if colored_products.0.old_price is not none %}
+                      <span class="old_price">{{ colored_products.0.old_price.normalize }} {% trans "₽" %}<br></span>
                     {% endif %}
-                    <span class="new_price">{{ new_products.0.price }} {% trans "Р" %}</span>
+                    <span class="new_price">{{ colored_products.0.price.normalize }} {% trans "₽" %}</span>
                   </div>
               </div>
             </a>
           </div>
         {% endif %}
 
-        {% if new_products.1 %}
+        {% if colored_products.1 %}
           <div class="second-row">
             <div class="col-3">
               <div class="fade-in card second-card">
                 <div class="productBackground">
-                  <a class="product-link" href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}">
+                  <a class="product-link" href="{% url 'product_page' colored_products.1.product.slug colored_products.1.slug %}">
                     <div>
-                      {% for img in new_products.1.get_two_first_images %}
-                        {% thumbnail img.image "322x450" crop="center" as im %}
+                      {% for img in colored_products.1.get_two_first_images %}
+                        {% thumbnail img.image "320x448" crop="center" as im %}
                           <img src="{{ im.url }}" alt="{{ img.description }}"
-                            width="322" height="450"
+                            width="320" height="448"
                             class="productImg"
                             loading="lazy" />
                         {% endthumbnail %}
@@ -362,17 +336,17 @@
                     </div>
                   </a>
                 </div>
-                <a href="{% url 'product_page' new_products.1.product.slug new_products.1.slug %}"
+                <a href="{% url 'product_page' colored_products.1.product.slug colored_products.1.slug %}"
                   style="text-align: left; font-size: 16px; text-decoration: none;">
                   <div class="info">
                     <div class="productName">
-                      <h1 class="big"><div>{{ new_products.1.product.name }}</div></h1>
+                      <h1 class="big"><div>{{ colored_products.1.product.name }}</div></h1>
                     </div>
                       <div class="buy-price price">
-                        {% if new_products.1.old_price is not none %}
-                          <span class="old_price">{{ new_products.1.old_price }} {% trans "Р" %}<br></span>
+                        {% if colored_products.1.old_price is not none %}
+                          <span class="old_price">{{ colored_products.1.old_price.normalize }} {% trans "₽" %}<br></span>
                         {% endif %}
-                        <span class="new_price">{{ new_products.1.price }} {% trans "Р" %}</span>
+                        <span class="new_price">{{ colored_products.1.price.normalize }} {% trans "₽" %}</span>
                       </div>
                   </div>
                 </a>
@@ -380,12 +354,12 @@
             </div>
 
             <div class="col-5">
-              {% if new_products.2 %}
+              {% if colored_products.2 %}
                 <div class="fade-in third-card">
                   <div class="productBackground">
-                    <a class="product-link" href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}">
+                    <a class="product-link" href="{% url 'product_page' colored_products.2.product.slug colored_products.2.slug %}">
                       <div>
-                        {% for img in new_products.2.get_two_first_images %}
+                        {% for img in colored_products.2.get_two_first_images %}
                           {% thumbnail img.image "500x700" crop="center" as im %}
                             <img src="{{ im.url }}" alt="{{ img.description }}"
                               width="500" height="700"
@@ -395,17 +369,17 @@
                       </div>
                     </a>
                   </div>
-                  <a href="{% url 'product_page' new_products.2.product.slug new_products.2.slug %}"
+                  <a href="{% url 'product_page' colored_products.2.product.slug colored_products.2.slug %}"
                     style="text-align: left; font-size: 16px; text-decoration: none;">
                     <div class="info">
                       <div class="productName">
-                        <h1 class="big"><div>{{ new_products.2.product.name }}</div></h1>
+                        <h1 class="big"><div>{{ colored_products.2.product.name }}</div></h1>
                       </div>
                         <div class="buy-price price">
-                          {% if new_products.2.old_price is not none %}
-                            <span class="old_price">{{ new_products.2.old_price }} {% trans "Р" %}<br></span>
+                          {% if colored_products.2.old_price is not none %}
+                            <span class="old_price">{{ colored_products.2.old_price.normalize }} {% trans "₽" %}<br></span>
                           {% endif %}
-                          <span class="new_price">{{ new_products.2.price }} {% trans "Р" %}</span>
+                          <span class="new_price">{{ colored_products.2.price.normalize }} {% trans "₽" %}</span>
                         </div>
                     </div>
                   </a>
@@ -415,13 +389,13 @@
           </div>
         {% endif %}
 
-        {% if new_products.3 %}
+        {% if colored_products.3 %}
           <div class="product-cards-container container mt-5" style="justify-content: space-between;">
             <div class="fade-in card fourth-card">
               <div class="productBackground">
-                <a class="product-link" href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}">
+                <a class="product-link" href="{% url 'product_page' colored_products.3.product.slug colored_products.3.slug %}">
                   <div>
-                    {% for img in new_products.3.get_two_first_images %}
+                    {% for img in colored_products.3.get_two_first_images %}
                       {% thumbnail img.image "322x450" crop="center" as im %}
                         <img src="{{ im.url }}" alt="{{ img.description }}"
                           width="322" height="450"
@@ -432,28 +406,28 @@
                   </div>
                 </a>
               </div>
-              <a href="{% url 'product_page' new_products.3.product.slug new_products.3.slug %}"
+              <a href="{% url 'product_page' colored_products.3.product.slug colored_products.3.slug %}"
                 style="text-align: left; font-size: 16px; text-decoration: none;">
                 <div class="info">
                   <div class="productName">
-                    <h1 class="big"><div>{{ new_products.3.product.name }}</div></h1>
+                    <h1 class="big"><div>{{ colored_products.3.product.name }}</div></h1>
                   </div>
                   <div class="buy-price price">
-                    {% if new_products.3.old_price is not none %}
-                      <span class="old_price">{{ new_products.3.old_price }} {% trans "Р" %}<br></span>
+                    {% if colored_products.3.old_price is not none %}
+                      <span class="old_price">{{ colored_products.3.old_price.normalize }} {% trans "₽" %}<br></span>
                     {% endif %}
-                    <span class="new_price">{{ new_products.3.price }} {% trans "Р" %}</span>
+                    <span class="new_price">{{ colored_products.3.price.normalize }} {% trans "₽" %}</span>
                   </div>
                 </div>
               </a>
             </div>
 
-            {% if new_products.4 %}
-              <div class="fade-in card fifth-card">
+            {% if colored_products.4 %}
+              <div class="fade-in card fifth-card pt-5">
                 <div class="productBackground">
-                  <a class="product-link" href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}">
+                  <a class="product-link" href="{% url 'product_page' colored_products.4.product.slug colored_products.4.slug %}">
                     <div>
-                      {% for img in new_products.4.get_two_first_images %}
+                      {% for img in colored_products.4.get_two_first_images %}
                         {% thumbnail img.image "322x450" crop="center" as im %}
                           <img src="{{ im.url }}" alt="{{ img.description }}"
                             width="322" height="450"
@@ -464,29 +438,29 @@
                     </div>
                   </a>
                 </div>
-                <a href="{% url 'product_page' new_products.4.product.slug new_products.4.slug %}"
+                <a href="{% url 'product_page' colored_products.4.product.slug colored_products.4.slug %}"
                   style="text-align: left; font-size: 16px; text-decoration: none;">
                   <div class="info">
                     <div class="productName">
-                      <h1 class="big"><div>{{ new_products.4.product.name }}</div></h1>
+                      <h1 class="big"><div>{{ colored_products.4.product.name }}</div></h1>
                     </div>
                     <div class="buy-price price">
-                      {% if new_products.4.old_price is not none %}
-                        <span class="old_price">{{ new_products.4.old_price }} {% trans "Р" %}<br></span>
+                      {% if colored_products.4.old_price is not none %}
+                        <span class="old_price">{{ colored_products.4.old_price.normalize }} {% trans "₽" %}<br></span>
                       {% endif %}
-                      <span class="new_price">{{ new_products.4.price }} {% trans "Р" %}</span>
+                      <span class="new_price">{{ colored_products.4.price.normalize }} {% trans "₽" %}</span>
                     </div>
                   </div>
                 </a>
               </div>
             {% endif %}
 
-            {% if new_products.5 %}
-              <div class="fade-in card sixth-card">
+            {% if colored_products.5 %}
+              <div class="fade-in card sixth-card pt-5">
                 <div class="productBackground">
-                  <a class="product-link" href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}">
+                  <a class="product-link" href="{% url 'product_page' colored_products.5.product.slug colored_products.5.slug %}">
                     <div>
-                      {% for img in new_products.5.get_two_first_images %}
+                      {% for img in colored_products.5.get_two_first_images %}
                         {% thumbnail img.image "322x450" crop="center" as im %}
                           <img src="{{ im.url }}" alt="{{ img.description }}"
                             width="322" height="450"
@@ -497,17 +471,17 @@
                     </div>
                   </a>
                 </div>
-                <a href="{% url 'product_page' new_products.5.product.slug new_products.5.slug %}"
+                <a href="{% url 'product_page' colored_products.5.product.slug colored_products.5.slug %}"
                   style="text-align: left; font-size: 16px; text-decoration: none;">
                   <div class="info">
                     <div class="productName">
-                      <h1 class="big"><div>{{ new_products.5.product.name }}</div></h1>
+                      <h1 class="big"><div>{{ colored_products.5.product.name }}</div></h1>
                     </div>
                       <div class="buy-price price">
-                        {% if new_products.5.old_price is not none %}
-                          <span class="old_price">{{ new_products.5.old_price }} {% trans "Р" %}<br></span>
+                        {% if colored_products.5.old_price is not none %}
+                          <span class="old_price">{{ colored_products.5.old_price.normalize }} {% trans "₽" %}<br></span>
                         {% endif %}
-                        <span class="new_price">{{ new_products.5.price }} {% trans "Р" %}</span>
+                        <span class="new_price">{{ colored_products.5.price.normalize }} {% trans "₽" %}</span>
                       </div>
                   </div>
                 </a>
@@ -519,7 +493,7 @@
       </div>
 
       <div class="container mobile-container">
-        {% for product_card in new_products %}
+        {% for product_card in colored_products %}
           <div class="fade-in card first-card" style="padding: 5vw 0 5vw 7vw;">
             <div class="productBackground">
               <a class="product-link" href="{% url 'product_page' product_card.product.slug product_card.slug %}">
@@ -543,9 +517,9 @@
                 </div>
                   <div class="buy-price price">
                     {% if product_card.old_price is not none %}
-                      <span class="old_price">{{ product_card.old_price }} {% trans "Р" %}<br></span>
+                      <span class="old_price">{{ product_card.old_price.normalize }} {% trans "₽" %}<br></span>
                     {% endif %}
-                    <span class="new_price">{{ product_card.price }} {% trans "Р" %}</span>
+                    <span class="new_price">{{ product_card.price.normalize }} {% trans "₽" %}</span>
                   </div>
               </div>
             </a>

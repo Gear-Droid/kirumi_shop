@@ -39,6 +39,7 @@ urlpatterns = [
     path('about_brand/', AboutBrandView.as_view(), name='about_brand'),
     path('new/', NewProductsView.as_view(), name='new_products'),
     path('catalog/', CatalogView.as_view(), name='catalog'),
+    path('catalog/<slug:catalog_slug>/', CatalogView.as_view(), name='catalog'),
     path('cart/', CartView.as_view(), name='cart'),
     path('cart/checkout/', CheckoutView.as_view(), name='checkout'),
     path('cart/<int:cart_product_id>/delete/', DeleteCartProductView.as_view(), name='delete_cart_product'),

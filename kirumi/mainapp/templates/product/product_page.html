@@ -114,6 +114,11 @@
 
         <div class="col-md-4">
           <div class="right-side">
+            <div class="pr-3 content">
+              <p class="description my-0 py-0">
+                {{ colored_product.product.collection.first }}
+              </p>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
               <h3>{{ colored_product.product.name }}</h3>
             </div>
@@ -125,9 +130,9 @@
 
             <div class="mt-3">
               {% if colored_product.old_price is not none %}
-                <h3 class="old_price">{{ colored_product.old_price }} Р</h3>
+                <h3 class="old_price">{{ colored_product.old_price.normalize }} {% trans "₽" %}</h3>
               {% endif %}
-              <h3 class="new_price">{{ colored_product.price }} Р</h3>
+              <h3 class="new_price">{{ colored_product.price.normalize }} {% trans "₽" %}</h3>
             </div>
 
             {% comment %} <h3 class="title">Цвет</h3>
@@ -137,13 +142,11 @@
               </p>
             </div> {% endcomment %}
 
-            {% if colored_product.product.colors.all|length > 1 %}
-              <div class="color-container mt-3">
+            {% if colored_product.product.colors.all|is_active|distinct_colors|length > 1 %}
+              <div class="color-container mt-5">
                 <h3 class="title">Другие цвета товара</h3>
                 <div class="colors">
-
                   {% for color in colored_product.product.colors.all|is_active|distinct_colors %}
-
                     <a class="colored-product-link" style="color: #{{ color.color_hex_code }};"
                       href="{% url 'product_page' color.product.slug color.slug %}">
                       <span class="color {% if color.color_hex_code == colored_product.color_hex_code %}active{% endif %}"
@@ -151,19 +154,19 @@
                         style="{% if color == product_color %}border-color: #{{ color.color_hex_code }};{% endif %}
                         background: #{{ color.color_hex_code }};"></span>
                     </a>
-                  
                   {% endfor %}
-    
                 </div>
               </div>
+            {% else %}
+              <div class="color-container mt-5"></div>
             {% endif %}
 
-            <form action="{% url 'product_page' colored_product.product.slug colored_product.slug %}"
-              method="post" style="text-align: center;">
+            <form class="mt-3" action="{% url 'product_page' colored_product.product.slug colored_product.slug %}"
+              method="post">
               {% csrf_token %}
 
-              <h3 class="title mt-2">Выберите размер</h3>
-              <div class="mb-4 pr-3 content">
+              <h3 class="title my-3">Выберите размер</h3>
+              <div class="pr-3 content">
                 <div class="btn-group btn-group-lg" style="" role="group" aria-label="Basic radio toggle button group">
                   {% for size in colored_product.product.sizes.all|is_active %}
                     <input type="radio" class="btn-check" name="size" id="{{ size }}" value="{{ size }}" required>
@@ -172,9 +175,10 @@
                 </div>
               </div>
 
-              <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
+              <div class="col mt-4 border-bottom" style="max-width: 640px; margin: auto;">
                 <div class="row" style="margin: 0px 15px; min-width: 240px;">
-                  <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+                  <button class="btn w-100 collapsed"
+                    style="text-align: left; width:auto; color: #343434; background-color: transparent; border-color: transparent;"
                     type="button" data-bs-toggle="collapse" data-bs-target="#sizesTable"
                     aria-expanded="false" aria-controls="sizesTable">
                     Таблица размеров
@@ -244,14 +248,15 @@
 
               <input type="hidden" name="add_to_cart" />
               <div class="buttons d-flex flex-row mt-5">
-                <button type="submit" class="btn btn-dark">Добавить в корзину</button>
+                <button type="submit" class="btn btn-dark" style="background: #343434;"><b>Добавить в корзину</b></button>
               </div>
             </form>
 
             <div class="col">
               <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
                 <div class="row" style="margin: 0px 15px; min-width: 240px;">
-                  <button class="btn w-100 collapsed" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+                  <button class="btn w-100 collapsed"
+                    style="text-align: left; width:auto; color: #343434; background-color: transparent; border-color: transparent;"
                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
                     Другие вариации
@@ -265,9 +270,8 @@
                 </div>
                 <div class="variations collapse" id="collapseExample">
                   <div class="container variations-container p-1">
-
                     {% for product_color in new_products %}
-                      <div class="fade-in card">
+                      <div class="fade-in card p-3 {% if product_color == colored_product %}current-variation{% endif %}">
                         <div class="productBackground">
                           <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
                             {% for img in product_color.get_two_first_images %}
@@ -290,14 +294,14 @@
                         </a>
                       </div>
                     {% endfor %}
-
                   </div>
                 </div>
               </div>
 
               <div class="col mt-5 border-bottom" style="max-width: 640px; margin: auto;">
                 <div class="row" style="margin: 0px 15px; min-width: 240px;">
-                  <button class="btn w-100" style="width:auto; color: #343434; background-color: transparent; border-color: transparent;"
+                  <button class="btn w-100"
+                    style="text-align: left; width:auto; color: #343434; background-color: transparent; border-color: transparent;"
                     type="button" data-bs-toggle="collapse" data-bs-target="#variationDetails"
                     aria-expanded="true" aria-controls="variationDetails">
                     Характеристики
@@ -310,7 +314,7 @@
                   </button>
                 </div>
                 <div class="variations collapse show" id="variationDetails">
-                  <div class="container p-5">
+                  <div class="container p-5" style="text-align: center;">
                     {{ colored_product.variation.description }}
                   </div>
                 </div>

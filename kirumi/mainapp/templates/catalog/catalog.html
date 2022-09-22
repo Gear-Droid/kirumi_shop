@@ -9,78 +9,74 @@
     margin: auto;
     padding: 0px;
   }
+  .discount{
+    top: 10px!important;
+  }
+  .dropdown-item:hover{
+    color: #f6f6f6;
+    background: #343434;
+  }
+  .nav-item.active .nav-link{
+    color: #343434!important;
+  }
+  .nav-item.active::after{
+    background: #343434!important;
+    width: 100%!important;
+  }
+  @media (max-width: 768px){
+    .productImg {
+      max-width: 190px;
+    }
+  }
+  @media (max-width: 425px){
+    .productImg {
+      max-width: 40vw;
+    }
+  }
 {% endblock style %}
 
 {% block intro %}
 {% endblock intro %}
 
 {% block content %}
-  <div class="d-flex p-1">
-    <div class="mx-3 col-md-9 mb-3">
-      <div class="container">
-
-        <ul class="d-flex justify-content-center list-inline m-0">
+<div class="container mb-5">
+  <div class="row p-1 my-3">
+    <div class="col-md-8 mb-3 px-0">
+        <ul class="d-flex justify-content-left list-inline m-0">
           {% for collection in collections %}
-            <li class="nav-item" style="text-align: center; width: min-content;"><a class="nav-link" href="{% url 'catalog' %}">{{ collection }}</a></li>
+            <li class="nav-item {% if collection.slug == catalog_slug %}active{% endif %}" style="text-align: center; width: min-content;"><a class="nav-link" href="{% url 'catalog' collection.slug %}">{{ collection }}</a></li>
           {% endfor %}
         </ul>
-      </div>
     </div>
-    <div class="col-md-3">
-      <div class="dropdown d-flex justify-content-center">
+
+    <div class="col-md-4 mb-3">
+      <div class="container dropdown d-flex px-1" style="justify-content: right;">
         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"
           style="
             background: transparent;
-            color: #343434;
+            color: grey;
+            font-size: 110%;
+            border: 0;
             border-radius: 0px;">
           Сортировать по
         </a>
-        <ul class="dropdown-menu" style="" aria-labelledby="dropdownMenuLink">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <ul class="dropdown-menu dropdown-menu-end" style="" aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?price=down">Цена (по убыв.)</a></li>
+          <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?price=up">Цена (по возр.)</a></li>
+          <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?newer=down">Новизна (нов.)</a></li>
+          <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?newer=up">Новизна (стар.)</a></li>
+          <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?discount=down">Скидка (больш.)</a></li>
+          <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?discount=up">Скидка (меньш.)</a></li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="d-flex m-0">
-    <div class="col-md-3">
 
-      <div class="container p-3">
-        <div class="d-flex justify-content-space-around my-3">
-          <div class="col">
-            <div class="input-group w-75 m-auto">
-              <div class="input-group-prepend">
-                <label for="customRange2" class="form-label">Минимальная цена</label>
-              </div>
-              <input type="text" class="form-control" name="input_text1" id="input_text1" max="20000" value="1000" onchange="customRange2.value = input_text1.value"/>
-              <input type="range" oninput="input_text1.value = customRange2.value" class="form-control-range form-range slider" type="range" min="100" max="20000" value="1000" id="customRange2" step="100" onchange="input_text1.value = customRange2.value" >
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="input-group w-75 m-auto">
-              <div class="input-group-prepend">
-                <label for="customRange3" class="form-label">Максимальная цена</label>
-              </div>
-              <input type="text" class="form-control w-100" name="input_text2" id="input_text2" max="20000" value="1000" onchange="customRange3.value = input_text2.value"/>
-              <input type="range" oninput="input_text2.value = customRange3.value" class="form-control-range form-range slider" type="range" min="100" max="20000" value="1000" id="customRange3" step="100" onchange="input_text2.value = customRange3.value" >
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="buttons my-3">
-            <button type="submit" class="btn btn-dark w-100">Применить</button>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-    <div class="col-md-9 m-0 p-0">
-      {% include 'product/products_wrapper.html' %}
-    </div>
+  <div class="col m-0 p-0">
+    {% include 'product/products_wrapper.html' %}
   </div>
+</div>
+
 {% endblock content %}
 
 {% block prefooter %}

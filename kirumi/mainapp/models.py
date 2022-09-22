@@ -53,6 +53,9 @@ class Banner(BasicIsActiveAndDateModel, BasicSortOrderModel):
     link = models.TextField(max_length=128, verbose_name='Ссылка')
     image = models.ImageField(upload_to="banner_image/%Y/%m", verbose_name='Изображение баннера')
 
+    def __str__(self):
+        return self.header
+
 
 class Collection(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
 
@@ -103,8 +106,8 @@ class Size(BasicIsActiveAndDateModel, BasicSortOrderModel):
 class Product(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel):
 
     class Meta:
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товары'
+        verbose_name = 'Дизайн'
+        verbose_name_plural = 'Дизайны'
 
     def allSizes():
         return Size.objects.exclude(size='ONESIZE').filter(is_active=True)
@@ -125,8 +128,8 @@ class Product(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel):
 class ProductVariation(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
 
     class Meta:
-        verbose_name = 'Вариация товара'
-        verbose_name_plural = 'Вариации товара'
+        verbose_name = 'Вариация ткани'
+        verbose_name_plural = 'Вариации ткани'
 
     name = models.CharField(max_length=256, verbose_name='Наименование вариации', )
     description = models.TextField(
@@ -147,12 +150,12 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
     slug = models.SlugField(max_length=64, unique=False, verbose_name='Уникальное обозначение карточки')
     sort_order = models.PositiveIntegerField(verbose_name='Порядок сортировки')
     product = models.ForeignKey(
-        Product, verbose_name='Базовый товар', on_delete=models.CASCADE,
+        Product, verbose_name='Дизайн', on_delete=models.CASCADE,
         related_name='colors',
     )
     name = models.CharField(max_length=64, verbose_name='Название цвета', )
     variation = models.ForeignKey(
-        ProductVariation, verbose_name='Вариация', on_delete=models.CASCADE,
+        ProductVariation, verbose_name='Вариация ткани', on_delete=models.CASCADE,
         related_name='variations', null=True, blank=True
     )
     color_hex_code = models.CharField(max_length=6, verbose_name='Hex code цвета товара (после #)', )
@@ -184,7 +187,7 @@ class ProductImage(BasicIsActiveAndDateModel, BasicSortOrderModel):
 
     sort_order = models.PositiveIntegerField(verbose_name='Порядок сортировки')
     product_color = models.ForeignKey(
-        ColoredProduct, verbose_name='Product color', on_delete=models.CASCADE,
+        ColoredProduct, verbose_name='Карточка', on_delete=models.CASCADE,
         related_name='images',
     )
     image = models.ImageField(upload_to="product_images/%Y/%m", verbose_name='Изображение товара')
@@ -226,7 +229,9 @@ class Cart(models.Model):
         unique_together = (('owner', 'created'), )
         ordering = ['-created']
 
-    owner = models.GenericIPAddressField(protocol='IPv4', unique=True, verbose_name='IP владельца корзины')
+    owner = models.GenericIPAddressField(protocol='IPv4', unique=False, verbose_name='IP владельца корзины')
+    session_key = models.CharField(max_length=40, verbose_name='Ключ сессии', default='0')
+    paid = models.BooleanField(verbose_name='Корзина оплачена?', default=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
     colored_products = models.ManyToManyField(
         ColoredProduct, through='CartProduct'
