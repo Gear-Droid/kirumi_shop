@@ -116,7 +116,7 @@ class Product(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel):
         Collection, verbose_name='Коллекции',
         related_name='products',
     )
-    description = models.TextField(max_length=128, verbose_name='Описание')
+    description = models.TextField(max_length=512, verbose_name='Описание')
     sizes = models.ManyToManyField(
         Size, verbose_name='Размеры', default=allSizes
     )

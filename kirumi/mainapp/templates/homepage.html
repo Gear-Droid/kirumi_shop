@@ -90,20 +90,22 @@
   <nav class="navbar navbar-expand-lg fixed-top" aria-label="navbar">
     <div class="container-fluid d-flex">
 
-      <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 30px;">
+      <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 20px;">
         <!-- SVG place -->
         <img class=""
           src="{% static "images/new_logo_black_wear_2.svg" %}"
           alt="Kirumi logo"
-          width="100px"
+          width="80px"
           loading="lazy" />
       </a>
 
-      <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:30px;">
-        <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
+      <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:24px;">
+        <span style="color: #262626;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
       </a>
 
-      <button class="navbar-toggler hamburger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler hamburger collapsed" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
+        aria-expanded="false" aria-label="Toggle navigation">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -142,7 +144,7 @@
               list-style: none;
               position: fixed;
               left: 0;
-              top: 70px;
+              top: 63px;
               z-index: 101;
             ">
               {% for collection in collections %}
@@ -156,8 +158,8 @@
 
         <ul class="navbar-nav d-flex justify-content-start align-content-start" style="margin-left: 0; width: 100%;">
           <li class="nav-item ms-auto">
-            <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #343434;">
-              {% trans "Корзина" %}: <span style="color: #343434;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
+            <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #262626;">
+              {% trans "Корзина" %}: <span style="color: #262626;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
             </a>
           </li>
           {% comment %} 
@@ -260,7 +262,7 @@
                   </div>
                 </div>
               </div>
-                <a class="text-decoration-none more-button-visible" style="display:none; color: #343434;" href="{{ banner.link }}">
+                <a class="text-decoration-none more-button-visible" style="display:none; color: #262626;" href="{{ banner.link }}">
                   <p style="padding: 5px; font-size: 26px; background: #f6f6f6;">ПОДРОБНЕЕ
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6;">
                       <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -281,7 +283,7 @@
       </div>
 
       <div class="container">
-        <h2 class="fade-in p-3 mt-5 mb-3">{% trans "Новинки" %}</h2>
+        <h2 class="fade-in p-3 my-3">{% trans "Новинки" %}</h2>
       </div>
 
       <div class="container desktop-container">

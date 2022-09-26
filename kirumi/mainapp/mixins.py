@@ -73,6 +73,7 @@ class CatalogMixin(View):
 
     def dispatch(self, request, *args, **kwargs):
         self.catalog_slug = kwargs.get('catalog_slug')
+
         catalog_filters = Q(is_active=True) & Q(product__is_active=True) & \
                 Q(product__collection__is_active=True) & \
                 Q(images__is_active=True)
@@ -82,6 +83,9 @@ class CatalogMixin(View):
             if collection is not None:
                 catalog_filters = catalog_filters & Q(product__collection=collection)
 
+        if self.catalog_slug == "hoodie":
+            catalog_filters = catalog_filters & Q(variation__id=2)
+
         self.catalog_products = ColoredProduct.objects.select_related('product')  \
             .prefetch_related('images').prefetch_related('product__sizes').filter(
                 catalog_filters
@@ -89,6 +93,7 @@ class CatalogMixin(View):
         sorting = '-pub_date', '-sort_order'
         price = request.GET.get('price')
         newer = request.GET.get('newer')
+        discount = request.GET.get('discount')
 
         if newer is not None:
             if newer == "down":
@@ -102,9 +107,11 @@ class CatalogMixin(View):
             else:
                 sorting = ('price', )
 
-        """sorting = (F('old_price') - F('price'), )
-        sorting = (F('price') - F('old_price'), )
-        print(*sorting)"""
+        if discount is not None:
+            if discount == "down":
+                sorting = (((F('old_price') - F('price'))*100/F('old_price')).desc(nulls_last=True), )
+            else:
+                sorting = ((F('old_price') - F('price'))*100/F('old_price'), )
 
         self.catalog_products = self.catalog_products.order_by(*sorting).defer(
             'id', 'is_active', 'sort_order', 'product_id',

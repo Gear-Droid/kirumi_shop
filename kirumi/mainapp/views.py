@@ -38,6 +38,21 @@ class HomePageView(BasePageView, NewProductsMixin):
         }
         return render(request, 'homepage.html', context=context)
 
+    def post(self, request, *args, **kwargs):
+        print(request)
+        self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
+
+        context = {
+            'meta':{
+                'Title': "Онлайн-магазин аниме-одежды Kirumi",
+            },
+            'collections': self.collections,
+            'cart': self.cart,
+            'colored_products': self.new_products,
+            'banners': self.banners,
+        }
+        return render(request, 'homepage.html', context=context)
+
 
 class ProductView(BasePageView):
 
@@ -71,7 +86,7 @@ class ProductView(BasePageView):
                 'keywords': colored_product.product.description,
                 'page_description': colored_product.product.description,
             },
-            'colored_products': self.new_products,
+            'other_variations': self.new_products,
             'collections': self.collections,
             'cart': self.cart,
             'images': colored_product.images.filter(is_active=True),
@@ -232,6 +247,7 @@ class CheckoutView(BasePageView, CartProductMixin):
             product.save()
         self.cart.save()
 
+
         context = {
             'meta':{
                 'Title': "Детали заказа",
@@ -247,7 +263,6 @@ class DeliveryWidgetView(BasePageView, CartProductMixin):
 
     def get(self, request, *args, **kwargs):
         select_series = request.GET.getlist('select_series', [])
-        # print(request.GET.get('country_selector', None))
         country_selector = request.GET.get('country_selector', None)
         if country_selector == "":
             html = '<html><body>Пожалуйста, выберите страну!</body></html>'
@@ -265,22 +280,16 @@ class DeliveryWidgetView(BasePageView, CartProductMixin):
 class PaymentView(BasePageView, CartProductMixin):
 
     def post(self, request, *args, **kwargs):
+        firstName = request.POST.get('firstName')
+        lastName = request.POST.get('lastName')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
         chosenPost = request.POST.get('chosenPost')     # номер поста
         addresPost = request.POST.get('addresPost')     # адрес
         pricePost = request.POST.get('pricePost')       # стоимость доставки
         timePost = request.POST.get('timePost')         # приблизительное время доставки
-        email = request.POST.get('email')               # приблизительное время доставки
-        html = f"""
-        <html>
-            <body>
-                chosenPost: {chosenPost} <br>
-                addresPost: {addresPost} <br>
-                pricePost: {pricePost} <br>
-                timePost: {timePost} <br>
-                email: {email} <br>
-            </body>
-        </html>
-        """
+
         context = {
             'meta': {
                 'Title': 'Оплата заказа',
@@ -290,6 +299,12 @@ class PaymentView(BasePageView, CartProductMixin):
                 'addresPost': addresPost,
                 'pricePost': pricePost,
                 'timePost': timePost,
+            },
+            'order_details':{
+                'firstName': firstName,
+                'lastName': lastName,
+                'email': email,
+                'phone': phone,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -352,7 +367,7 @@ class PrivacyPolicyView(BasePageView):
 
 class DeliveryAndPaymentView(BasePageView):
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Доставка и оплата",

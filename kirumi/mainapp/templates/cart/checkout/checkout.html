@@ -1,7 +1,7 @@
 {% extends 'homepage.html' %}
 
-{% load static %}
-{% load thumbnail %}
+{% load static i18n thumbnail %}
+
 {% block header %}
   <!--===============================================================================================-->
     <!-- Card CSS style -->
@@ -69,39 +69,40 @@
                 <h6 class="my-0">Промокод</h6>
                 <small>EXAMPLECODE</small>
               </div>
-              <span class="text-success">−0 руб.</span>
+              <span class="text-success">−0 {% trans "₽" %}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
               <span>Итого</span>
-              <strong>{{cart.final_price}} руб.</strong>
+              <strong>{{cart.final_price}} {% trans "₽" %}</strong>
             </li>
 
           </ul>
         </div>
 
         <div class="col-md-8">
-          <form class="needs-validation" action="{% url 'payment' %}" method="post" no-validation="">
+
+          <form id="form1" class="" action="{% url 'payment' %}" method="post">
             {% csrf_token %}
             <div class="row g-3  mb-4">
 
               <div class="col-sm-5">
-                <label for="firstName" class="form-label">Имя <span class="text-muted"><!-- * --></span></label>
-                <input type="text" class="form-control" id="firstName"  />
+                <label for="firstName" class="form-label">Имя <span class="text-muted">*</span></label>
+                <input type="text" class="form-control" name="firstName" id="firstName" value="" />
               </div>
 
               <div class="col-sm-7">
-                <label for="lastName" class="form-label">Фамилия <span class="text-muted"><!-- * --></span></label>
-                <input type="text" class="form-control" id="lastName"  />
+                <label for="lastName" class="form-label">Фамилия <span class="text-muted">*</span></label>
+                <input type="text" class="form-control" name="lastName" id="lastName" value="" />
               </div>
 
               <div class="col-sm-7">
-                <label for="email" class="form-label">Email <span class="text-muted"><!-- * --></span></label>
-                <input type="email" class="form-control" id="email" placeholder="email@example.com"  />
+                <label for="email" class="form-label">Email <span class="text-muted">*</span></label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com" value="" />
               </div>
 
               <div class="col-sm-5">
-                <label for="phone" class="form-label">Номер телефона <span class="text-muted"><!-- * --></span></label>
-                <input type="phone" class="form-control" id="phone"  />
+                <label for="phone" class="form-label">Номер телефона <span class="text-muted">*</span></label>
+                <input type="phone" class="form-control" name="phone" id="phone" value="" />
               </div>
 
               <div class="col-12">
@@ -109,68 +110,72 @@
               </div>
 
             </div>
-          </form>
 
-          <div class="mb-4" id="forpvz" style="height:600px;"></div>
-          <script>
-            var widjet = new ISDEKWidjet({
-              showWarns: true,
-              showErrors: true,
-              showLogs: true,
-              hideMessages: false,
+            <div class="mb-4" id="forpvz" style="height:600px;"></div>
+            <script>
+              var widjet = new ISDEKWidjet({
+                showWarns: true,
+                showErrors: true,
+                showLogs: true,
+                hideMessages: false,
 
-              country: 'Россия',
-              defaultCity: 'Москва',
-              cityFrom: 'Москва',
-              inregion: true,
-              link: 'forpvz',
-              path: 'https://widget.cdek.ru/widget/scripts/', //директория с библиотеками
-              choose: true,
-              hidedress: true,
-              detailAddress: true,
-              onChooseAddress: onChooseAddress,
-              onChoose: onChoose
-            });
+                country: 'Россия',
+                defaultCity: 'Москва',
+                cityFrom: 'Москва',
+                inregion: true,
+                link: 'forpvz',
+                path: 'https://widget.cdek.ru/widget/scripts/', //директория с библиотеками
+                choose: true,
+                hidedress: true,
+                detailAddress: true,
+                goods: [{
+                  length: 30,
+                  width: 29,
+                  height: 15,
+                  weight: 1
+                }],
+                onChooseAddress: onChooseAddress,
+                onChoose: onChoose
+              });
 
 
-            function onChooseAddress(info) {
-              alert('Выбрана доставка курьером по адресу ' + info.address + "\n" +
+              function onChooseAddress(info) {
+                alert('Выбрана доставка курьером по адресу ' + info.address + "\n" +
+                    'Цена ' + info.price + ' руб.' + "\n" +
+                    'Ориентировочный срок доставки ' + info.term + ' дн.'
+                );
+                console.log('Выбрана доставка курьером ', info);
+
+                ipjq('[name="chosenPost"]').val(info.id);
+                ipjq('[name="addresPost"]').val(info.address);
+                ipjq('[name="addresPost-show"]').val(info.address);
+                ipjq('[name="pricePost"]').val(info.price);
+                ipjq('[name="timePost"]').val(info.term);
+                ipjq('#forpvz').css('display','none');
+                ipjq('.pencil-svg').css('display','block');
+                ipjq('.addresPost-show-container').removeClass("col-12");
+                ipjq('.addresPost-show-container').addClass("col-10");
+              }
+
+              function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
+                alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + info.price + ' руб.' + "\n" +
                   'Ориентировочный срок доставки ' + info.term + ' дн.'
-              );
-              console.log('Выбрана доставка курьером ', info);
+                );
+                console.log('Выбрана доставка в ПВЗ ', info);
 
-              ipjq('[name="chosenPost"]').val(info.id);
-              ipjq('[name="addresPost"]').val(info.address);
-              ipjq('[name="addresPost-show"]').val(info.address);
-              ipjq('[name="pricePost"]').val(info.price);
-              ipjq('[name="timePost"]').val(info.term);
-              ipjq('#forpvz').css('display','none');
-              ipjq('.pencil-svg').css('display','block');
-              ipjq('.addresPost-show-container').removeClass("col-12");
-              ipjq('.addresPost-show-container').addClass("col-10");
-            }
+                ipjq('[name="chosenPost"]').val(info.id);
+                ipjq('[name="addresPost"]').val(info.PVZ.Address);
+                ipjq('[name="addresPost-show"]').val(info.PVZ.Address);
+                ipjq('[name="pricePost"]').val(info.price);
+                ipjq('[name="timePost"]').val(info.term);
+                ipjq('#forpvz').css('display','none');
+                ipjq('.pencil-svg').css('display','block');
+                ipjq('.addresPost-show-container').removeClass("col-12");
+                ipjq('.addresPost-show-container').addClass("col-10");
+              }
+            </script>
 
-            function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
-              alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
-                'Цена ' + info.price + ' руб.' + "\n" +
-                'Ориентировочный срок доставки ' + info.term + ' дн.'
-              );
-              console.log('Выбрана доставка в ПВЗ ', info);
-
-              ipjq('[name="chosenPost"]').val(info.id);
-              ipjq('[name="addresPost"]').val(info.PVZ.Address);
-              ipjq('[name="addresPost-show"]').val(info.PVZ.Address);
-              ipjq('[name="pricePost"]').val(info.price);
-              ipjq('[name="timePost"]').val(info.term);
-              ipjq('#forpvz').css('display','none');
-              ipjq('.pencil-svg').css('display','block');
-              ipjq('.addresPost-show-container').removeClass("col-12");
-              ipjq('.addresPost-show-container').addClass("col-10");
-            }
-          </script>
-          <form class="" action="{% url 'payment' %}" method="post">
-            {% csrf_token %}
             <p><input type="hidden" name="chosenPost" value="" /></p>
             <div class="row">
               <div class="col-12 addresPost-show-container">
@@ -199,8 +204,17 @@
             <p><input type="hidden" name="pricePost" value="" /></p>
             <p><input type="hidden" name="timePost" value="" /></p>
 
-            <button class="mb-5 mt-4 w-100 btn btn-dark btn-lg" type="submit">Перейти к оплате</button>
           </form>
+
+          <script>
+            submitForms = function(){
+              ipjq('#form1').submit();
+              ipjq('#form2').submit();
+            }
+          </script>
+          <button class="mb-5 mt-4 w-100 btn btn-dark btn-lg" onclick="submitForms()">Перейти к оплате</button>
+
+
         </div>
       </div>
     </main>

@@ -12,17 +12,21 @@
   .discount{
     top: 10px!important;
   }
-  .dropdown-item:hover{
-    color: #f6f6f6;
-    background: #343434;
-  }
   .nav-item.active .nav-link{
-    color: #343434!important;
+    color: #262626!important;
   }
   .nav-item.active::after{
-    background: #343434!important;
+    background: #262626!important;
     width: 100%!important;
   }
+  .sorting-dropdown .dropdown-item{
+    font-size: 14px;
+  }
+  .sorting-dropdown .dropdown-item:hover{
+    color: #f6f6f6!important;
+    background: #262626;
+  }
+
   @media (max-width: 768px){
     .productImg {
       max-width: 190px;
@@ -60,7 +64,7 @@
             border-radius: 0px;">
           Сортировать по
         </a>
-        <ul class="dropdown-menu dropdown-menu-end" style="" aria-labelledby="dropdownMenuLink">
+        <ul class="sorting-dropdown dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
           <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?price=down">Цена (по убыв.)</a></li>
           <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?price=up">Цена (по возр.)</a></li>
           <li><a class="dropdown-item py-3" href="{% url 'catalog' catalog_slug %}?newer=down">Новизна (нов.)</a></li>

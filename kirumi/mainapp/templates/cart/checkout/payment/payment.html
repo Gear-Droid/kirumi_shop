@@ -1,7 +1,7 @@
 {% extends 'homepage.html' %}
 
-{% load static %}
-{% load thumbnail %}
+{% load static i18n thumbnail %}
+
 {% block header %}
   <!--===============================================================================================-->
     <!-- Card CSS style -->
@@ -22,17 +22,15 @@
     margin-bottom: 10px;
   }
 
-  input, textarea {
-    background: #f6f6f6;
+  .form-control {
+    display:block;
+    background: #f6f6f6!important;
     border: 0px solid!important;
     border-bottom: 1px solid lightgrey!important;
     border-radius: 0!important;
   }
   textarea {
     cursor: default;
-  }
-  .tinkoffPayRow{
-    display:block;
   }
 {% endblock style %}
 
@@ -53,14 +51,13 @@
           <span class="badge bg-primary rounded-pill"> {{ cart.total_products }} </span>
         </h4>
         <ul class="list-group mb-3">
-
           {% for item in products_in_cart %}
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
                 <h6 class="my-0">{{ item.qty }} x {{ item.colored_product.product.name }}</h6>
                 <small class="text-muted">{{ item.colored_product.name }} - {{ item.size }} размер</small>
               </div>
-              <span class="text-muted">{{ item.colored_product.price }}</span>
+              <span class="text-muted">{{ item.qty }} x {{ item.colored_product.price }} {% trans "₽" %}</span>
             </li>
           {% endfor %}
 
@@ -69,95 +66,109 @@
               <h6 class="my-0">Промокод</h6>
               <small>EXAMPLECODE</small>
             </div>
-            <span class="text-success">− 0 руб.</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Итого</span>
-            <strong>{{cart.final_price}} руб.</strong>
+            <span class="text-success">− 0 {% trans "₽" %}</span>
           </li>
 
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Итого</span>
+            <strong>{{cart.final_price}} {% trans "₽" %}</strong>
+          </li>
+
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Доставка</span>
+            {{ delivery_details.pricePost }} {% trans "₽" %}
+          </li>
         </ul>
       </div>
     </div>
+
     <div>
       <div class="">
-          {% comment %} <div class="col my-4">
-            <div class="form-floating">
-              <input class="form-control" id="firstName" value="Conor" readonly>
-              <label for="firstName" class="form-label">Имя</label>
-            </div>
-            
-            <div class="form-floating">
-              <input type="text" class="form-control" id="lastName" value="McGregor" readonly>
-              <label for="lastName" class="form-label">Фамилия</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="email" class="form-control" id="email" value="email@example.com" readonly>
-              <label for="email" class="form-label">Email</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="text" class="form-control" id="phone" value="666999" readonly>
-              <label for="phone" class="form-label">Номер телефона</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="text" class="form-control" id="chosenPost" value="{{ delivery_details.chosenPost }}" readonly>
-              <label for="chosenPost" class="form-label">Номер ПВЗ</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="text" class="form-control" id="addresPost" value="{{ delivery_details.addresPost }}" readonly>
-              <label for="addresPost" class="form-label">Адрес ПВЗ</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="text" class="form-control" id="pricePost" value="{{ delivery_details.pricePost }}" readonly>
-              <label for="pricePost" class="form-label">Стоимость доставки</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="text" class="form-control" id="timePost" value="{{ delivery_details.timePost }}" readonly>
-              <label for="timePost" class="form-label">Приблизительное время доставки</label>
-            </div>
-          </div> {% endcomment %}
-
+        <div class="col my-4">
           <h4 class="mb-3">Оплата</h4>
-
-          <form name="TinkoffPayForm needs-validation mx-0 px-0" onsubmit="pay(this); return false;">
+          <form name="TinkoffPayForm mx-0 px-0">
             {% csrf_token %}
             <input class="tinkoffPayRow" type="hidden" name="terminalkey" value="1663090406118DEMO">
             <input class="tinkoffPayRow" type="hidden" name="frame" value="true">
             <input class="tinkoffPayRow" type="hidden" name="language" value="ru">
 
             <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="Сумма заказа" id="amount" name="amount" value="{{ cart.final_price }}" readonly required>
-              <label for="amount" class="form-label">Сумма заказа</label>
-            </div>
-            <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="Номер заказа" id="order" name="order">
-              <label for="order" class="form-label">Номер заказа</label>
-            </div>
-            <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="Описание заказа" name="description">
-              <label class="form-label">Описание заказа</label>
-            </div>
-            <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="ФИО плательщика" name="name">
+              <input class="tinkoffPayRow form-control" type="text" placeholder="ФИО плательщика" name="name" value="{{ order_details.lastName }} {{ order_details.firstName }}" readonly required>
               <label class="form-label">ФИО плательщика</label>
             </div>
+
             <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="E-mail" name="email">
+              <input class="tinkoffPayRow form-control" type="text" placeholder="E-mail" name="email" value="{{ order_details.email }}" readonly required>
               <label class="form-label">E-mail</label>
             </div>
+
             <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="Контактный телефон" name="phone">
+              <input class="tinkoffPayRow form-control" type="text" placeholder="Контактный телефон" name="phone" value="{{ order_details.phone }}" readonly required>
               <label class="form-label">Контактный телефон</label>
             </div>
-            <input class="tinkoffPayRow w-100 btn btn-dark btn-lg my-3 mb-5" type="submit" value="Оплатить">
-          </form>
 
+            <div class="form-floating">
+              <input type="hidden" class="form-control" id="chosenPost" value="{{ delivery_details.chosenPost }}" readonly>
+              <label for="chosenPost" class="form-label">Номер ПВЗ</label>
+            </div>
+
+            <div class="form-floating">
+              <input type="text" class="form-control" id="addresPost" value="{{ delivery_details.addresPost }}" readonly>
+              <label for="addresPost" class="form-label">Адрес</label>
+            </div>
+
+            <div class="form-floating">
+              <input class="tinkoffPayRow form-control" type="text" placeholder="Сумма заказа" id="amount" name="amount"
+                value="100"
+                {% comment %} value="{{ cart.final_price }}" {% endcomment %}
+                readonly required>
+              <label for="amount" class="form-label">Сумма заказа (руб.)</label>
+            </div>
+
+            <div class="form-floating">
+              <input type="text" class="form-control" id="pricePost" value="{{ delivery_details.pricePost }}" readonly>
+              <label for="pricePost" class="form-label">Стоимость доставки (руб.)</label>
+            </div>
+
+            <div class="form-floating">
+              <input type="text" class="form-control" id="timePost" value="{{ delivery_details.timePost }}" readonly>
+              <label for="timePost" class="form-label">Приблизительное время доставки (дни)</label>
+            </div>
+
+            <input class="tinkoffPayRow" type="hidden" name="receipt" value="">
+            <script type="text/javascript">
+              function tinkoffPayFunction(target) {
+                let form = target.parentElement;
+                let email = form.email.value;
+                let phone = form.phone.value;
+    
+                if (amount && email && phone) {
+                  form.receipt.value = JSON.stringify({
+                    "Email": email,
+                    "Phone": phone,
+                    "EmailCompany": "kirumiwork@gmail.com",
+                    "Taxation": "usn_income_outcome",
+                    "amount": 10,
+                    "Items": [
+                      {
+                        "Name": "name",
+                        "Price": '10000',
+                        "Quantity": 1.00,
+                        "Amount": '10000',
+                        "Tax": "none"
+                      }
+                    ]
+                  });
+                  console.log(form.receipt.value);
+                  pay(form);
+                } else alert("Не все обязательные поля заполнены")
+                return false;
+              }
+            </script>
+            <input class="tinkoffPayRow w-100 btn btn-dark btn-lg my-4 mb-5" style="background: #262626!important;" type="button" onclick="tinkoffPayFunction(this);" value="Оплатить"/>
+            {% comment %} <button class="tinkoffPayRow w-100 btn btn-dark btn-lg my-4 mb-5" type="submit" onclick="tinkoffPayFunction(this)">Оплатить</button> {% endcomment %}
+          </form>
+        </div>
       </div>
     </div>
   </div>
