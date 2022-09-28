@@ -367,7 +367,7 @@ class PrivacyPolicyView(BasePageView):
 
 class DeliveryAndPaymentView(BasePageView):
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         context = {
             'meta':{
                 'Title': "Доставка и оплата",
