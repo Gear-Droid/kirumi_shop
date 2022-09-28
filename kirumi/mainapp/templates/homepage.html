@@ -89,134 +89,135 @@
     <noscript><div><img src="https://mc.yandex.ru/watch/90592432" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg fixed-top" style="max-width: 100vw;" aria-label="navbar">
-    <div class="container-fluid d-flex">
-      <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 12px;">
-        <!-- SVG place -->
-        <img class=""
-          src="{% static "images/new_logo_black_wear_2.svg" %}"
-          alt="Kirumi logo"
-          width="80px"
-          loading="lazy" />
-      </a>
+  {% block navbar %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top" style="max-width: 100vw;" aria-label="navbar">
+      <div class="container-fluid d-flex">
+        <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 12px;">
+          <!-- SVG place -->
+          <img class=""
+            src="{% static "images/new_logo_black_wear_2.svg" %}"
+            alt="Kirumi logo"
+            width="80px"
+            loading="lazy" />
+        </a>
 
-      <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:24px;">
-        <span style="color: #262626;">[<span style="color: grey;">{{ cart.total_products }}</span>]</span>
-      </a>
+        <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:24px;">
+          <span style="color: #262626;">[<span style="color: grey;">{{ cart.total_products }}</span>]</span>
+        </a>
 
-      <button class="navbar-toggler hamburger collapsed" type="button"
-        data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </button>
+        <button class="navbar-toggler hamburger collapsed" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav" style="">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'homepage' %}">{% trans "Главная" %}</a>
-          </li>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav" style="">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'homepage' %}">{% trans "Главная" %}</a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about_brand' %}">{% trans "О бренде" %}</a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'new_products' %}">{% trans "Новинки" %}</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'new_products' %}">{% trans "Новинки" %}</a>
+            </li>
 
-          <li class="nav-item dropdown" id="navbarDarkDropdownCatalogMenu">
-            <a class="nav-link desktop" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink">
-              {% trans "Каталог" %}
-            </a>
-            <a class="nav-link dropdown-toggle mobile" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink"
-              style="display:none;"
-              role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Каталог" %}
-            </a>
-            <ul class="hide dropdown-menu dropdown-menu-dark" style="
-              padding: 30px 20px;
-              width: 100vw;
-              display: flex;
-              background: #f6f6f6;
-              border: 0;
-              display: none;
-              justify-content: center;
-              list-style: none;
-              position: fixed;
-              left: 0;
-              top: 63px;
-              z-index: 101;
-            ">
-              {% for collection in collections %}
-                <li class="nav-item" style="text-align:center; width:min-content;">
-                  <a class="dropdown-item nav-link" style="color: grey;" href="{% url 'catalog' collection.slug %}">{{ collection }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-        </ul>
-
-        <ul class="navbar-nav d-flex justify-content-start align-content-start" style="margin-left: 0; width: 100%;">
-          <li class="nav-item ms-auto">
-            <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #262626;">
-              {% trans "Корзина" %}: <span style="color: #262626;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
-            </a>
-          </li>
-          {% comment %} 
-            <li class="nav-item dropdown languageSwitcher">
-              <a class="nav-link dropdown-toggle" href="#" id="languageSelector" data-bs-toggle="dropdown" aria-expanded="false">
-                {% if LANGUAGE_CODE == 'ru' %}  
-                  <img class="ru_flag" src="{% static "images/Flag_of_Russia.svg" %}"
-                    alt="Russian flag" width="25px" height="15px" />
-                {% else %}
-                  <img class="uk_flag" src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
-                    alt="UK flag" width="25px" height="15px" />
-                {% endif %}
+            <li class="nav-item dropdown" id="navbarDarkDropdownCatalogMenu">
+              <a class="nav-link desktop" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink">
+                {% trans "Каталог" %}
               </a>
-
-              <ul class="dropdown-menu language-dropdown" aria-labelledby="languageSelector">
-                <li>
-                  <form action="{% url 'set_language' %}" method="post">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-                    <input name="language" type="hidden" value="RU" />
-                    <div class="locale-container">
-                      <img class="ru_flag"
-                        src="{% static "images/Flag_of_Russia.svg" %}"
-                        alt="Russian flag" width="25px" height="15px" />
-                      <input class="dropdown-item" type="submit" value="RU">
-                    </div>
-                  </form>
-                </li>
-                <li>
-                  <form action="{% url 'set_language' %}" method="post">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-                    <input name="language" type="hidden" value="EN" />
-                    <div class="locale-container">
-                      <img class="uk_flag"
-                        src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
-                        alt="UK flag" width="25px" height="15px" />
-                      <input class="dropdown-item" type="submit" value="EN">
-                    </div>
-                  </form>
-                </li>
+              <a class="nav-link dropdown-toggle mobile" href="{% url 'catalog' %}" id="navbarDarkDropdownCatalogMenuLink"
+                style="display:none;"
+                role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Каталог" %}
+              </a>
+              <ul class="hide dropdown-menu dropdown-menu-dark" style="
+                padding: 30px 20px;
+                width: 100vw;
+                display: flex;
+                background: #f6f6f6;
+                border: 0;
+                display: none;
+                justify-content: center;
+                list-style: none;
+                position: fixed;
+                left: 0;
+                top: 63px;
+                z-index: 101;
+              ">
+                {% for collection in collections %}
+                  <li class="nav-item" style="text-align:center; width:min-content;">
+                    <a class="dropdown-item nav-link" style="color: grey;" href="{% url 'catalog' collection.slug %}">{{ collection }}</a>
+                  </li>
+                {% endfor %}
               </ul>
             </li>
-          {% endcomment %}
-        </ul>
+          </ul>
 
-        <!-- <form>
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-        </form> -->
+          <ul class="navbar-nav d-flex justify-content-start align-content-start" style="margin-left: 0; width: 100%;">
+            <li class="nav-item ms-auto">
+              <a class="nav-link nav-link-with-icon" href="{% url 'cart' %}" style="color: #262626;">
+                {% trans "Корзина" %}: <span style="color: #262626;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
+              </a>
+            </li>
+            {% comment %} 
+              <li class="nav-item dropdown languageSwitcher">
+                <a class="nav-link dropdown-toggle" href="#" id="languageSelector" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if LANGUAGE_CODE == 'ru' %}  
+                    <img class="ru_flag" src="{% static "images/Flag_of_Russia.svg" %}"
+                      alt="Russian flag" width="25px" height="15px" />
+                  {% else %}
+                    <img class="uk_flag" src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
+                      alt="UK flag" width="25px" height="15px" />
+                  {% endif %}
+                </a>
+
+                <ul class="dropdown-menu language-dropdown" aria-labelledby="languageSelector">
+                  <li>
+                    <form action="{% url 'set_language' %}" method="post">
+                      {% csrf_token %}
+                      <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                      <input name="language" type="hidden" value="RU" />
+                      <div class="locale-container">
+                        <img class="ru_flag"
+                          src="{% static "images/Flag_of_Russia.svg" %}"
+                          alt="Russian flag" width="25px" height="15px" />
+                        <input class="dropdown-item" type="submit" value="RU">
+                      </div>
+                    </form>
+                  </li>
+                  <li>
+                    <form action="{% url 'set_language' %}" method="post">
+                      {% csrf_token %}
+                      <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                      <input name="language" type="hidden" value="EN" />
+                      <div class="locale-container">
+                        <img class="uk_flag"
+                          src="{% static "images/Flag_of_the_United_Kingdom.svg" %}"
+                          alt="UK flag" width="25px" height="15px" />
+                        <input class="dropdown-item" type="submit" value="EN">
+                      </div>
+                    </form>
+                  </li>
+                </ul>
+              </li>
+            {% endcomment %}
+          </ul>
+
+          <!-- <form>
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+          </form> -->
+        </div>
+        <!-- /.collapse -->
       </div>
-      <!-- /.collapse -->
-    </div>
-  </nav>
-  <div class="nav-box"></div>
-
+    </nav>
+    <div class="nav-box"></div>
+  {% endblock navbar %}
 
   {% for message in messages %}
     <div class="alert
@@ -557,30 +558,32 @@
     {% endblock prefooter %}
   </div>
 
-  <!-- Footer -->
-  <footer class="d-flex flex-wrap justify-content-between align-items-center">
-    <p class="copyright-text col-lg-4 mb-0 text-muted">© {% trans "2022 Kirumi интернет-магазин аниме одежды" %}</p>
+  {% block footer %}
+    <!-- Footer -->
+    <footer class="d-flex flex-wrap justify-content-between align-items-center">
+      <p class="copyright-text col-lg-4 mb-0 text-muted">© {% trans "2022 Kirumi интернет-магазин аниме одежды" %}</p>
 
-    <a href="{% url 'homepage' %}" class="col-lg-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
-      <!-- SVG place -->
-      <img class="footer-kirumi-logo"
-        src="{% static "images/kirumi-logo.svg" %}"
-        alt="Kirumi logo"
-        width="200px"
-        loading="lazy" />
-    </a>
+      <a href="{% url 'homepage' %}" class="col-lg-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
+        <!-- SVG place -->
+        <img class="footer-kirumi-logo"
+          src="{% static "images/kirumi-logo.svg" %}"
+          alt="Kirumi logo"
+          width="200px"
+          loading="lazy" />
+      </a>
 
-    <ul class="nav col-lg-4 p-2 justify-content-end">
-      <li class="nav-item"><a href="{% url 'about_brand' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "О бренде" %}</a></li>
-      <li class="nav-item"><a href="{% url 'contacts' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
-      <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
-      <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Возрат-обмен" %}</a></li>
-      <li class="nav-item"><a href="{% url 'delivery_and_payment' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Доставка и оплата" %}</a></li>
-      <li class="nav-item"><a href="{% url 'public_offer' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Публичная оферта" %}</a></li>
-      <li class="nav-item"><a href="{% url 'terms_of_use' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Пользовательское соглашение" %}</a></li>
-      <li class="nav-item"><a href="{% url 'privacy_policy' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Политика конфиденциальности" %}</a></li>
-    </ul>
-  </footer>
+      <ul class="nav col-lg-4 p-2 justify-content-end">
+        <li class="nav-item"><a href="{% url 'about_brand' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "О бренде" %}</a></li>
+        <li class="nav-item"><a href="{% url 'contacts' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
+        <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
+        <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Возрат-обмен" %}</a></li>
+        <li class="nav-item"><a href="{% url 'delivery_and_payment' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Доставка и оплата" %}</a></li>
+        <li class="nav-item"><a href="{% url 'public_offer' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Публичная оферта" %}</a></li>
+        <li class="nav-item"><a href="{% url 'terms_of_use' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Пользовательское соглашение" %}</a></li>
+        <li class="nav-item"><a href="{% url 'privacy_policy' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Политика конфиденциальности" %}</a></li>
+      </ul>
+    </footer>
+  {% endblock footer %}
 
   <!-- Bootstrap Bundle with Popper -->
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>

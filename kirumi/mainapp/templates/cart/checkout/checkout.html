@@ -62,7 +62,9 @@
                   <h6 class="my-0">{{ item.qty }} x {{ item.colored_product.product.name }}</h6>
                   <small class="text-muted">{{ item.colored_product.name }} - {{ item.size }} размер</small>
                 </div>
-                <span class="text-muted">{{ item.subtotal_price }} {% trans "₽" %}</span>
+                <span class="text-muted">
+                  {% if item.subtotal_price_before_discount %}{{ item.subtotal_price_before_discount }}{% else %}{{ item.subtotal_price }}{% endif %} {% trans "₽" %}
+                </span>
               </li>
             {% endfor %}
 

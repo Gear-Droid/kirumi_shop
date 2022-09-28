@@ -226,7 +226,7 @@
                   <div class="variations collapse show" id="collapseExample">
                     <div class="container variations-container p-1">
                       {% for product_color in other_variations %}
-                        <div class="fade-in card p-3 {% if product_color == colored_product %}current-variation{% endif %}">
+                        <div class="fade-in card p-3 m-0 {% if product_color == colored_product %}current-variation{% endif %}">
                           <div class="productBackground">
                             <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
                               {% thumbnail product_color.variation.image "142x200" crop="center" as im %}

@@ -1,0 +1,51 @@
+{% extends 'homepage.html' %}
+
+{% load static i18n thumbnail %}
+
+{% block header %}
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
+  <!--===============================================================================================-->
+{% endblock header %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+  <div class="container" style="max-width: 600px;">
+		<div class="mb-3 text-center">
+
+			<div class="col">
+				<div class="card my-3 shadow-sm">
+					<div class="pt-5 pb-3 text-success">
+						<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+						</svg>
+					</div>
+					<div class="py-3">
+						<h4 class="my-0 fw-normal">Успешно!</h4>
+					</div>
+					<div class="card-body mb-5">
+						<h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+						<ul class="list-unstyled mt-3 mb-5">
+							<li>https://securepayments.tinkoff.ru/</li>
+							<li>referer</li>
+							<li>{{ referer }}</li>
+						</ul>
+						<form action="/">
+							<button type="submit" class="w-75 btn btn-lg btn-outline-success">Вернуться на главную</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block footer %}
+{% endblock footer %}

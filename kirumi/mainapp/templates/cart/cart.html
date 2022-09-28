@@ -128,13 +128,13 @@
                       <hr class="my-4">
 
                       <div class="d-flex justify-content-between mb-5">
-                        <h5 class="text-uppercase m-0 p-0" style="font-size: 1.1rem; line-height: 54px;">{% trans "Сумма к оплате" %}</h5>
+                        <h5 class="text-uppercase m-0 p-0" style="font-size: 1.1rem; font-weight: bold; line-height: 54px;">{% trans "Сумма к оплате" %}</h5>
                         <ul class="m-0 p-0">
-                          {% if cart.promocode %}
+                          {% if cart|show_discount %}
                             <h5 style="font-size: 1.1rem; text-decoration: line-through;">{{ cart.price_before_discount }} {% trans "₽" %}</h5>
-                            <h5 style="font-size: 1.1rem;">{{ cart.final_price }} {% trans "₽" %}</h5>
+                            <h5 style="font-size: 1.1rem; font-weight: bold;">{{ cart.final_price }} {% trans "₽" %}</h5>
                           {% else %}
-                            <h5 style="font-size: 1.1rem; line-height: 58px;">{{ cart.final_price }} {% trans "₽" %}</h5>
+                            <h5 style="font-size: 1.1rem; font-weight: bold; line-height: 58px;">{{ cart.final_price }} {% trans "₽" %}</h5>
                           {% endif %}
                         </ul>
                       </div>

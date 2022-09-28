@@ -12,7 +12,7 @@
       <script id="ISDEKscript" type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" charset="utf-8"></script>
   <!--===============================================================================================-->
       <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
-
+  <!--===============================================================================================-->
 {% endblock header %}
 
 {% block style %}
@@ -58,7 +58,9 @@
                 <h6 class="my-0">{{ item.qty }} x {{ item.colored_product.product.name }}</h6>
                 <small class="text-muted">{{ item.colored_product.name }} - {{ item.size }} размер</small>
               </div>
-              <span class="text-muted">{{ item.subtotal_price_before_discount }} {% trans "₽" %}</span>
+              <span class="text-muted">
+                {% if item.subtotal_price_before_discount %}{{ item.subtotal_price_before_discount }}{% else %}{{ item.subtotal_price }}{% endif %} {% trans "₽" %}
+              </span>
             </li>
           {% endfor %}
 
@@ -73,19 +75,19 @@
           {% endif %}
 
           <li class="list-group-item d-flex justify-content-between">
-            <span>
-              <strong>Итого</strong>
-            </span>
-            <span>
-              <strong>
-                {{cart.final_price}} {% trans "₽" %}
-              </strong>
-            </span>
+            <span>Доставка</span>
+            {{ delivery_details.pricePost }} {% trans "₽" %}
           </li>
 
           <li class="list-group-item d-flex justify-content-between">
-            <span>Доставка</span>
-            {{ delivery_details.pricePost }} {% trans "₽" %}
+            <span>
+              <strong>Итого к оплате</strong>
+            </span>
+            <span>
+              <strong>
+                {{ cart.final_price|add_decimal:delivery_details.pricePost }} {% trans "₽" %}
+              </strong>
+            </span>
           </li>
         </ul>
       </div>
@@ -130,14 +132,14 @@
             </div>
 
             <div class="form-floating">
-              <input class="tinkoffPayRow form-control" type="text" placeholder="Сумма заказа" id="amount" name="amount"
-                value="{{ cart.final_price|comma_to_point }}"
+              <input class="tinkoffPayRow form-control" type="hidden" placeholder="Сумма заказа" id="amount" name="amount"
+                value="{{ cart.final_price|add_decimal:delivery_details.pricePost }}"
                 readonly required>
-              <label for="amount" class="form-label">Сумма заказа (руб.)</label>
+              <label for="amount" class="form-label">Сумма заказа с доставкой(руб.)</label>
             </div>
 
             <div class="form-floating">
-              <input type="text" class="form-control" id="pricePost" value="{{ delivery_details.pricePost }}" readonly>
+              <input type="hidden" class="form-control" id="pricePost" value="{{ delivery_details.pricePost }}" readonly>
               <label for="pricePost" class="form-label">Стоимость доставки (руб.)</label>
             </div>
 
@@ -159,27 +161,26 @@
                     "Phone": phone,
                     "EmailCompany": "kirumiwork@gmail.com",
                     "Taxation": "usn_income",
-                    "amount": {{ cart.final_price|comma_to_point }},
+                    "amount": {{ cart.final_price|add_decimal:delivery_details.pricePost|comma_to_point }},
                     "Items": [
                       {% for item in products_in_cart %}
                         {
-                          "Name": "{{ item.colored_product.product.name }}",
+                          "Name": "{{ item.get_receipt_name }}",
                           "Price": {{ item.colored_product.price|to_penny }},
                           "Quantity": {{ item.qty|comma_to_point }},
                           "Amount": {{ item.subtotal_price|to_penny }},
                           "Tax": "none"
                         },
                       {% endfor %}
-                      {% comment %} {
-                        "Name": "Доставка",
+                      {
+                        "Name": "{% trans "ДОСТАВКА" %}",
                         "Price": {{ delivery_details.pricePost|to_penny }},
                         "Quantity": 1,
                         "Amount": {{ delivery_details.pricePost|to_penny }},
                         "Tax": "none"
-                      }, {% endcomment %}
+                      },
                     ]
                   });
-                  console.log(form.receipt.value);
                   pay(form);
                 } else alert("Не все обязательные поля заполнены")
                 return false;

@@ -325,6 +325,15 @@ class CartProduct(models.Model):
 
         super().save(*args, **kwargs)
 
+    def get_receipt_name(self, *args, **kwargs):
+        return "{} {} {} {} {}".format(
+            self.colored_product.product.collection.first().name,
+            self.colored_product.name,
+            self.colored_product.variation.name,
+            self.size.size,
+            self.colored_product.product.name,
+        )[:64].upper()
+
     def __str__(self):
         return "Карточка: ({} - {}) для корзины: ({})".format(
             self.colored_product.product.name, self.colored_product.name, self.cart)
