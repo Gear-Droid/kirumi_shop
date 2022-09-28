@@ -89,7 +89,6 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg fixed-top" aria-label="navbar">
     <div class="container-fluid d-flex w-100">
-
       <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-right: 20px;">
         <!-- SVG place -->
         <img class=""
@@ -100,7 +99,7 @@
       </a>
 
       <a class="nav-link nav-link-with-icon on-collapse" href="{% url 'cart' %}" style="text-align: end; font-size:24px;">
-        <span style="color: #262626;">[<span style="color: grey;">{{cart.total_products}}</span>]</span>
+        <span style="color: #262626;">[<span style="color: grey;">{{ cart.total_products }}</span>]</span>
       </a>
 
       <button class="navbar-toggler hamburger collapsed" type="button"
