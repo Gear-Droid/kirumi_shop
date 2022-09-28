@@ -114,7 +114,10 @@
             </div>
 
             <div class="form-floating">
-              <input type="text" class="form-control" id="addresPost" value="{{ delivery_details.addresPost }}" readonly>
+              <textarea type="text" class="form-control"
+                onkeydown="return false;"
+                style="caret-color: transparent !important; height: auto;"
+                readonly required>{{ delivery_details.addresPost }}</textarea>
               <label for="addresPost" class="form-label">Адрес</label>
             </div>
 
@@ -132,7 +135,7 @@
 
             <div class="form-floating">
               <input type="text" class="form-control" id="timePost" value="{{ delivery_details.timePost }}" readonly>
-              <label for="timePost" class="form-label">Приблизительное время доставки (дни)</label>
+              <label for="timePost" class="form-label">Время доставки (дни)</label>
             </div>
 
             <input class="tinkoffPayRow" type="hidden" name="receipt" value="">

@@ -179,7 +179,7 @@
             <p><input type="hidden" name="chosenPost" value="" /></p>
             <div class="row">
               <div class="col-12 addresPost-show-container">
-                <label for="addresPost-show" class="form-label">Адрес <span class="text-muted"><!-- * --></span></label>
+                <label for="addresPost-show" class="form-label">Адрес <span class="text-muted">*</span></label>
                 <textarea type="text" class="form-control"
                   id="addresPost-show" name="addresPost-show"
                   onkeydown="return false;" rows=3 required
@@ -204,16 +204,8 @@
             <p><input type="hidden" name="pricePost" value="" /></p>
             <p><input type="hidden" name="timePost" value="" /></p>
 
+            <button type="submit" class="mb-5 mt-4 w-100 btn btn-dark btn-lg">Перейти к оплате</button>
           </form>
-
-          <script>
-            submitForms = function(){
-              ipjq('#form1').submit();
-              ipjq('#form2').submit();
-            }
-          </script>
-          <button class="mb-5 mt-4 w-100 btn btn-dark btn-lg" onclick="submitForms()">Перейти к оплате</button>
-
 
         </div>
       </div>
