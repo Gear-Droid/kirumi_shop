@@ -1,5 +1,7 @@
 {% extends 'homepage.html' %}
 
+{% load cart_filters %}
+
 {% load static i18n thumbnail %}
 
 {% block header %}
@@ -37,7 +39,7 @@
                           <a class="product-link" style="text-decoration: none; color: darkblue;"
                             href="{% url 'product_page' item.colored_product.product.slug item.colored_product.slug %}">
                             <p class="" style="max-width: 180px; text-align: center; padding: 5px;">
-                              {{ item.colored_product }} - {{ item.size }} {% trans "размер" %}
+                              {{ item.colored_product }} - {{ item.size }} {% trans "размер" %} - {{ item.colored_product.variation }}
                             </p>
                           </a>
 
@@ -69,7 +71,7 @@
                           </form>
 
                           <span style="font-weight: bold; text-align: center; min-width:86px;">
-                            {{ item.colored_product.price }} {% trans "₽" %}
+                            {{ item.subtotal_price }} {% trans "₽" %}
                           </span>
 
                           <form id="deleteForm" action="{% url 'delete_cart_product' item.id %}" method="post">
@@ -83,7 +85,6 @@
                               </svg>
                             </button>
                           </form>
-
                         </div>
                       {% endfor %}
 
@@ -94,24 +95,37 @@
                       <h3 class="fw-bold mb-5 mt-2 pt-1">{% trans "Итого" %}</h3>
                       <div class="d-flex justify-content-between mb-4">
                         <h6 class="text-uppercase">{{ cart.total_products }} {% trans "вещи(-ей)" %} </h6>
-                        <h6>{{ cart.final_price }} {% trans "₽" %}</h6>
+                        <h6>{{ cart.price_before_discount }} {% trans "₽" %}</h6>
                       </div>
 
                       <hr class="my-4">
 
                       <h5 class="text-uppercase mb-3">{% trans "Промокод" %}</h5>
-                      <div class="mb-5">
-                        <div class="input-group form-outline promocodeArea-container">
-                          <input type="text" id="promocodeArea" class="form-control form-control-lg" placeholder="{% trans "Промокод" %}">
-                          <button type="submit" class="btn btn-secondary">{% trans "Применить" %}</button>
-                        </div>
-                        <label class="form-label" for="promocodeArea">{% trans "Введите ваш промокод" %}</label>
-                       </div>
+                      <div class="mb-3">
+                        <form id="promocodeForm" action="{% url 'cart' %}" method="post">
+                          {% csrf_token %}
+                          <div class="input-group form-outline promocodeArea-container">
+                            <input type="text" id="promocodeArea" class="form-control form-control-lg"
+                              name="promocode" placeholder="{% trans "Промокод" %}"
+                              {% if cart.promocode %}value="{{ cart.promocode }}"{% endif %}>
+                            <button type="submit" class="btn btn-secondary">{% trans "Применить" %}</button>
+                          </div>
+                        </form>
+                        {% if cart.promocode %}
+                          <label class="form-label" for="promocodeArea" style="color: green;">
+                            {% trans "Успешно применён" %}
+                          </label>
+                        {% else %}
+                          <label class="form-label" for="promocodeArea">
+                            {% trans "Введите ваш промокод" %}
+                          </label>
+                        {% endif %}
+                      </div>
 
                       <hr class="my-4">
 
                       <div class="d-flex justify-content-between mb-5">
-                        <h5 class="text-uppercase">{% trans "Сумма" %}</h5>
+                        <h5 class="text-uppercase">{% trans "Сумма к оплате" %}</h5>
                         <h5>{{ cart.final_price }} {% trans "₽" %}</h5>
                       </div>
                       <a href="{% url 'checkout' %}">

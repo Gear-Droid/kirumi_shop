@@ -38,4 +38,4 @@ def comma_to_point(number):
 
 @register.filter
 def to_penny(number):
-    return int(number*100)
+    return int(float(number)*100)

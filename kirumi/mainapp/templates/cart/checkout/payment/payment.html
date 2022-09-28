@@ -1,6 +1,6 @@
 {% extends 'homepage.html' %}
 
-{% load product_filters %}
+{% load cart_filters %}
 {% load static i18n thumbnail %}
 
 {% block header %}
@@ -58,21 +58,29 @@
                 <h6 class="my-0">{{ item.qty }} x {{ item.colored_product.product.name }}</h6>
                 <small class="text-muted">{{ item.colored_product.name }} - {{ item.size }} размер</small>
               </div>
-              <span class="text-muted">{{ item.qty }} x {{ item.colored_product.price }} {% trans "₽" %}</span>
+              <span class="text-muted">{{ item.subtotal_price }} {% trans "₽" %}</span>
             </li>
           {% endfor %}
 
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div class="text-success">
-              <h6 class="my-0">Промокод</h6>
-              <small>EXAMPLECODE</small>
-            </div>
-            <span class="text-success">− 0 {% trans "₽" %}</span>
-          </li>
+          {% if cart.promocode %}
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Промокод</h6>
+                <small>{{ cart.promocode }}</small>
+              </div>
+              <span class="text-success">− {{ cart.price_before_discount|sub:cart.final_price }} {% trans "₽" %}</span>
+            </li>
+          {% endif %}
 
           <li class="list-group-item d-flex justify-content-between">
-            <span>Итого</span>
-            <strong>{{cart.final_price}} {% trans "₽" %}</strong>
+            <span>
+              <strong>Итого</strong>
+            </span>
+            <span>
+              <strong>
+                {{cart.final_price}} {% trans "₽" %}
+              </strong>
+            </span>
           </li>
 
           <li class="list-group-item d-flex justify-content-between">
@@ -162,6 +170,13 @@
                           "Tax": "none"
                         },
                       {% endfor %}
+                      {
+                        "Name": "Доставка",
+                        "Price": {{ delivery_details.pricePost|to_penny }},
+                        "Quantity": 1,
+                        "Amount": {{ delivery_details.pricePost|to_penny }},
+                        "Tax": "none"
+                      },
                     ]
                   });
                   console.log(form.receipt.value);

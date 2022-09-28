@@ -73,7 +73,6 @@ class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdm
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.image.url} width="50" height="70" />')
-
     get_image.short_description = "Текущее изображение"
 
 
@@ -96,7 +95,6 @@ class CollectionAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmi
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.image.url} width="50" height="70" />')
-
     get_image.short_description = "Текущее изображение"
 
 
@@ -137,7 +135,6 @@ class ProductImageInline(admin.TabularInline):
 
     def get_current_image(self, obj):
         return mark_safe(f'<img src={ obj.image.url } width="50" height="70" />')
-
     get_current_image.short_description = "Изображение"
 
     """def edit_link(self, instance):
@@ -147,7 +144,6 @@ class ProductImageInline(admin.TabularInline):
             return mark_safe(u'<a href="{u}">edit</a>'.format(u=url))
         else:
             return ' - '
-
     edit_link.short_description = "Edit link"""
 
 
@@ -218,13 +214,11 @@ class ColoredProductInline(admin.TabularInline, GetCurrentColor):
     def get_first_image(self, obj):
         image_model = obj.images.filter(is_active=True, product_color=obj).order_by('-sort_order').first()
         return mark_safe(f'<img src={ image_model.image.url } width="50" height="70" />')
-
     get_first_image.short_description = "Первое изображение"
 
     def get_second_image(self, obj):
         image_model = obj.images.filter(is_active=True, product_color=obj).order_by('-sort_order')[1:2].first()
         return mark_safe(f'<img src={ image_model.image.url } width="50" height="70" />')
-
     get_second_image.short_description = "Второе изображение"
 
     def edit_link(self, instance):
@@ -234,7 +228,6 @@ class ColoredProductInline(admin.TabularInline, GetCurrentColor):
             return mark_safe(u'<a href="{u}">Изменить</a>'.format(u=url))
         else:
             return ' - '
-
     edit_link.short_description = "Ссылка для изменения"
 
 
@@ -246,11 +239,16 @@ class ProductVariationAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSl
     fields = (
         ('name_ru', 'name_en', 'is_active'),
         ('description_ru', 'description_en'),
+        ('image', 'get_image'),
         ('sort_order', 'pub_date', 'slug'),
     )
-    list_display = ('sort_order', 'pub_date', 'slug', 'name_ru', 'name_en', 'is_active', )
+    list_display = ('sort_order', 'pub_date', 'slug', 'name_ru', 'name_en', 'get_image', 'is_active', )
     list_filter = ('is_active', 'pub_date', )
-    readonly_fields = ('pub_date', )
+    readonly_fields = ('pub_date', 'get_image')
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="50" height="70" />')
+    get_image.short_description = "Текущее изображение"
 
 
 class ProductAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin):
@@ -290,7 +288,11 @@ class ProductAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin):
 
 class PromocodeAdmin(BasicIsActiveAndDateAdmin, BasicSortOrderAdmin):
 
-    fields = (('promocode', 'is_active', ), ('sort_order', 'pub_date', ), )
+    fields = (
+        ('promocode', 'is_active', ),
+        ('discount', ),
+        ('sort_order', 'pub_date', ),
+    )
     list_display = ('sort_order', 'pub_date', 'promocode', 'is_active', )
     list_display_links = ('promocode', )
     readonly_fields = ('pub_date', )

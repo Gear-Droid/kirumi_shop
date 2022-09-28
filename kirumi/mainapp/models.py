@@ -1,8 +1,9 @@
 from decimal import Decimal
+from email.policy import default
 
 from django.db import models
 from django.utils import timezone
-from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 WrongResolutionMessage = 'Разрешение изображения не равно {}x{}!'
@@ -135,6 +136,9 @@ class ProductVariation(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, Basi
     description = models.TextField(
         max_length=512, verbose_name='Описание вариации товара', null=True, blank=True
     )
+    image = models.ImageField(
+        null=True, upload_to="product_variation_image/%Y/%m", verbose_name='Изображение коллекции'
+    )
 
     def __str__(self):
         return self.name
@@ -211,7 +215,11 @@ class Promocode(BasicIsActiveAndDateModel, BasicSortOrderModel):
         verbose_name = 'Промокод'
         verbose_name_plural = 'Промокоды'
 
-    promocode = models.CharField(max_length=16, unique=True, verbose_name='Промокод')
+    promocode = models.CharField(max_length=32, unique=True, verbose_name='Промокод')
+    discount =  models.PositiveIntegerField(
+        default=0, verbose_name='Скидка в %',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
 
     def __str__(self):
         return f"{self.promocode}"
@@ -231,21 +239,43 @@ class Cart(models.Model):
 
     owner = models.GenericIPAddressField(protocol='IPv4', unique=False, verbose_name='IP владельца корзины')
     session_key = models.CharField(max_length=40, verbose_name='Ключ сессии', default='0')
-    paid = models.BooleanField(verbose_name='Корзина оплачена?', default=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
     colored_products = models.ManyToManyField(
         ColoredProduct, through='CartProduct'
     )
+    promocode = models.ForeignKey(
+        Promocode, verbose_name='Промокод', on_delete=models.CASCADE,
+        related_name="carts", null=True, blank=True
+    )
+    paid = models.BooleanField(verbose_name='Корзина оплачена?', default=False)
     total_products = models.PositiveIntegerField(default=0, verbose_name='Общее число товаров в корзине')
+    price_before_discount = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0, verbose_name='Цена до применения скидки'
+    )
     final_price = models.DecimalField(
-        max_digits=9, decimal_places=2, default=0, verbose_name='Итоговая цена')
+        max_digits=9, decimal_places=2, default=0, verbose_name='Итоговая цена'
+    )
 
     def save(self, *args, **kwargs):
+        self.price_before_discount = 0
         self.final_price = 0
         self.total_products = 0
+        discount = 0
+        if self.promocode is not None:
+            if self.promocode.is_active == False:
+                self.promocode = None
+            else:
+                discount = self.promocode.discount
+        if discount > 0:
+            pass
         cart_products = CartProduct.objects.filter(cart=self).all()
         for cart_product in cart_products:
-            self.final_price += Decimal(cart_product.subtotal_price)
+            cart_product.save()
+            product_price_after_discount = cart_product.subtotal_price
+            if cart_product.colored_product.old_price is None:
+                product_price_after_discount = Decimal(cart_product.subtotal_price - cart_product.subtotal_price*discount/100)
+            self.price_before_discount += Decimal(cart_product.subtotal_price)
+            self.final_price += Decimal(product_price_after_discount)
             self.total_products += int(cart_product.qty)
         super().save(*args, **kwargs)
 
@@ -260,7 +290,6 @@ class CartProduct(models.Model):
         verbose_name_plural = 'Товары в корзине'
         unique_together = (('cart', 'colored_product', 'size'), )
 
-    # user id field
     cart = models.ForeignKey(
         Cart, verbose_name='Корзина', on_delete=models.CASCADE
     )
@@ -273,13 +302,18 @@ class CartProduct(models.Model):
         related_name="cart_products"
     )
     qty = models.PositiveIntegerField(default=1)
+    subtotal_price_before_discount = models.DecimalField(
+        max_digits=9, decimal_places=2, verbose_name='Подытоговая сумма до скидки',
+        null=True, blank=True
+    )
     subtotal_price = models.DecimalField(
-        max_digits=9, decimal_places=2, verbose_name='Подытоговая сумма')
+        max_digits=9, decimal_places=2, verbose_name='Подытоговая сумма'
+    )
 
     def save(self, *args, **kwargs):
-        self.subtotal_price = self.colored_product.price * Decimal(self.qty)
+        self.subtotal_price_before_discount = self.colored_product.price * Decimal(self.qty)
+        self.subtotal_price = self.subtotal_price_before_discount
         super().save(*args, **kwargs)
-        self.cart.save()
 
     def __str__(self):
         return "Карточка: ({} - {}) для корзины: ({})".format(
@@ -303,7 +337,6 @@ class Order(models.Model):
     STATUS_CHOICES = (
         (STATUS_NEW, 'Новый заказ'),
         (STATUS_IN_PROGRESS, 'Заказ в обработке'),
-        (STATUS_IN_PROGRESS, 'Заказ в обработке'),
         (STATUS_READY, 'Заказ готов'),
         (STATUS_COMPLETED, 'Заказ выполнен'),
     )
@@ -317,7 +350,6 @@ class Order(models.Model):
     last_name = models.CharField(max_length=128, verbose_name='Фамилия')
     email = models.EmailField(max_length=254, verbose_name='Email')
     phone = models.CharField(max_length=20, verbose_name='Телефон')
-    # cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True)
     address = models.CharField(max_length=1024, verbose_name='Адрес')
     status = models.CharField(
         max_length=100,

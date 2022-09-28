@@ -9,6 +9,7 @@ from .models import (
     Banner,
     ColoredProduct,
     CartProduct,
+    Promocode,
 )
 from .mixins import (
     CartMixin,
@@ -39,7 +40,6 @@ class HomePageView(BasePageView, NewProductsMixin):
         return render(request, 'homepage.html', context=context)
 
     def post(self, request, *args, **kwargs):
-        print(request)
         self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
 
         context = {
@@ -182,15 +182,24 @@ class CatalogView(BasePageView, CatalogMixin):
 class CartView(BasePageView, CartProductMixin):
 
     def get(self, request, *args, **kwargs):
+        self.cart.save()
         context = {
             'meta':{
-                'Title': "Ваша корзина покупок Kirumi",
+                'Title': "Корзина покупок Kirumi",
             },
             'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
         }
         return render(request, 'cart/cart.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        promocode = request.POST.get('promocode')
+        if promocode is not None:
+            promocode = str(promocode).upper()
+            promocode = Promocode.objects.filter(promocode=promocode, is_active=True).first()
+            self.cart.promocode=promocode
+        return self.get(request, *args, **kwargs)
 
 
 class DeleteCartProductView(CartMixin, CartProductMixin):
@@ -243,11 +252,6 @@ class CheckoutView(BasePageView, CartProductMixin):
         if self.products_in_cart.count() == 0:
             return HttpResponseRedirect(reverse('cart'))
 
-        for product in self.products_in_cart:
-            product.save()
-        self.cart.save()
-
-
         context = {
             'meta':{
                 'Title': "Детали заказа",
@@ -280,6 +284,9 @@ class DeliveryWidgetView(BasePageView, CartProductMixin):
 class PaymentView(BasePageView, CartProductMixin):
 
     def post(self, request, *args, **kwargs):
+        if self.products_in_cart.count() == 0:
+            return HttpResponseRedirect(reverse('cart'))
+
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')
         email = request.POST.get('email')

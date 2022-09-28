@@ -1,9 +1,8 @@
 {% extends 'homepage.html' %}
 
 {% load product_filters %}
-{% load thumbnail %}
-{% load i18n %}
-{% load static %}
+
+{% load static i18n thumbnail %}
 
 {% block header %}
 
@@ -230,14 +229,12 @@
                         <div class="fade-in card p-3 {% if product_color == colored_product %}current-variation{% endif %}">
                           <div class="productBackground">
                             <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
-                              {% for img in product_color.get_two_first_images %}
-                                {% thumbnail img.image "142x200" crop="center" as im %}
-                                  <img src="{{ im.url }}" alt="{{ img.description }}"
-                                    width="142" height="200"
-                                    class="productImg"
-                                    loading="lazy" />
-                                {% endthumbnail %}
-                              {% endfor %}
+                              {% thumbnail product_color.variation.image "142x200" crop="center" as im %}
+                                <img src="{{ product_color.variation.image.url }}" alt="{{ product_color.variation.description }} {{ product_color }}"
+                                  width="142" height="200"
+                                  style="display: inherit; width: auto;"
+                                  loading="lazy" />
+                              {% endthumbnail %}
                             </a>
                           </div>
                           <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"

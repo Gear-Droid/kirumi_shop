@@ -23,7 +23,9 @@ class CartMixin(View):
         if current_session_key is None:
             request.session.create()
             current_session_key = request.session.session_key
-        self.cart, created = Cart.objects.filter(paid=False).only('total_products', 'final_price', 'paid',).get_or_create(owner=ip, session_key=current_session_key, paid=False)
+        self.cart, created = Cart.objects  \
+            .only('total_products', 'final_price', 'paid', 'promocode')  \
+            .get_or_create(owner=ip, session_key=current_session_key, paid=False)
 
         return super().dispatch(request, *args, **kwargs)
 
