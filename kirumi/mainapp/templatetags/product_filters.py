@@ -29,3 +29,13 @@ def get_discount(product_color):
         discount = Decimal((product_color.old_price - product_color.price) * 100 / product_color.old_price)
         discount = discount.quantize(Decimal('1'))
     return discount
+
+
+@register.filter
+def comma_to_point(number):
+    return str(number)
+
+
+@register.filter
+def to_penny(number):
+    return int(number*100)

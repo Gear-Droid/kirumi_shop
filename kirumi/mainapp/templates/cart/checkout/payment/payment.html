@@ -1,5 +1,6 @@
 {% extends 'homepage.html' %}
 
+{% load product_filters %}
 {% load static i18n thumbnail %}
 
 {% block header %}
@@ -119,8 +120,7 @@
 
             <div class="form-floating">
               <input class="tinkoffPayRow form-control" type="text" placeholder="Сумма заказа" id="amount" name="amount"
-                value="100"
-                {% comment %} value="{{ cart.final_price }}" {% endcomment %}
+                value="{{ cart.final_price|comma_to_point }}"
                 readonly required>
               <label for="amount" class="form-label">Сумма заказа (руб.)</label>
             </div>
@@ -148,15 +148,17 @@
                     "Phone": phone,
                     "EmailCompany": "kirumiwork@gmail.com",
                     "Taxation": "usn_income_outcome",
-                    "amount": 10,
+                    "amount": {{ cart.final_price|comma_to_point }},
                     "Items": [
-                      {
-                        "Name": "name",
-                        "Price": '10000',
-                        "Quantity": 1.00,
-                        "Amount": '10000',
-                        "Tax": "none"
-                      }
+                      {% for item in products_in_cart %}
+                        {
+                          "Name": "{{ item.colored_product.product.name }}",
+                          "Price": {{ item.colored_product.price|to_penny }},
+                          "Quantity": {{ item.qty|comma_to_point }},
+                          "Amount": {{ item.subtotal_price|to_penny }},
+                          "Tax": "none"
+                        },
+                      {% endfor %}
                     ]
                   });
                   console.log(form.receipt.value);
