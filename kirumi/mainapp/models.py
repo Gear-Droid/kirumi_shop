@@ -266,16 +266,19 @@ class Cart(models.Model):
                 self.promocode = None
             else:
                 discount = self.promocode.discount
-        if discount > 0:
-            pass
         cart_products = CartProduct.objects.filter(cart=self).all()
         for cart_product in cart_products:
-            cart_product.save()
-            product_price_after_discount = cart_product.subtotal_price
-            if cart_product.colored_product.old_price is None:
-                product_price_after_discount = Decimal(cart_product.subtotal_price - cart_product.subtotal_price*discount/100)
-            self.price_before_discount += Decimal(cart_product.subtotal_price)
-            self.final_price += Decimal(product_price_after_discount)
+            if cart_product.colored_product.old_price:
+                pass
+            elif discount > 0 and discount <= 100:
+                cart_product.save(discount=discount)
+            else:
+                cart_product.save()
+            if cart_product.subtotal_price_before_discount is not None:
+                self.price_before_discount += Decimal(cart_product.subtotal_price_before_discount)
+            else:
+                self.price_before_discount += Decimal(cart_product.subtotal_price)
+            self.final_price += Decimal(cart_product.subtotal_price)
             self.total_products += int(cart_product.qty)
         super().save(*args, **kwargs)
 
@@ -311,8 +314,15 @@ class CartProduct(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.subtotal_price_before_discount = self.colored_product.price * Decimal(self.qty)
+        discount = kwargs.get('discount')
+        self.subtotal_price_before_discount = Decimal(self.colored_product.price * self.qty)
         self.subtotal_price = self.subtotal_price_before_discount
+        if discount is not None:
+            self.subtotal_price = Decimal(self.subtotal_price * (100 - discount)/100)
+            del kwargs['discount']
+        else:
+            self.subtotal_price_before_discount = None
+
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -58,7 +58,7 @@
                 <h6 class="my-0">{{ item.qty }} x {{ item.colored_product.product.name }}</h6>
                 <small class="text-muted">{{ item.colored_product.name }} - {{ item.size }} размер</small>
               </div>
-              <span class="text-muted">{{ item.subtotal_price }} {% trans "₽" %}</span>
+              <span class="text-muted">{{ item.subtotal_price_before_discount }} {% trans "₽" %}</span>
             </li>
           {% endfor %}
 
@@ -158,7 +158,7 @@
                     "Email": email,
                     "Phone": phone,
                     "EmailCompany": "kirumiwork@gmail.com",
-                    "Taxation": "usn_income_outcome",
+                    "Taxation": "usn_income",
                     "amount": {{ cart.final_price|comma_to_point }},
                     "Items": [
                       {% for item in products_in_cart %}
@@ -170,13 +170,13 @@
                           "Tax": "none"
                         },
                       {% endfor %}
-                      {
+                      {% comment %} {
                         "Name": "Доставка",
                         "Price": {{ delivery_details.pricePost|to_penny }},
                         "Quantity": 1,
                         "Amount": {{ delivery_details.pricePost|to_penny }},
                         "Tax": "none"
-                      },
+                      }, {% endcomment %}
                     ]
                   });
                   console.log(form.receipt.value);
