@@ -326,34 +326,13 @@ class SuccessView(BasePageView, CartProductMixin):
 
     @xframe_options_sameorigin
     def get(self, request, *args, **kwargs):
-        referer = request.META.get('HTTP_REFERER')
-
-        firstName = request.POST.get('firstName')
-        lastName = request.POST.get('lastName')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        chosenPost = request.POST.get('chosenPost')     # номер поста
-        addresPost = request.POST.get('addresPost')     # адрес
-        pricePost = request.POST.get('pricePost')       # стоимость доставки
-        timePost = request.POST.get('timePost')         # приблизительное время доставки
-
+        referer = request.META
         context = {
             'meta': {
                 'Title': 'Успешная оплата',
                 'referer': referer,
             },
-            'delivery_details':{
-                'chosenPost': chosenPost,
-                'addresPost': addresPost,
-                'pricePost': pricePost,
-                'timePost': timePost,
-            },
-            'order_details':{
-                'firstName': firstName,
-                'lastName': lastName,
-                'email': email,
-                'phone': phone,
-            },
+
             'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
