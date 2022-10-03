@@ -18,6 +18,7 @@ from .mixins import (
     NewProductsMixin,
     CollectionsMixin,
     CatalogMixin,
+    OrderMixin,
 )
 
 
@@ -283,21 +284,10 @@ class DeliveryWidgetView(BasePageView, CartProductMixin):
         return HttpResponse(html)
 
 
-class PaymentView(BasePageView, CartProductMixin):
+class PaymentView(BasePageView, CartProductMixin, OrderMixin):
 
     def post(self, request, *args, **kwargs):
-        if self.products_in_cart.count() == 0:
-            return HttpResponseRedirect(reverse('cart'))
 
-        firstName = request.POST.get('firstName')
-        lastName = request.POST.get('lastName')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-
-        chosenPost = request.POST.get('chosenPost')     # номер поста
-        addresPost = request.POST.get('addresPost')     # адрес
-        pricePost = request.POST.get('pricePost')       # стоимость доставки
-        timePost = request.POST.get('timePost')         # приблизительное время доставки
 
         context = {
             'meta': {

@@ -164,7 +164,9 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
         'name_ru', 'name_en', 'variation', 'color_hex_code', 'price',
         'old_price', 'is_active',
     )
+    list_editable = ('sort_order', )
     list_filter = ('is_active', 'pub_date', )
+    search_fields = ('name_ru', 'name_en', 'slug', 'product__name_ru', 'product__name_en')
     readonly_fields = ('pub_date', 'product', 'get_color', )
     inlines = [
         ProductImageInline,
@@ -207,7 +209,7 @@ class ColoredProductInline(admin.TabularInline, GetCurrentColor):
         'price', 'old_price', 'get_first_image', 'get_second_image',
         'edit_link', 'slug', 'is_active',
     )
-    prepopulated_fields = {"slug": ("name_en", )}
+    prepopulated_fields = {"slug": ("product", "name_en",)}
     readonly_fields = ('pub_date', 'get_color', 'edit_link', 'get_first_image', 'get_second_image', )
     ordering = ('-sort_order', )
 
@@ -262,7 +264,7 @@ class ProductAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin):
         ('collection', 'sizes'),
         ('pub_date', 'slug'),
     )
-    list_display = ('pub_date', 'slug', 'name', 'is_active', )
+    list_display = ('pub_date', 'slug', 'name_ru', 'name_en', 'is_active', )
     list_filter = ('is_active', 'pub_date', 'sizes', 'collection', )
     readonly_fields = ('pub_date', )
     inlines = [
@@ -300,12 +302,55 @@ class PromocodeAdmin(BasicIsActiveAndDateAdmin, BasicSortOrderAdmin):
     search_fields = ('promocode', )
 
 
+class CartProductInline(admin.TabularInline, GetCurrentColor):
+    
+    model = CartProduct
+    extra = 0
+
+    fields = (
+        'colored_product', 'get_first_image',
+        'size', 'qty',
+        'subtotal_price_before_discount', 'subtotal_price',
+    )
+    readonly_fields = (
+        'colored_product', 'get_color', 'get_first_image',
+        'subtotal_price_before_discount', 'subtotal_price',
+    )
+
+    def get_first_image(self, obj):
+        image_model = obj.colored_product.images.filter(is_active=True, product_color=obj.colored_product).order_by('-sort_order').first()
+        return mark_safe(f'<img src={ image_model.image.url } width="50" height="70" />')
+    get_first_image.short_description = "Первое изображение"
+
+
+class CartAdmin(admin.ModelAdmin):
+
+    class Meta:
+        model = Cart
+
+    fields = (
+        ('created', 'session_key', ),
+        ('owner', 'promocode', 'paid', ),
+        ('total_products', 'price_before_discount', 'final_price'),
+    )
+    list_display = (
+        'created', 'owner', 'promocode',
+        'total_products', 'price_before_discount', 'final_price', 'paid' )
+    readonly_fields = (
+        'created', 'session_key',
+        'owner', 'paid',
+        'total_products', 'price_before_discount', 'final_price'
+    )
+    list_filter = ('created', 'paid')
+    inlines = [
+        CartProductInline,
+    ]
+
+
 class CartProductAdmin(admin.ModelAdmin):
 
     class Meta:
         model = CartProduct
-
-    exclude = ('subtotal_price', )
 
 
 admin.site.register(Banner, BannerAdmin)
@@ -314,7 +359,7 @@ admin.site.register(Size, SizeAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ColoredProduct, ColoredProductAdmin)
 admin.site.register(Promocode, PromocodeAdmin)
-admin.site.register(Cart)
+admin.site.register(Cart, CartAdmin)
 admin.site.register(CartProduct, CartProductAdmin)
 admin.site.register(Order)
 admin.site.register(ProductVariation, ProductVariationAdmin)

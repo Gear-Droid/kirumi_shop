@@ -1,12 +1,14 @@
 from django.views.generic import View
 from django.db.models import Q, F
-from django.contrib.sessions.backends.db import SessionStore
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from .models import (
     Cart,
     CartProduct,
     ColoredProduct,
     Collection,
+    Order
 )
 
 
@@ -120,4 +122,28 @@ class CatalogMixin(View):
             'product__is_active', 'product__pub_date',
         )
 
+        return super().dispatch(request, *args, **kwargs)
+
+
+class OrderMixin(View):
+    def dispatch(self, request, *args, **kwargs):
+        if self.products_in_cart.count() == 0:
+            return HttpResponseRedirect(reverse('cart'))
+
+        firstName = request.POST.get('firstName')
+        lastName = request.POST.get('lastName')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        chosenPost = request.POST.get('chosenPost')     # номер поста
+        addresPost = request.POST.get('addresPost')     # адрес
+        pricePost = request.POST.get('pricePost')       # стоимость доставки
+        timePost = request.POST.get('timePost')         # приблизительное время доставки
+
+        BUYING_TYPE_SELF = 'SELF'
+
+        self.cart
+        Order.objects.get_or_create(
+            first_name=firstName, last_name=lastName, email=email, phone=phone,
+            address=addresPost, buying_type=BUYING_TYPE_SELF,
+        )
         return super().dispatch(request, *args, **kwargs)

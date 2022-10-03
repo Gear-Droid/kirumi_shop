@@ -369,7 +369,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=128, verbose_name='Фамилия')
     email = models.EmailField(max_length=254, verbose_name='Email')
     phone = models.CharField(max_length=20, verbose_name='Телефон')
-    address = models.CharField(max_length=1024, verbose_name='Адрес')
+    address = models.TextField(max_length=1024, verbose_name='Адрес')
     status = models.CharField(
         max_length=100,
         verbose_name='Статус заказа',
@@ -384,7 +384,7 @@ class Order(models.Model):
     )
     comment = models.TextField(verbose_name='Комментарий к заказу', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
-    order_date = models.DateField(verbose_name='Дата полученя заказа', default=timezone.datetime.today)
+    order_date = models.DateField(verbose_name='Дата начала оформления заказа', default=timezone.datetime.today)
 
     def __str__(self):
         return str(self.id)
