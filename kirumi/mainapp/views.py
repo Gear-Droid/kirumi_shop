@@ -432,7 +432,7 @@ class AddressesAPIView(CachedCitiesMixin, View):
         city = self.cities_dict.get(city_code_param)
         if city is None:
             return JsonResponse(
-                { "status": "ERROR", "details": "wrong city_code" },
+                { "status": "ERROR", "details": "wrong city_code", "addresses": [] },
                 json_dumps_params = dict(ensure_ascii=False),
             )
 
