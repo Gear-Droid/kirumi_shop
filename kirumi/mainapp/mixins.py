@@ -174,6 +174,7 @@ class PaymentMixin(View):
             self.order, _ = Order.objects.get_or_create(
                 first_name=self.firstName, last_name=self.lastName, email=self.email,
                 phone=self.phone, address=self.addresPost, buying_type=BUYING_TYPE_SELF,
+                paid=False,
             )
             self.cart.order_id = self.order.id
             self.cart.save()
