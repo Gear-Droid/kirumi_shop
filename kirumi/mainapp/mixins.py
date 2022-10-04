@@ -1,7 +1,6 @@
 import requests
 import csv
 from datetime import datetime
-from dadata import Dadata
 
 from django.db import transaction
 from django.db.models import Q, F

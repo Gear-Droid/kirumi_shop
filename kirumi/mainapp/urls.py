@@ -33,6 +33,7 @@ from .views import (
     DeliveryAndPaymentView,
     SuccessView,
     CitiesAPIView,
+    AddressesAPIView,
 )
 
 urlpatterns = [
@@ -54,5 +55,7 @@ urlpatterns = [
     path('contacts/', ContactsView.as_view(), name='contacts'),
     path('privacy_policy/', PrivacyPolicyView.as_view(), name='privacy_policy'),
     path('delivery_and_payment/', DeliveryAndPaymentView.as_view(), name='delivery_and_payment'),
+
     path('cities/', CitiesAPIView.as_view(), name='cities'),
+    path('addresses/', AddressesAPIView.as_view(), name='addresses'),
 ]
