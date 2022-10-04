@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import (
+    HttpResponse, JsonResponse, HttpResponseNotFound, HttpResponseRedirect,
+)
 from django.db import IntegrityError
 from django.db.models import Q
 from django.contrib import messages
+from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from .models import (
@@ -19,7 +23,8 @@ from .mixins import (
     CollectionsMixin,
     CatalogMixin,
     PaymentMixin,
-    OrderMixin
+    OrderMixin,
+    CachedCitiesMixin,
 )
 
 
@@ -387,3 +392,31 @@ class DeliveryAndPaymentView(BasePageView):
             'cart': self.cart,
         }
         return render(request, 'delivery_and_payment/delivery_and_payment.html', context=context)
+
+
+class CitiesAPIView(CachedCitiesMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        contains_param = request.GET.get("contains")
+        if contains_param is None:
+            return HttpResponseNotFound()
+
+        self.result_list = tuple([
+            x for x in self.cities_dict.items()  \
+            if str(x[1]).lower().__contains__(str(contains_param).lower())
+        ])
+        if len(self.result_list) < 1:
+            return HttpResponseNotFound()
+
+        return JsonResponse(
+            { "status": "OK", "cities": self.result_list },
+            json_dumps_params = dict(ensure_ascii=False),
+        )
+
+
+class AddressAPIView(CachedCitiesMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        """token = "5dd895d684d4d5d9cbca342c1880c7684916e3c9"
+        secret = "9d0a5b6bd16930cd0b05ab90eb8e802aeccc6f22"
+        dadata = Dadata(token, secret)"""

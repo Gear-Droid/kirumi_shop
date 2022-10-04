@@ -1,17 +1,22 @@
+import requests
+import csv
 from datetime import datetime
+from dadata import Dadata
 
-from django.views.generic import View
 from django.db import transaction
 from django.db.models import Q, F
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.generic import View
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .models import (
     Cart,
     CartProduct,
     ColoredProduct,
     Collection,
-    Order
+    Order,
 )
 
 
@@ -197,4 +202,27 @@ class OrderMixin(View):
         self.cart.save()
         self.order.save()
         request.session.flush()
+        return super().dispatch(request, *args, **kwargs)
+
+
+class CachedCitiesMixin(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        CSV_URL = 'https://raw.githubusercontent.com/hflabs/city/master/city.csv'
+        self.cities_dict = {}
+
+        with requests.get(CSV_URL, stream=True) as r:
+            lines = (line.decode('utf-8') for line in r.iter_lines())
+            for row in csv.reader(lines):
+                self.cities_dict[str(row[12])] = str(row[0])
+
+        if len(self.cities_dict)>1:
+            with open('cities.csv', 'w', newline='') as file:
+                writer = csv.writer(file)
+                for dict_value in self.cities_dict.items():
+                    writer.writerow(dict_value)
+        else:
+            with open('cities.csv', 'r', newline='') as file:
+                for row in csv.reader(file):
+                    self.cities_dict[str(row[0])] = str(row[1])
         return super().dispatch(request, *args, **kwargs)
