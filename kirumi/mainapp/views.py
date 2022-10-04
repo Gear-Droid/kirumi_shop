@@ -406,7 +406,10 @@ class CitiesAPIView(CachedCitiesMixin, View):
             if str(x[1]).lower().__contains__(str(contains_param).lower())
         ])
         if len(self.result_list) < 1:
-            return HttpResponseNotFound()
+            return JsonResponse(
+                { "status": "EMPTY", "cities": self.result_list },
+                json_dumps_params = dict(ensure_ascii=False),
+            )
 
         return JsonResponse(
             { "status": "OK", "cities": self.result_list },
