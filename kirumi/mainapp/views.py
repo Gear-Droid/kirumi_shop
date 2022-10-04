@@ -426,6 +426,7 @@ class AddressesAPIView(CachedCitiesMixin, View):
         secret = "9d0a5b6bd16930cd0b05ab90eb8e802aeccc6f22"
         city_code_param = request.GET.get("city_code")
         contains_param = request.GET.get("contains")
+        print(contains_param)
 
         if city_code_param is None or contains_param is None:
             return HttpResponseNotFound()
@@ -444,11 +445,11 @@ class AddressesAPIView(CachedCitiesMixin, View):
                 json_dumps_params = dict(ensure_ascii=False),
             )
         addresses_result = dadata.suggest("address", f"{city} {contains_param}")
-        addresses_value_list = list([ x.get('data').get('street') for x in addresses_result ])
+        addresses_value_list = list([ x.get("value") for x in addresses_result ])
         filtered_addresses_value_list = list(filter(lambda x : str(x).startswith(city), addresses_value_list))
-        cleared_value_list = list(map(lambda x: x[len(city)+2:], filtered_addresses_value_list))[:7]
+        cleared_addresses_list = list(map(lambda x: x[len(city)+2:], filtered_addresses_value_list))[:7]
 
         return JsonResponse(
-            { "status": "OK", "city": city, "addresses": cleared_value_list },
+            { "status": "OK", "city": city, "addresses": cleared_addresses_list },
             json_dumps_params = dict(ensure_ascii=False),
         )
