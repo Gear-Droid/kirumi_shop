@@ -171,7 +171,6 @@ class PaymentMixin(View):
             self.timePost = '1 - 2'  # приблизительное время доставки
         else:
             BUYING_TYPE_SELF = 'SELF'
-
             self.order, _ = Order.objects.get_or_create(
                 first_name=self.firstName, last_name=self.lastName, email=self.email,
                 phone=self.phone, address=self.addresPost, buying_type=BUYING_TYPE_SELF,
@@ -196,4 +195,5 @@ class OrderMixin(View):
         self.order.status = STATUS_IN_PROGRESS
         self.cart.save()
         self.order.save()
+        request.session.flush()
         return super().dispatch(request, *args, **kwargs)
