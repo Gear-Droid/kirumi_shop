@@ -426,7 +426,6 @@ class AddressesAPIView(CachedCitiesMixin, View):
         secret = "9d0a5b6bd16930cd0b05ab90eb8e802aeccc6f22"
         city_code_param = request.GET.get("city_code")
         contains_param = request.GET.get("contains")
-        print(contains_param)
 
         if city_code_param is None or contains_param is None:
             return HttpResponseNotFound()
