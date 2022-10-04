@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django.views.generic import View
+from django.db import transaction
 from django.db.models import Q, F
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -125,25 +128,72 @@ class CatalogMixin(View):
         return super().dispatch(request, *args, **kwargs)
 
 
-class OrderMixin(View):
+class PaymentMixin(View):
+
     def dispatch(self, request, *args, **kwargs):
         if self.products_in_cart.count() == 0:
             return HttpResponseRedirect(reverse('cart'))
 
-        firstName = request.POST.get('firstName')
-        lastName = request.POST.get('lastName')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        chosenPost = request.POST.get('chosenPost')     # номер поста
-        addresPost = request.POST.get('addresPost')     # адрес
-        pricePost = request.POST.get('pricePost')       # стоимость доставки
-        timePost = request.POST.get('timePost')         # приблизительное время доставки
+        self.order = Order.objects.filter(id=self.cart.order_id).first()
+        use_old_order_data = False
+        self.firstName = request.POST.get('firstName')
+        self.lastName = request.POST.get('lastName')
+        self.email = request.POST.get('email')
+        self.phone = request.POST.get('phone')
+        self.chosenPost = request.POST.get('chosenPost')  # номер поста
+        self.addresPost = request.POST.get('addresPost')  # адрес
+        self.pricePost = request.POST.get('pricePost')  # стоимость доставки
+        self.timePost = request.POST.get('timePost')  # приблизительное время доставки
 
-        BUYING_TYPE_SELF = 'SELF'
+        required_params_list = [
+            self.firstName, self.lastName, self.email, self.phone,
+            self.addresPost, self.pricePost, self.timePost,
+        ]
+        null_param = False
+        for param in required_params_list:
+            if param is None or param=="":
+                null_param = True
 
-        self.cart
-        Order.objects.get_or_create(
-            first_name=firstName, last_name=lastName, email=email, phone=phone,
-            address=addresPost, buying_type=BUYING_TYPE_SELF,
-        )
+        if null_param:
+            if self.order is None:
+                return HttpResponseRedirect(reverse('checkout'))
+            else:
+                use_old_order_data = True
+
+        if use_old_order_data:
+            self.firstName = self.order.first_name
+            self.lastName = self.order.last_name
+            self.email = self.order.email
+            self.phone = self.order.phone
+            self.chosenPost = ''  # номер поста
+            self.addresPost = self.order.address  # адрес
+            self.pricePost = 200  # стоимость доставки
+            self.timePost = '1 - 2'  # приблизительное время доставки
+        else:
+            BUYING_TYPE_SELF = 'SELF'
+
+            self.order, _ = Order.objects.get_or_create(
+                first_name=self.firstName, last_name=self.lastName, email=self.email,
+                phone=self.phone, address=self.addresPost, buying_type=BUYING_TYPE_SELF,
+            )
+            self.cart.order_id = self.order.id
+            self.cart.save()
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class OrderMixin(View):
+
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        self.order = Order.objects.filter(id=self.cart.order_id).first()
+        if self.order is None:
+            return HttpResponseRedirect(reverse('checkout'))
+        self.cart.paid = True
+        self.order.paid = True
+        self.order.paid_datetime = datetime.now()
+        STATUS_IN_PROGRESS = 'IN PROGRESS'
+        self.order.status = STATUS_IN_PROGRESS
+        self.cart.save()
+        self.order.save()
         return super().dispatch(request, *args, **kwargs)

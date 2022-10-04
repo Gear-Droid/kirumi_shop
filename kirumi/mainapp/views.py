@@ -18,7 +18,8 @@ from .mixins import (
     NewProductsMixin,
     CollectionsMixin,
     CatalogMixin,
-    OrderMixin,
+    PaymentMixin,
+    OrderMixin
 )
 
 
@@ -269,7 +270,6 @@ class CheckoutView(BasePageView, CartProductMixin):
 class DeliveryWidgetView(BasePageView, CartProductMixin):
 
     def get(self, request, *args, **kwargs):
-        select_series = request.GET.getlist('select_series', [])
         country_selector = request.GET.get('country_selector', None)
         if country_selector == "":
             html = '<html><body>Пожалуйста, выберите страну!</body></html>'
@@ -284,26 +284,25 @@ class DeliveryWidgetView(BasePageView, CartProductMixin):
         return HttpResponse(html)
 
 
-class PaymentView(BasePageView, CartProductMixin, OrderMixin):
+class PaymentView(BasePageView, CartProductMixin, PaymentMixin):
 
     def post(self, request, *args, **kwargs):
-
 
         context = {
             'meta': {
                 'Title': 'Оплата заказа',
             },
             'delivery_details':{
-                'chosenPost': chosenPost,
-                'addresPost': addresPost,
-                'pricePost': pricePost,
-                'timePost': timePost,
+                'chosenPost': self.chosenPost,
+                'addresPost': self.addresPost,
+                'pricePost': self.pricePost,
+                'timePost': self.timePost,
             },
             'order_details':{
-                'firstName': firstName,
-                'lastName': lastName,
-                'email': email,
-                'phone': phone,
+                'firstName': self.firstName,
+                'lastName': self.lastName,
+                'email': self.email,
+                'phone': self.phone,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -312,20 +311,15 @@ class PaymentView(BasePageView, CartProductMixin, OrderMixin):
         return render(request, 'cart/checkout/payment/payment.html', context=context)
 
 
-class SuccessView(BasePageView, CartProductMixin):
+class SuccessView(BasePageView, OrderMixin):
 
     @xframe_options_sameorigin
     def get(self, request, *args, **kwargs):
-        referer = request.META
         context = {
             'meta': {
                 'Title': 'Успешная оплата',
-                'referer': referer,
             },
-
-            'collections': self.collections,
             'cart': self.cart,
-            'products_in_cart': self.products_in_cart,
         }
         return render(request, 'cart/checkout/payment/success/success.html', context=context)
 

@@ -1,5 +1,4 @@
 from decimal import Decimal
-from email.policy import default
 
 from django.db import models
 from django.utils import timezone
@@ -248,6 +247,7 @@ class Cart(models.Model):
         related_name="carts", null=True, blank=True
     )
     paid = models.BooleanField(verbose_name='Корзина оплачена?', default=False)
+    order_id = models.PositiveIntegerField(verbose_name='Номер заказа', null=True, blank=True)
     total_products = models.PositiveIntegerField(default=0, verbose_name='Общее число товаров в корзине')
     price_before_discount = models.DecimalField(
         max_digits=9, decimal_places=2, default=0, verbose_name='Цена до применения скидки'
@@ -347,7 +347,7 @@ class Order(models.Model):
 
     STATUS_NEW = 'NEW'
     STATUS_IN_PROGRESS = 'IN PROGRESS'
-    STATUS_READY = 'IS READY'
+    STATUS_CONFIRMED = 'IS CONFIRMED'
     STATUS_COMPLETED = 'COMPLETED'
 
     BUYING_TYPE_SELF = 'SELF'
@@ -356,7 +356,7 @@ class Order(models.Model):
     STATUS_CHOICES = (
         (STATUS_NEW, 'Новый заказ'),
         (STATUS_IN_PROGRESS, 'Заказ в обработке'),
-        (STATUS_READY, 'Заказ готов'),
+        (STATUS_CONFIRMED, 'Заказ подтверждён'),
         (STATUS_COMPLETED, 'Заказ выполнен'),
     )
 
@@ -384,7 +384,10 @@ class Order(models.Model):
     )
     comment = models.TextField(verbose_name='Комментарий к заказу', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
-    order_date = models.DateField(verbose_name='Дата начала оформления заказа', default=timezone.datetime.today)
+    paid = models.BooleanField(verbose_name='Заказ оплачен?', default=False)
+    paid_datetime = models.DateTimeField(
+        verbose_name='Дата и время оплаты заказа', null=True, blank=True
+    )
 
     def __str__(self):
         return str(self.id)

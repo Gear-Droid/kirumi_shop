@@ -115,7 +115,6 @@ class GetCurrentColor(object):
             f'<div style="background: #{ obj.color_hex_code }; min-height: 16px; \
                 min-width: 28px; max-width: 28px; border: 1px solid; margin: auto;"></div>'
         )
-
     get_color.short_description = "Изображение цвета"
 
 
@@ -330,27 +329,81 @@ class CartAdmin(admin.ModelAdmin):
 
     fields = (
         ('created', 'session_key', ),
-        ('owner', 'promocode', 'paid', ),
+        ('owner', 'promocode', ),
         ('total_products', 'price_before_discount', 'final_price'),
+        ('paid', 'order_link', ),
     )
     list_display = (
-        'created', 'owner', 'promocode',
-        'total_products', 'price_before_discount', 'final_price', 'paid' )
+        'created', 'owner', 'promocode', 'total_products',
+        'price_before_discount', 'final_price', 'paid', 'order_link',
+    )
     readonly_fields = (
-        'created', 'session_key',
-        'owner', 'paid',
-        'total_products', 'price_before_discount', 'final_price'
+        'created', 'session_key', 'owner', 'paid', 'order_id',
+        'total_products', 'price_before_discount', 'final_price',
+        'order_link',
     )
     list_filter = ('created', 'paid')
     inlines = [
         CartProductInline,
     ]
 
+    def order_link(self, instance):
+        url = reverse('admin:%s_%s_change' % (
+            instance._meta.app_label, "order"),  args=[instance.order_id] )
+        if instance.pk:
+            return mark_safe(u'<a href="{u}">{order}</a>'.format(u=url, order=instance.order_id))
+        else:
+            return ' - '
+    order_link.short_description = "Номер заказа"
+
 
 class CartProductAdmin(admin.ModelAdmin):
 
     class Meta:
         model = CartProduct
+
+
+class OrderAdmin(admin.ModelAdmin):
+
+    class Meta:
+        model = Order
+
+    fields = (
+        ('status', 'get_status', 'created_at', ),
+        ('paid_datetime', 'paid'),
+        ('last_name', ),
+        ('first_name', ),
+        ('email', 'phone', ),
+        ('buying_type',),
+        ('address', 'comment', ),
+    )
+    list_display = (
+        'id', 'created_at', 'get_status',
+        'last_name', 'first_name',
+        'email', 'phone', 'buying_type',
+        'address', 'paid', 'paid_datetime',
+    )
+    readonly_fields = (
+        'get_status', 'first_name', 'last_name', 'created_at', 'paid_datetime',
+    )
+    list_filter = ('status', 'paid', 'paid_datetime', )
+
+    def get_status(self, obj):
+        status_choice = ""
+        for status, value in obj.STATUS_CHOICES:
+            if obj.status==status:
+                status_choice = value
+        color_dict = {
+            obj.STATUS_NEW: "red",
+            obj.STATUS_IN_PROGRESS: "orange",
+            obj.STATUS_CONFIRMED: "blue",
+            obj.STATUS_COMPLETED: "green",
+        }
+        order_color = color_dict.get(obj.status)
+        return mark_safe(
+            f'<span style="color: { order_color };">{ status_choice }</span>'
+        )
+    get_status.short_description = "Статус"
 
 
 admin.site.register(Banner, BannerAdmin)
@@ -361,5 +414,5 @@ admin.site.register(ColoredProduct, ColoredProductAdmin)
 admin.site.register(Promocode, PromocodeAdmin)
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartProduct, CartProductAdmin)
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(ProductVariation, ProductVariationAdmin)
