@@ -225,4 +225,6 @@ class CachedCitiesMixin(View):
             with open('cities.csv', 'r', newline='') as file:
                 for row in csv.reader(file):
                     self.cities_dict[str(row[0])] = str(row[1])
+
+        del self.cities_dict['kladr_id']
         return super().dispatch(request, *args, **kwargs)
