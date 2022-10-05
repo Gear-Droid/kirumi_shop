@@ -461,6 +461,7 @@ class SDEKAPIView(CachedCitiesMixin, View):
 
     def get(self, request, *args, **kwargs):
         SDEK_URL = "https://api.edu.cdek.ru/v2/calculator/tariff"
+        cdek_client = CDEKClient('login', 'pass')
 
         return JsonResponse(
             { "status": "OK", },
