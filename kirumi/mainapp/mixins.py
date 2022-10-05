@@ -8,8 +8,6 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.views.generic import View
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
 
 from .models import (
     Cart,
