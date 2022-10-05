@@ -5,10 +5,11 @@ from datetime import datetime
 from django.db import transaction
 from django.db.models import Q, F
 from django.urls import reverse
+from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.views.generic import View
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from .models import (
     Cart,
@@ -210,20 +211,25 @@ class CachedCitiesMixin(View):
         CSV_URL = 'https://raw.githubusercontent.com/hflabs/city/master/city.csv'
         self.cities_dict = {}
 
-        with requests.get(CSV_URL, stream=True) as r:
-            lines = (line.decode('utf-8') for line in r.iter_lines())
-            for row in csv.reader(lines):
-                self.cities_dict[str(row[12])] = str(row[0])
+        self.cities_dict = cache.get('cities_dict')
+        if self.cities_dict is None:
+            self.cities_dict = {}
+            with requests.get(CSV_URL, stream=True) as r:
+                lines = (line.decode('utf-8') for line in r.iter_lines())
+                for row in csv.reader(lines):
+                    self.cities_dict[str(row[12])] = str(row[0])
+        
+            if len(self.cities_dict)>1:
+                with open('cities.csv', 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    for dict_value in self.cities_dict.items():
+                        writer.writerow(dict_value)
+            else:
+                with open('cities.csv', 'r', newline='') as file:
+                    for row in csv.reader(file):
+                        self.cities_dict[str(row[0])] = str(row[1])
+            del self.cities_dict['kladr_id']
 
-        if len(self.cities_dict)>1:
-            with open('cities.csv', 'w', newline='') as file:
-                writer = csv.writer(file)
-                for dict_value in self.cities_dict.items():
-                    writer.writerow(dict_value)
-        else:
-            with open('cities.csv', 'r', newline='') as file:
-                for row in csv.reader(file):
-                    self.cities_dict[str(row[0])] = str(row[1])
+            cache.set('cities_dict', self.cities_dict, 60*60*24)
 
-        del self.cities_dict['kladr_id']
         return super().dispatch(request, *args, **kwargs)

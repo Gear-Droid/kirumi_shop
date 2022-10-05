@@ -9,6 +9,7 @@ from django.db import IntegrityError
 from django.db.models import Q
 from django.contrib import messages
 from django.views import View
+from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 
@@ -399,13 +400,13 @@ class DeliveryAndPaymentView(BasePageView):
 class CitiesAPIView(CachedCitiesMixin, View):
 
     def get(self, request, *args, **kwargs):
-        contains_param = request.GET.get("contains")
-        if contains_param is None:
+        self.contains_param = request.GET.get("contains")
+        if self.contains_param is None:
             return HttpResponseNotFound()
 
         self.result_list = tuple([
             x for x in self.cities_dict.items()  \
-            if str(x[1]).lower().__contains__(str(contains_param).lower())
+            if str(x[1]).lower().__contains__(str(self.contains_param).lower())
         ])[:7]
         if len(self.result_list) < 1:
             return JsonResponse(
@@ -419,36 +420,49 @@ class CitiesAPIView(CachedCitiesMixin, View):
         )
 
 
+@method_decorator(cache_page(60*60*24*7, cache="addresses_requests_cache"), name='dispatch')
 class AddressesAPIView(CachedCitiesMixin, View):
 
     def get(self, request, *args, **kwargs):
-        token = "5dd895d684d4d5d9cbca342c1880c7684916e3c9"
-        secret = "9d0a5b6bd16930cd0b05ab90eb8e802aeccc6f22"
-        city_code_param = request.GET.get("city_code")
-        contains_param = request.GET.get("contains")
+        print("running addresses...")
+        self.token = "5dd895d684d4d5d9cbca342c1880c7684916e3c9"
+        self.secret = "9d0a5b6bd16930cd0b05ab90eb8e802aeccc6f22"
+        self.city_code_param = request.GET.get("city_code")
+        self.contains_param = request.GET.get("contains")
+        dadata = Dadata(self.token, self.secret)
 
-        if city_code_param is None or contains_param is None:
+        if self.city_code_param is None or self.contains_param is None:
             return HttpResponseNotFound()
-        city = self.cities_dict.get(city_code_param)
-        if city is None:
+        self.city = self.cities_dict.get(self.city_code_param)
+        if self.city is None:
             return JsonResponse(
                 { "status": "ERROR", "details": "wrong city_code", "addresses": [] },
                 json_dumps_params = dict(ensure_ascii=False),
             )
 
-        dadata = Dadata(token, secret)
         addresses_result = []
-        if len(contains_param) < 3:
+        if len(self.contains_param) < 3:
             return JsonResponse(
-                { "status": "EMPTY", "city": city, "addresses": addresses_result },
+                { "status": "EMPTY", "city": self.city, "addresses": addresses_result },
                 json_dumps_params = dict(ensure_ascii=False),
             )
-        addresses_result = dadata.suggest("address", f"{city} {contains_param}")
+        addresses_result = dadata.suggest("address", f"{self.city} {self.contains_param}")
         addresses_value_list = list([ x.get("value") for x in addresses_result ])
-        filtered_addresses_value_list = list(filter(lambda x : str(x).startswith(city), addresses_value_list))
-        cleared_addresses_list = list(map(lambda x: x[len(city)+2:], filtered_addresses_value_list))[:7]
+        filtered_addresses_value_list = list(filter(lambda x : str(x).startswith(self.city), addresses_value_list))
+        self.cleared_addresses_list = list(map(lambda x: x[len(self.city)+2:], filtered_addresses_value_list))[:7]
 
         return JsonResponse(
-            { "status": "OK", "city": city, "addresses": cleared_addresses_list },
+            { "status": "OK", "city": self.city, "addresses": self.cleared_addresses_list },
+            json_dumps_params = dict(ensure_ascii=False),
+        )
+
+
+class SDEKAPIView(CachedCitiesMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        SDEK_URL = "https://api.edu.cdek.ru/v2/calculator/tariff"
+
+        return JsonResponse(
+            { "status": "OK", },
             json_dumps_params = dict(ensure_ascii=False),
         )

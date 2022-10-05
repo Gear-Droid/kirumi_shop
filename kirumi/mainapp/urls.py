@@ -14,27 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import (
-    HomePageView,
-    AboutBrandView,
-    NewProductsView,
-    CatalogView,
-    ProductView,
-    CartView,
-    DeleteCartProductView,
-    ChangeCartProductQtyView,
-    CheckoutView,
-    DeliveryWidgetView,
-    PaymentView,
-    TermsOfUseView,
-    PublicOfferView,
-    ContactsView,
-    PrivacyPolicyView,
-    DeliveryAndPaymentView,
-    SuccessView,
-    CitiesAPIView,
-    AddressesAPIView,
-)
+from .views import *
+
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='homepage'),
@@ -55,7 +36,8 @@ urlpatterns = [
     path('contacts/', ContactsView.as_view(), name='contacts'),
     path('privacy_policy/', PrivacyPolicyView.as_view(), name='privacy_policy'),
     path('delivery_and_payment/', DeliveryAndPaymentView.as_view(), name='delivery_and_payment'),
-
+    # === REST API === #
     path('cities/', CitiesAPIView.as_view(), name='cities'),
     path('addresses/', AddressesAPIView.as_view(), name='addresses'),
+    path('sdek/calculator/tariff/', SDEKAPIView.as_view(), name='sdek_calculator_tariff'),
 ]
