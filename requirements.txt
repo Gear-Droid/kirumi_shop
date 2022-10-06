@@ -8,5 +8,4 @@ httpx==0.23.0
 Jinja2==3.0.3
 Pillow==9.1.0
 requests==2.27.1
-fs-cdek-api==1.4.1
 sorl-thumbnail==12.9.0
