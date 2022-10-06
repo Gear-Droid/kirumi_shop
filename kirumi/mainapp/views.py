@@ -1,5 +1,9 @@
+import requests
+import logging
+
 from dadata import Dadata
 
+from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import (
@@ -29,6 +33,10 @@ from .mixins import (
     OrderMixin,
     CachedCitiesMixin,
 )
+from mainapp.utils import get_delivery_calculation
+
+
+error_file_logger = logging.getLogger('django')
 
 
 class BasePageView(CartMixin, CollectionsMixin):
@@ -397,7 +405,7 @@ class DeliveryAndPaymentView(BasePageView):
         return render(request, 'delivery_and_payment/delivery_and_payment.html', context=context)
 
 
-class CitiesAPIView(CachedCitiesMixin, View):
+class CitiesAPIView(CachedCitiesMixin):
 
     def get(self, request, *args, **kwargs):
         self.contains_param = request.GET.get("contains")
@@ -420,16 +428,14 @@ class CitiesAPIView(CachedCitiesMixin, View):
         )
 
 
-@method_decorator(cache_page(60*60*24*7, cache="addresses_requests_cache"), name='dispatch')
-class AddressesAPIView(CachedCitiesMixin, View):
+class AddressesAPIView(CachedCitiesMixin):
 
+    @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
-        print("running addresses...")
-        self.token = "5dd895d684d4d5d9cbca342c1880c7684916e3c9"
-        self.secret = "9d0a5b6bd16930cd0b05ab90eb8e802aeccc6f22"
+        dadata = Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET)
+
         self.city_code_param = request.GET.get("city_code")
         self.contains_param = request.GET.get("contains")
-        dadata = Dadata(self.token, self.secret)
 
         if self.city_code_param is None or self.contains_param is None:
             return HttpResponseNotFound()
@@ -448,8 +454,9 @@ class AddressesAPIView(CachedCitiesMixin, View):
             )
         addresses_result = dadata.suggest("address", f"{self.city} {self.contains_param}")
         addresses_value_list = list([ x.get("value") for x in addresses_result ])
-        filtered_addresses_value_list = list(filter(lambda x : str(x).startswith(self.city), addresses_value_list))
-        self.cleared_addresses_list = list(map(lambda x: x[len(self.city)+2:], filtered_addresses_value_list))[:7]
+        filtered_addresses_value_list = filter(lambda x : str(x).startswith(self.city), addresses_value_list)
+        cleared_addresses_list = map(lambda x: x[len(self.city)+2:], filtered_addresses_value_list)
+        self.cleared_addresses_list = list(filter(lambda x : len(x)>0, cleared_addresses_list))[:7]
 
         return JsonResponse(
             { "status": "OK", "city": self.city, "addresses": self.cleared_addresses_list },
@@ -457,13 +464,42 @@ class AddressesAPIView(CachedCitiesMixin, View):
         )
 
 
-class SDEKAPIView(CachedCitiesMixin, View):
+class SDEKAPIView(View):
 
+    @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
-        SDEK_URL = "https://api.edu.cdek.ru/v2/calculator/tariff"
-        cdek_client = CDEKClient('login', 'pass')
+        self.to_location = request.GET.get("to_location")
+        if self.to_location is None:
+            return HttpResponseNotFound()
+
+        try:
+            self.packages_count = int(request.GET.get("packages_count"))
+        except ValueError:
+            return HttpResponseNotFound()
+        if self.packages_count < 1:
+            return HttpResponseNotFound()
+
+        try:
+            delivery_calculation = get_delivery_calculation(
+                to_location=self.to_location, packages_count=self.packages_count
+            )
+        except requests.exceptions.RequestException as error:
+            error_file_logger.error('SDEK calculator request fail: {}'.format(error))
+            return HttpResponseNotFound()
+        if delivery_calculation is None:
+            return HttpResponseNotFound()
+        if delivery_calculation.get('errors') is not None:
+            return JsonResponse(
+                { "status": "ERROR", "details": "can't find address" },
+                json_dumps_params = dict(ensure_ascii=False),
+            )
 
         return JsonResponse(
-            { "status": "OK", },
+            {
+                "status": "OK",
+                "total_sum": delivery_calculation.get("total_sum"),
+                "calendar_date":  \
+                    f"{ delivery_calculation.get('calendar_min') } - { delivery_calculation.get('calendar_max') }",
+            },
             json_dumps_params = dict(ensure_ascii=False),
         )
