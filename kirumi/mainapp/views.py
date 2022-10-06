@@ -469,11 +469,12 @@ class SDEKAPIView(View):
     @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         self.to_location = request.GET.get("to_location")
-        if self.to_location is None:
+        self.packages_count = request.GET.get("packages_count")
+        if self.to_location is None or self.packages_count is None:
             return HttpResponseNotFound()
 
         try:
-            self.packages_count = int(request.GET.get("packages_count"))
+            self.packages_count = int()
         except ValueError:
             return HttpResponseNotFound()
         if self.packages_count < 1:
