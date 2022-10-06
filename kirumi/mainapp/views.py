@@ -474,7 +474,7 @@ class SDEKAPIView(View):
             return HttpResponseNotFound()
 
         try:
-            self.packages_count = int()
+            self.packages_count = int(self.packages_count)
         except ValueError:
             return HttpResponseNotFound()
         if self.packages_count < 1:
@@ -501,6 +501,5 @@ class SDEKAPIView(View):
                 "total_sum": delivery_calculation.get("total_sum"),
                 "calendar_date":  \
                     f"{ delivery_calculation.get('calendar_min') } - { delivery_calculation.get('calendar_max') }",
-            },
-            json_dumps_params = dict(ensure_ascii=False),
+            }, json_dumps_params = dict(ensure_ascii=False),
         )
