@@ -457,7 +457,7 @@ class AddressesAPIView(CachedCitiesMixin):
 
 class SDEKAPIView(View):
 
-    # @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
+    @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         self.to_location = request.GET.get("to_location")
         self.packages_count = request.GET.get("packages_count")
