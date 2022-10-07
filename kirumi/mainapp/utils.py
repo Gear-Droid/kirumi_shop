@@ -34,7 +34,7 @@ def get_SDEK_auth_token(url="https://api.cdek.ru", test=False):
     return SDEK_auth_token
 
 
-def get_delivery_calculation(to_location, packages_count=1, url="https://api.cdek.ru"):
+def get_delivery_calculation(to_location, packages_count, url="https://api.cdek.ru"):
     try:
         SDEK_access_token = get_SDEK_auth_token()
     except requests.exceptions.RequestException as error:
@@ -52,9 +52,12 @@ def get_delivery_calculation(to_location, packages_count=1, url="https://api.cde
     request_data = {
         "type": "1",
         "currency": "1",
+        # "tariff_code": "233",
         "tariff_code": "137",
         "from_location": {
-            "address": "г Москва, ул Чермянская",
+            # "address": "г Москва, ул Сретенка",
+            "postal_code": "142701",
+            "address": "Московская обл, г Видное, ул Завидная, д 4",
         },
         "to_location": {
             "address": to_location,

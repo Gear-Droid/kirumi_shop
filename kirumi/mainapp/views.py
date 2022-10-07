@@ -23,16 +23,7 @@ from .models import (
     CartProduct,
     Promocode,
 )
-from .mixins import (
-    CartMixin,
-    CartProductMixin,
-    NewProductsMixin,
-    CollectionsMixin,
-    CatalogMixin,
-    PaymentMixin,
-    OrderMixin,
-    CachedCitiesMixin,
-)
+from .mixins import *
 from mainapp.utils import get_delivery_calculation
 
 
@@ -466,7 +457,7 @@ class AddressesAPIView(CachedCitiesMixin):
 
 class SDEKAPIView(View):
 
-    @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
+    # @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         self.to_location = request.GET.get("to_location")
         self.packages_count = request.GET.get("packages_count")
@@ -491,7 +482,7 @@ class SDEKAPIView(View):
             return HttpResponseNotFound()
         if delivery_calculation.get('errors') is not None:
             return JsonResponse(
-                { "status": "ERROR", "details": "can't find address" },
+                { "status": "ERROR", "details": "can't find address", "errors": delivery_calculation.get('errors') },
                 json_dumps_params = dict(ensure_ascii=False),
             )
 
