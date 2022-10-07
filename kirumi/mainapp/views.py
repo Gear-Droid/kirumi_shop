@@ -1,6 +1,7 @@
 import requests
 import logging
 
+from operator import itemgetter
 from dadata import Dadata
 
 from django.conf import settings
@@ -403,10 +404,11 @@ class CitiesAPIView(CachedCitiesMixin):
         if self.contains_param is None:
             return HttpResponseNotFound()
 
-        self.result_list = tuple([
-            x for x in self.cities_dict.items()  \
+        self.result_list = [
+            x for x in sorted(list(self.cities_dict.items()), key=lambda x: len(x[1].lower()))  \
             if str(x[1]).lower().__contains__(str(self.contains_param).lower())
-        ])[:7]
+        ][:7]
+
         if len(self.result_list) < 1:
             return JsonResponse(
                 { "status": "EMPTY", "cities": self.result_list },
