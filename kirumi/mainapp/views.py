@@ -423,7 +423,7 @@ class CitiesAPIView(CachedCitiesMixin):
 
 class AddressesAPIView(CachedCitiesMixin):
 
-    @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
+    # @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         dadata = Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET)
 
@@ -446,7 +446,7 @@ class AddressesAPIView(CachedCitiesMixin):
                 json_dumps_params = dict(ensure_ascii=False),
             )
         addresses_result = dadata.suggest("address", f"{self.city} {self.contains_param}")
-        addresses_value_list = list([ x.get("value") for x in addresses_result ])
+        addresses_value_list = sorted(list([ x.get("value") for x in addresses_result ]))
         filtered_addresses_value_list = filter(lambda x : str(x).startswith(self.city), addresses_value_list)
         cleared_addresses_list = map(lambda x: x[len(self.city)+2:], filtered_addresses_value_list)
         self.cleared_addresses_list = list(filter(lambda x : len(x)>0, cleared_addresses_list))[:7]
