@@ -216,7 +216,7 @@ class CachedCitiesMixin(View):
                 lines = (line.decode('utf-8') for line in r.iter_lines())
                 for row in csv.reader(lines):
                     self.cities_dict[str(row[12])] = str(row[0])
-        
+
             if len(self.cities_dict)>1:
                 with open('cities.csv', 'w', newline='') as file:
                     writer = csv.writer(file)

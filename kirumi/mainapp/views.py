@@ -405,7 +405,7 @@ class CitiesAPIView(CachedCitiesMixin):
             return HttpResponseNotFound()
 
         self.result_list = [
-            x for x in sorted(list(self.cities_dict.items()), key=lambda x: len(x[1].lower()))  \
+            x for x in sorted(list(self.cities_dict.items())[:], key=lambda x: len(str(x[1]).lower()))  \
             if str(x[1]).lower().__contains__(str(self.contains_param).lower())
         ][:7]
 
@@ -423,7 +423,7 @@ class CitiesAPIView(CachedCitiesMixin):
 
 class AddressesAPIView(CachedCitiesMixin):
 
-    # @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
+    @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         dadata = Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET)
 
