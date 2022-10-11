@@ -34,7 +34,8 @@ def get_SDEK_auth_token(url="https://api.cdek.ru", test=False):
     return SDEK_auth_token
 
 
-def get_delivery_calculation(to_location, packages_count, url="https://api.cdek.ru"):
+def get_delivery_calculation(
+    to_location, hoodie_packages_count, shirt_packages_count, url="https://api.cdek.ru"):
     try:
         SDEK_access_token = get_SDEK_auth_token()
     except requests.exceptions.RequestException as error:
@@ -43,7 +44,13 @@ def get_delivery_calculation(to_location, packages_count, url="https://api.cdek.
 
     request_url = f"{ url }/v2/calculator/tariff"
     headers = {"Authorization": f"Bearer { SDEK_access_token }"}
-    package = {
+    hoodie_package = {
+        "weight": 1200,
+        "length": 30,
+        "width": 29,
+        "height": 15,
+    }
+    shirt_package = {
         "weight": 1200,
         "length": 30,
         "width": 29,
@@ -55,15 +62,13 @@ def get_delivery_calculation(to_location, packages_count, url="https://api.cdek.
         # "tariff_code": "233",
         "tariff_code": "137",
         "from_location": {
-            # "address": "г Москва, ул Сретенка",
-            "postal_code": "142701",
-            "address": "Московская обл, г Видное, ул Завидная, д 4",
+            "address": "г Москва, ул Сретенка",
+            # "postal_code": "142701",
+            # "address": "Московская обл, г Видное, ул Завидная, д 4",
         },
         "to_location": {
             "address": to_location,
         },
-        "packages": [ package for _ in range(packages_count) ]
+        "packages": [ hoodie_package for _ in range(hoodie_packages_count) ]
     }
-
     return requests.post(request_url, headers=headers, json=request_data).json()
-

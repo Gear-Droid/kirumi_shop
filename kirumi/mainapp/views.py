@@ -459,40 +459,45 @@ class AddressesAPIView(CachedCitiesMixin):
 
 class SDEKAPIView(View):
 
-    @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
+    # @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         self.to_location = request.GET.get("to_location")
-        self.packages_count = request.GET.get("packages_count")
-        if self.to_location is None or self.packages_count is None:
+        self.hoodie_packages_count = request.GET.get("hoodie_packages_count")
+        self.shirt_packages_count = request.GET.get("shirt_packages_count")
+        if self.to_location is None or self.hoodie_packages_count is None or  \
+            self.shirt_packages_count is None:
             return HttpResponseNotFound()
 
         try:
-            self.packages_count = int(self.packages_count)
+            self.hoodie_packages_count = int(self.hoodie_packages_count)
+            self.shirt_packages_count = int(self.shirt_packages_count)
         except ValueError:
             return HttpResponseNotFound()
-        if self.packages_count < 1:
+        if (self.hoodie_packages_count + self.shirt_packages_count) < 1:
             return HttpResponseNotFound()
 
         try:
-            delivery_calculation = get_delivery_calculation(
-                to_location=self.to_location, packages_count=self.packages_count
+            delivery_calculation_response = get_delivery_calculation(
+                to_location=self.to_location,
+                hoodie_packages_count=self.hoodie_packages_count,
+                shirt_packages_count=self.shirt_packages_count,
             )
         except requests.exceptions.RequestException as error:
             error_file_logger.error('SDEK calculator request fail: {}'.format(error))
             return HttpResponseNotFound()
-        if delivery_calculation is None:
+        if delivery_calculation_response is None:
             return HttpResponseNotFound()
-        if delivery_calculation.get('errors') is not None:
+        if delivery_calculation_response.get('errors') is not None:
             return JsonResponse(
-                { "status": "ERROR", "details": "can't find address", "errors": delivery_calculation.get('errors') },
+                { "status": "ERROR", "details": "can't find address", "errors": delivery_calculation_response.get('errors') },
                 json_dumps_params = dict(ensure_ascii=False),
             )
 
         return JsonResponse(
             {
                 "status": "OK",
-                "total_sum": delivery_calculation.get("total_sum"),
+                "total_sum": delivery_calculation_response.get("total_sum"),
                 "calendar_date":  \
-                    f"{ delivery_calculation.get('calendar_min') } - { delivery_calculation.get('calendar_max') }",
+                    f"{ delivery_calculation_response.get('calendar_min') } - { delivery_calculation_response.get('calendar_max') }",
             }, json_dumps_params = dict(ensure_ascii=False),
         )
