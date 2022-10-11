@@ -143,7 +143,9 @@ class PaymentMixin(View):
         self.lastName = request.POST.get('lastName')
         self.email = request.POST.get('email')
         self.phone = request.POST.get('phone')
+        self.delivery_type = request.POST.get('delivery_type')  # тип доставки
         self.chosenPost = request.POST.get('chosenPost')  # номер поста
+        self.cityPost = request.POST.get('city')  # город
         self.addresPost = request.POST.get('addresPost')  # адрес
         self.pricePost = request.POST.get('pricePost')  # стоимость доставки
         self.timePost = request.POST.get('timePost')  # приблизительное время доставки

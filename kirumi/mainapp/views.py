@@ -301,9 +301,11 @@ class PaymentView(BasePageView, CartProductMixin, PaymentMixin):
             },
             'delivery_details':{
                 'chosenPost': self.chosenPost,
+                'cityPost': self.cityPost,
                 'addresPost': self.addresPost,
                 'pricePost': self.pricePost,
                 'timePost': self.timePost,
+                'delivery_type': self.delivery_type,
             },
             'order_details':{
                 'firstName': self.firstName,

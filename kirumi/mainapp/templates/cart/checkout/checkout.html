@@ -131,12 +131,13 @@
                 <input type="phone" class="form-control" name="phone" id="phone" value="" required/>
               </div>
 
-              <div class="col">
+              <div class="col-12">
                 <label for="city" class="form-label">Город <span class="text-muted">*</span></label>
                 <input
                         class="form-control"
                         :class="validCity ? 'is-invalid' : ''"
                         list="datalistOptions"
+                        name="city"
                         id="city"
                         v-model="cityQuery"
                         @keydown="updateCities"

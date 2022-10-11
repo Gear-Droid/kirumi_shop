@@ -119,8 +119,24 @@
             </div>
 
             <div class="form-floating">
-              <input type="hidden" class="form-control" id="chosenPost" value="{{ delivery_details.chosenPost }}" readonly>
-              <label for="chosenPost" class="form-label">Номер ПВЗ</label>
+              {% if delivery_details.delivery_type == "pickup" %}
+                <input type="text" class="form-control" id="delivery_type" value="Самовывоз из ПВЗ" readonly>
+              {% else %}
+                <input type="text" class="form-control" id="delivery_type" value="Курьер" readonly>
+              {% endif %}
+              <label for="delivery_type" class="form-label">Тип доставки</label>
+            </div>
+
+            {% if delivery_details.delivery_type == "pickup" %}
+              <div class="form-floating">
+                <input type="text" class="form-control" id="chosenPost" value="{{ delivery_details.chosenPost }}" readonly>
+                <label for="chosenPost" class="form-label">Код ПВЗ</label>
+              </div>
+            {% endif %}
+
+            <div class="form-floating">
+              <input type="text" class="form-control" id="cityPost" value="{{ delivery_details.cityPost }}" readonly>
+              <label for="cityPost" class="form-label">Город</label>
             </div>
 
             <div class="form-floating">
@@ -187,7 +203,6 @@
               }
             </script>
             <input class="tinkoffPayRow w-100 btn btn-dark btn-lg my-4 mb-5" style="background: #262626!important;" type="button" onclick="tinkoffPayFunction(this);" value="Оплатить"/>
-            {% comment %} <button class="tinkoffPayRow w-100 btn btn-dark btn-lg my-4 mb-5" type="submit" onclick="tinkoffPayFunction(this)">Оплатить</button> {% endcomment %}
           </form>
         </div>
       </div>
