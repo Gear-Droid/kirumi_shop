@@ -127,12 +127,10 @@
               <label for="delivery_type" class="form-label">Тип доставки</label>
             </div>
 
-            {% if delivery_details.delivery_type == "pickup" %}
-              <div class="form-floating">
-                <input type="text" class="form-control" id="chosenPost" value="{{ delivery_details.chosenPost }}" readonly>
-                <label for="chosenPost" class="form-label">Код ПВЗ</label>
-              </div>
-            {% endif %}
+            <div class="form-floating">
+              <input type="hidden" class="form-control" id="chosenPost" value="{{ delivery_details.chosenPost }}" readonly>
+              <label for="chosenPost" class="form-label">Код ПВЗ</label>
+            </div>
 
             <div class="form-floating">
               <input type="text" class="form-control" id="cityPost" value="{{ delivery_details.cityPost }}" readonly>
