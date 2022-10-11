@@ -1,7 +1,6 @@
 import requests
 import logging
 
-from operator import itemgetter
 from dadata import Dadata
 
 from django.conf import settings
@@ -459,7 +458,7 @@ class AddressesAPIView(CachedCitiesMixin):
 
 class SDEKAPIView(View):
 
-    # @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
+    @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         self.to_location = request.GET.get("to_location")
         self.hoodie_packages_count = request.GET.get("hoodie_packages_count")

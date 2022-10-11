@@ -15,6 +15,7 @@
       <link href="https://widget.cdek.ru/widget/scripts/style.css" rel="stylesheet" type="text/css">
       <script src="https://widget.cdek.ru/widget/scripts/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
   <!--===============================================================================================-->
+      <script src="{% static 'js/vue/vue.global.prod.js' %}"></script>
 
 {% endblock header %}
 
@@ -34,6 +35,10 @@
   .btn.btn-dark{
     border-radius: 0;
   }
+  .dropdown-item {
+    text-align: left;
+    white-space: pre-wrap;
+  }
 {% endblock style %}
 
 {% block intro %}
@@ -41,7 +46,7 @@
 
 {% block content %}
 
-  <div class="container">
+  <div class="container" id="app">
     <main>
       <div class="py-4 text-center">
         <h1>Оформление заказа</h1>
@@ -52,7 +57,7 @@
         <div class="col-md-4 order-md-last">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Заказ</span>
-            <span class="badge bg-primary rounded-pill"> {{ cart.total_products }} </span>
+            <span class="badge bg-primary rounded-pill" id="total"> {{ cart.total_products }} </span>
           </h4>
           <ul class="list-group mb-3">
 
@@ -88,42 +93,92 @@
                 </strong>
               </span>
             </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>
+                <strong>Доставка</strong>
+              </span>
+              <span>
+                <strong id="shippingCost">
+                   [[ shippingCost ]] {% trans "₽" %}
+                </strong>
+              </span>
+            </li>
           </ul>
         </div>
 
         <div class="col-md-8">
-
           <form id="form1" class="" action="{% url 'payment' %}" method="post">
             {% csrf_token %}
             <div class="row g-3  mb-4">
 
               <div class="col-sm-5">
                 <label for="firstName" class="form-label">Имя <span class="text-muted">*</span></label>
-                <input type="text" class="form-control" name="firstName" id="firstName" value="" />
+                <input type="text" class="form-control" name="firstName" id="firstName" value="" required/>
               </div>
 
               <div class="col-sm-7">
                 <label for="lastName" class="form-label">Фамилия <span class="text-muted">*</span></label>
-                <input type="text" class="form-control" name="lastName" id="lastName" value="" />
+                <input type="text" class="form-control" name="lastName" id="lastName" value="" required/>
               </div>
 
               <div class="col-sm-7">
                 <label for="email" class="form-label">Email <span class="text-muted">*</span></label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com" value="" />
+                <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com" value="" required/>
               </div>
 
               <div class="col-sm-5">
                 <label for="phone" class="form-label">Номер телефона <span class="text-muted">*</span></label>
-                <input type="phone" class="form-control" name="phone" id="phone" value="" />
+                <input type="phone" class="form-control" name="phone" id="phone" value="" required/>
               </div>
 
+              <div class="col">
+                <label for="city" class="form-label">Город <span class="text-muted">*</span></label>
+                <input
+                        class="form-control"
+                        :class="validCity ? 'is-invalid' : ''"
+                        list="datalistOptions"
+                        id="city"
+                        v-model="cityQuery"
+                        @keydown="updateCities"
+                        required
+                        autocomplete="off"
+                >
+                    <div class="dropdown-menu" :class="showCityList ? 'show' : ''">
+                      <a v-for="city in cities" :key="city[0]" class="dropdown-item" href="#" @click.prevent="chooseCity(city)">[[ city[1] ]]</a>
+                    </div>
+                  <div class="invalid-feedback">
+                    Пожалуйста, выберите город из списка
+                  </div>
+
+              </div>
               <div class="col-12">
                 <label class="form-label"><span class="text-muted">*</span> - поля обязательные для заполнения</label>
               </div>
+              <div class="col-12">
+                <label class="form-label">Выберите способ доставки</label>
+              </div>
+              <div class="col-12">
+                  <div class="form-check d-flex justify-content-between">
+                    <span>
+                        <input v-model="shippingMethod" class="form-check-input" type="radio" name="ship" id="ship2" value="courier" @click="checkCity">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Курьер
+                        </label>
+                   </span>
+                  </div>
+                  <div class="form-check form-check d-flex justify-content-between">
+                      <span>
+                        <input v-model="shippingMethod" class="form-check-input" type="radio" name="ship" id="ship3" value="pickup" @click="checkCity">
+                        <label class="form-check-label" for="flexRadioDefault3">
+                          ПВЗ
+                        </label>
+                      </span>
+
+                  </div>
+              </div>
 
             </div>
-
-            <div class="mb-4" id="forpvz" style="height:600px;"></div>
+            <div v-show="shippingMethod === 'pickup'" class="mb-4" id="forpvz" style="height:600px;"></div>
             <script>
               var widjet = new ISDEKWidjet({
                 showWarns: true,
@@ -138,8 +193,9 @@
                 link: 'forpvz',
                 path: 'https://widget.cdek.ru/widget/scripts/', //директория с библиотеками
                 choose: true,
-                hidedress: true,
-                detailAddress: true,
+                hidedress: false,
+                hidedelt: true,
+                detailAddress: false,
                 goods: [{
                   length: 30,
                   width: 29,
@@ -161,67 +217,76 @@
                 ipjq('[name="addresPost"]').val(info.address);
                 ipjq('[name="addresPost-show"]').val(info.address);
                 ipjq('[name="pricePost"]').val(info.price);
-                ipjq('[name="timePost"]').val(info.term);
+                //ipjq('[name="timePost"]').val(info.term);
                 ipjq('#forpvz').css('display','none');
-                ipjq('.pencil-svg').css('display','block');
-                ipjq('.addresPost-show-container').removeClass("col-12");
-                ipjq('.addresPost-show-container').addClass("col-10");
               }
 
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
+
+                const premium = document.getElementById('premium').innerText
+                const total_price = parseInt(info.price) + parseInt(premium)
+
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
-                  'Цена ' + info.price + ' руб.' + "\n" +
-                  'Ориентировочный срок доставки ' + info.term + ' дн.'
+                  'Цена ' + total_price + ' руб.' + "\n" +
+                  'Ориентировочный срок доставки от 7 до 12 дней'
                 );
                 console.log('Выбрана доставка в ПВЗ ', info);
+
+                const price = document.getElementById('shippingCost');
+                price.innerText = total_price + " ₽";
 
                 ipjq('[name="chosenPost"]').val(info.id);
                 ipjq('[name="addresPost"]').val(info.PVZ.Address);
                 ipjq('[name="addresPost-show"]').val(info.PVZ.Address);
-                ipjq('[name="pricePost"]').val(info.price);
-                ipjq('[name="timePost"]').val(info.term);
+                ipjq('[name="pricePost"]').val(total_price);
+                //ipjq('[name="timePost"]').val(info.term);
                 ipjq('#forpvz').css('display','none');
-                ipjq('.pencil-svg').css('display','block');
-                ipjq('.addresPost-show-container').removeClass("col-12");
-                ipjq('.addresPost-show-container').addClass("col-10");
               }
             </script>
 
-            <p><input type="hidden" name="chosenPost" value="" /></p>
+            <p><input type="hidden" name="chosenPost" value=""/></p>
             <div class="row">
-              <div class="col-12 addresPost-show-container">
+              <div v-show="shippingMethod === 'courier'" class="col-12 addresPost-show-container">
                 <label for="addresPost-show" class="form-label">Адрес <span class="text-muted">*</span></label>
-                <textarea type="text" class="form-control"
-                  id="addresPost-show" name="addresPost-show"
-                  onkeydown="return false;" rows=3 required
-                  placeholder="Выберите ПВЗ или укажите точный адрес доставки курьером"
-                  style="caret-color: transparent !important;"></textarea>
-              </div>
-              <div class="col-2 pencil-svg" style="display: none; margin-top: 32px; cursor: pointer; padding-left: 0;" onclick="setWidgetVisible()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#343434" class="bi bi-pencil" viewBox="0 0 16 16">
-                  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                </svg>
+                <input
+                        v-model="addressQuery"
+                        class="form-control"
+                        :class="validAddress ? 'is-invalid' : ''"
+                        list="datalistAddress1"
+                        id="addresPost-show"
+                        name="addresPost-show"
+                        required
+                        placeholder="Укажите точный адрес доставки курьером"
+                        @keydown="updateAddresses"
+                        @focusout="getDeliveryPrice"
+                />
+                  <div class="dropdown-menu" :class="showAddressList ? 'show' : ''">
+                      <a v-for="address in addresses" :key="address" class="dropdown-item" href="#" @click.prevent="chooseAddress([[ address ]])">[[ address ]]</a>
+                  </div>
+                  <div class="invalid-feedback">
+                    [[ errorMessage ]]
+                  </div>
               </div>
               <script>
                 function setWidgetVisible(info) {
                   ipjq('#forpvz').css('display','block');
-                  ipjq('.pencil-svg').css('display','none');
-                  ipjq('.addresPost-show-container').removeClass("col-10");
-                  ipjq('.addresPost-show-container').addClass("col-12");
                 }
               </script>
             </div>
             <p><input type="hidden" name="addresPost" value="" /></p>
             <p><input type="hidden" name="pricePost" value="" /></p>
-            <p><input type="hidden" name="timePost" value="" /></p>
+            <p><input type="hidden" name="timePost" value="7-14" /></p>
+            <p><input type="hidden" name="delivery_type" :value="shippingMethod" /></p>
 
             <button type="submit" class="mb-5 mt-4 w-100 btn btn-dark btn-lg">Перейти к оплате</button>
           </form>
 
         </div>
       </div>
+      <p hidden id="premium">[[ premium ]]</p>
     </main>
   </div>
+
 
 {% endblock content %}
 
@@ -229,4 +294,6 @@
 {% endblock prefooter %}
 
 {% block scripts %}
+  {{ goods_data|json_script:"djangoData" }}
+  <script src="{% static 'js/checkout.vue.js' %}"></script>
 {% endblock scripts %}
