@@ -40,4 +40,5 @@ urlpatterns = [
     path('cities/', CitiesAPIView.as_view(), name='cities'),
     path('addresses/', AddressesAPIView.as_view(), name='addresses'),
     path('sdek/calculator/', SDEKAPIView.as_view(), name='sdek_calculator'),
+    path('offers/', OffersAPIView.as_view(), name='offers'),
 ]

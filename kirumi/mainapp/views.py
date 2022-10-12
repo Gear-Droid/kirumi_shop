@@ -42,8 +42,8 @@ class HomePageView(BasePageView, NewProductsMixin):
         context = {
             'meta':{
                 'Title': "Kirumi онлайн-магазин аниме-одежды",
-                'keywords': "Kirumi онлайн-магазин аниме-одежды",
-                'page_description': "Kirumi онлайн-магазин аниме-одежды",
+                'keywords': "кируми kirumi онлайн-магазин аниме-одежды",
+                'page_description': "Свободный крой. Оригинальные цвета. 100% хлопок.",
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -58,7 +58,7 @@ class HomePageView(BasePageView, NewProductsMixin):
         context = {
             'meta':{
                 'Title': "Kirumi онлайн-магазин аниме-одежды",
-                'keywords': "Kirumi онлайн-магазин аниме-одежды",
+                'keywords': "кируми kirumi онлайн-магазин аниме-одежды",
                 'page_description': "Kirumi онлайн-магазин аниме-одежды",
             },
             'collections': self.collections,
@@ -506,3 +506,16 @@ class SDEKAPIView(View):
                     f"{ delivery_calculation_response.get('calendar_min') } - { delivery_calculation_response.get('calendar_max') }",
             }, json_dumps_params = dict(ensure_ascii=False),
         )
+
+
+class OffersAPIView(View):
+
+    def get(self, request, *args, **kwargs):
+        colored_product = ColoredProduct.objects.first()
+        print("{}{}".format(settings.BASE_URL, colored_product.get_absolute_url()))
+
+        context = {
+            "base_url": settings.BASE_URL,
+            "colored_product": colored_product,
+        }
+        return render(request, 'offers/offers.html', context=context)

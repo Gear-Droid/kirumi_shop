@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -170,6 +171,8 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
     def get_two_first_images(self):
         return [im for im in self.images.all() if im.is_active==True][:2]
 
+    def get_absolute_url(self):
+        return reverse('product_page', args=[self.product.slug, self.slug])
 
     def __str__(self):
         return "{} - {}".format(self.product, self.name)

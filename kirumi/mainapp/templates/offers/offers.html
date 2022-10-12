@@ -1,0 +1,59 @@
+{% load cart_filters %}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog date="2020-11-22T14:37:38+03:00">
+    <shop>
+        <name>Kirumi</name>
+        <company>IP Kim Konstantin</company>
+        <url>http://kirumi.ru</url>
+        <currencies>
+            <currency id="RUR" rate="1"/>
+        </currencies>
+        <categories>
+            <category id="1">Худи</category>
+            {% comment "" %} <category id="10" parentId="1">Мелкая техника для кухни</category> {% endcomment %}
+        </categories>
+        <delivery-options>
+            <option cost="300" days="14"/>
+        </delivery-options>
+        <offers>
+            <offer id="1" type="vendor.model">
+                <name>Худи Kirumi Килуа Черный</name>
+                <vendor>Kirumi</vendor>
+                <url>{{ base_url }}{{ colored_product.get_absolute_url }}</url>
+                <price>{{ colored_product.price|comma_to_point }}</price>
+                <oldprice>{{ colored_product.old_price|comma_to_point }}</oldprice>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <category>Худи</category>
+                <picture>{{ base_url }}{{ colored_product.images.first.image.url }}</picture>
+                <country_of_origin>Россия</country_of_origin>
+                <downloadable>true</downloadable>
+                <delivery>true</delivery>
+                <pickup>true</pickup>
+                <delivery-options>
+                    <option cost="300" days="7-14" order-before="18"/>
+                </delivery-options>
+                <pickup-options>
+                    <option cost="300" days="7-14"/>                        
+                </pickup-options>
+                <store>false</store>
+                <description>
+                    <![CDATA[     
+                        <h3>Худи Kirumi Килуа Черный</h3>
+                        <p>Теплая и мягкая к телу толстовка из высококачественного плотного хлопка.</p>
+                    ]]>
+                </description>
+                <param name="Цвет">{{ colored_product.name }}</param>
+                <weight>1.2</weight>
+                <dimensions>20.1/20.551/22.5</dimensions>
+            </offer>
+        </offers>
+        <gifts>
+            <!-- подарки не из прайс‑листа -->
+        </gifts>
+        <promos>
+            <!-- промоакции -->
+        </promos>
+    </shop>
+</yml_catalog>
