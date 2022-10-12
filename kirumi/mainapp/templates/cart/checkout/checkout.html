@@ -155,8 +155,10 @@
               <div class="col-12">
                 <label class="form-label"><span class="text-muted">*</span> - поля обязательные для заполнения</label>
               </div>
+
               <div class="col-12">
-                <label class="form-label">Выберите способ доставки</label>
+                <label class="form-label">Выберите способ доставки</label><br>
+                <small class="text-muted form-text">Стоимость доставки будет определена после ввода адреса</small>
               </div>
               <div class="col-12">
                   <div class="form-check d-flex justify-content-between">
@@ -232,12 +234,18 @@
 
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + total_price + ' руб.' + "\n" +
-                  'Ориентировочный срок доставки от 7 до 12 дней'
+                  'Ориентировочный срок доставки от 7 до 14 дней'
                 );
                 console.log('Выбрана доставка в ПВЗ ', info);
 
                 const price = document.getElementById('shippingCost');
                 price.innerText = total_price + " ₽";
+
+                const priceDouble = document.getElementById('shippingCostDouble');
+                priceDouble.innerText = total_price + " ₽";
+
+                const priceDoubleBlock = document.getElementById('double');
+                priceDoubleBlock.style.display  = "block";
 
                 ipjq('[name="chosenPost"]').val(info.id);
                 ipjq('[name="addresPost"]').val(info.PVZ.Address);
@@ -245,7 +253,6 @@
                 ipjq('[name="pricePost"]').val(total_price);
                 //ipjq('[name="timePost"]').val(info.term);
                 ipjq('#forpvz').css('display','none');
-                ipjq('.addresPost-show-container').css('display','initial');
                 ipjq('.pencil-svg').css('display','block');
                 ipjq('.addresPost-show-container').removeClass("col-12");
                 ipjq('.addresPost-show-container').addClass("col-10");
@@ -293,6 +300,13 @@
             <p><input type="hidden" name="pricePost" value="" /></p>
             <p><input type="hidden" name="timePost" value="7-14" /></p>
             <p><input type="hidden" name="delivery_type" :value="shippingMethod" /></p>
+
+            <div col="12" style="display: none;" id="double">
+              <div class="d-flex justify-content-between">
+                <span>Стоимость доставки</span>
+                <span id="shippingCostDouble">[[ shippingCost ]] {% trans "₽" %}</span>
+              </div>
+            </div>
 
             <button type="submit" class="mb-5 mt-4 w-100 btn btn-dark btn-lg">Перейти к оплате</button>
           </form>
