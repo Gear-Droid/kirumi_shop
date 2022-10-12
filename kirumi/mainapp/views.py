@@ -517,4 +517,4 @@ class OffersAPIView(View):
             "base_url": settings.BASE_URL,
             "colored_product": colored_product,
         }
-        return render(request, 'offers/offers.html', context=context)
+        return render(request, 'offers/offers.html', context=context, content_type="text/xml; charset=utf-8")
