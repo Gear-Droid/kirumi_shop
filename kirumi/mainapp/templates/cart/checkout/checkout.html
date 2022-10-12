@@ -273,7 +273,7 @@
                         name="addresPost-show"
                         required
                         placeholder="Укажите точный адрес доставки курьером"
-                        @keydown="updateAddresses"
+                        @keyup="updateAddresses"
                         @focusout="getDeliveryPrice"
                 />
                   <div class="dropdown-menu" :class="showAddressList ? 'show' : ''">
