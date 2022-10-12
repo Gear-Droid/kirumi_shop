@@ -1,4 +1,5 @@
 User-agent: Yandex
 Sitemap: http://kirumi.ru/sitemap.xml
+Allow: /offers/
 Disallow: /cart/
 Clean-param: ref /catalog/
