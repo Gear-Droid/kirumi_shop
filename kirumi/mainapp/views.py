@@ -41,7 +41,9 @@ class HomePageView(BasePageView, NewProductsMixin):
 
         context = {
             'meta':{
-                'Title': "Онлайн-магазин аниме-одежды Kirumi",
+                'Title': "Kirumi онлайн-магазин аниме-одежды",
+                'keywords': "Kirumi онлайн-магазин аниме-одежды",
+                'page_description': "Kirumi онлайн-магазин аниме-одежды",
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -55,7 +57,9 @@ class HomePageView(BasePageView, NewProductsMixin):
 
         context = {
             'meta':{
-                'Title': "Онлайн-магазин аниме-одежды Kirumi",
+                'Title': "Kirumi онлайн-магазин аниме-одежды",
+                'keywords': "Kirumi онлайн-магазин аниме-одежды",
+                'page_description': "Kirumi онлайн-магазин аниме-одежды",
             },
             'collections': self.collections,
             'cart': self.cart,
