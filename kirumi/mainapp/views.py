@@ -512,7 +512,6 @@ class OffersAPIView(View):
 
     def get(self, request, *args, **kwargs):
         colored_product = ColoredProduct.objects.first()
-        print("{}{}".format(settings.BASE_URL, colored_product.get_absolute_url()))
 
         context = {
             "base_url": settings.BASE_URL,
