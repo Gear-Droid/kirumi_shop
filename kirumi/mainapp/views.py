@@ -346,6 +346,7 @@ class PaymentView(BasePageView, CartProductMixin, PaymentMixin):
                 'pricePost': self.pricePost,
                 'timePost': self.timePost,
                 'delivery_type': self.delivery_type,
+                'order_comment': self.order_comment,
             },
             'order_details':{
                 'firstName': self.firstName,
@@ -370,6 +371,7 @@ class SuccessView(BasePageView, OrderMixin):
                 'main_page': self.main_path,
             },
             'cart': self.cart,
+            'order_id': self.order.id,
         }
         return render(request, 'cart/checkout/payment/success/success.html', context=context)
 
