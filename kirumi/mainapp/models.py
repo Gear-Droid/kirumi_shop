@@ -297,7 +297,8 @@ class CartProduct(models.Model):
         unique_together = (('cart', 'colored_product', 'size'), )
 
     cart = models.ForeignKey(
-        Cart, verbose_name='Корзина', on_delete=models.CASCADE
+        Cart, verbose_name='Корзина', on_delete=models.CASCADE,
+        related_name='products',
     )
     colored_product = models.ForeignKey(
         ColoredProduct, verbose_name='Карточка товара', on_delete=models.CASCADE,
@@ -308,12 +309,12 @@ class CartProduct(models.Model):
         related_name="cart_products"
     )
     qty = models.PositiveIntegerField(default=1)
+    subtotal_price = models.DecimalField(
+        max_digits=9, decimal_places=2, verbose_name='Подытоговая сумма'
+    )
     subtotal_price_before_discount = models.DecimalField(
         max_digits=9, decimal_places=2, verbose_name='Подытоговая сумма до скидки',
         null=True, blank=True
-    )
-    subtotal_price = models.DecimalField(
-        max_digits=9, decimal_places=2, verbose_name='Подытоговая сумма'
     )
 
     def save(self, *args, **kwargs):
@@ -388,11 +389,48 @@ class Order(models.Model):
     comment = models.TextField(
         max_length=256, verbose_name='Комментарий к заказу', null=True, blank=True
     )
+    total_products = models.PositiveIntegerField(default=0, verbose_name='Общее число товаров в заказе')
+    price_before_discount = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0, verbose_name='Цена до применения скидки'
+    )
+    final_price = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0, verbose_name='Итоговая цена'
+    )
+    delivery_price = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0, verbose_name='Цена за доставку'
+    )
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
     paid = models.BooleanField(verbose_name='Заказ оплачен?', default=False)
     paid_datetime = models.DateTimeField(
         verbose_name='Дата и время оплаты заказа', null=True, blank=True
     )
+    cart_id = models.PositiveIntegerField(verbose_name='Номер корзины', null=True, blank=True)
 
     def __str__(self):
         return str(self.id)
+
+
+class OrderProduct(models.Model):
+
+    class Meta:
+        verbose_name = 'Товар в заказе'
+        verbose_name_plural = 'Товары в заказе'
+
+    order = models.ForeignKey(
+        Order, verbose_name='Заказ', on_delete=models.CASCADE,
+        related_name='products',
+    )
+    name = models.CharField(
+        max_length=128, verbose_name='Позиция чека'
+    )
+    qty = models.PositiveIntegerField(default=1)
+    subtotal_price_before_discount = models.DecimalField(
+        max_digits=9, decimal_places=2, verbose_name='Cумма до скидки',
+        null=True, blank=True
+    )
+    subtotal_price = models.DecimalField(
+        max_digits=9, decimal_places=2, verbose_name='Cумма'
+    )
+
+    def __str__(self):
+        return '{}. {}'.format(self.id, self.name)

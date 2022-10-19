@@ -363,6 +363,20 @@ class CartProductAdmin(admin.ModelAdmin):
         model = CartProduct
 
 
+class OrderProductInline(admin.TabularInline):
+
+    model = OrderProduct
+    extra = 0
+
+    fields = (
+        'order', 'name',
+        'qty',
+        'subtotal_price',
+        'subtotal_price_before_discount',
+    )
+    readonly_fields = ('order', )
+
+
 class OrderAdmin(admin.ModelAdmin):
 
     class Meta:
@@ -376,6 +390,9 @@ class OrderAdmin(admin.ModelAdmin):
         ('email', 'phone', ),
         ('buying_type',),
         ('address', 'comment', ),
+        ('total_products', ),
+        ('final_price', 'price_before_discount', ),
+        ('delivery_price', ),
     )
     list_display = (
         'id', 'created_at', 'get_status',
@@ -387,6 +404,9 @@ class OrderAdmin(admin.ModelAdmin):
         'get_status', 'first_name', 'last_name', 'created_at', 'paid_datetime',
     )
     list_filter = ('status', 'paid', 'paid_datetime', )
+    inlines = [
+        OrderProductInline,
+    ]
 
     def get_status(self, obj):
         status_choice = ""

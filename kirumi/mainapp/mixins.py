@@ -16,6 +16,7 @@ from .models import (
     ColoredProduct,
     Collection,
     Order,
+    OrderProduct,
 )
 
 
@@ -150,10 +151,13 @@ class CatalogMixin(View):
 
 class PaymentMixin(View):
 
+    @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         if self.products_in_cart.count() == 0:
             return HttpResponseRedirect(reverse('cart'))
 
+        BUYING_TYPE_DELIVERY = 'DELIVERY'
+        BUYING_TYPE_SELF = 'SELF'
         self.order = Order.objects.filter(id=self.cart.order_id).first()
         use_old_order_data = False
         self.firstName = request.POST.get('firstName')
@@ -171,10 +175,14 @@ class PaymentMixin(View):
                 return HttpResponseRedirect(reverse('checkout'))
             else:
                 use_old_order_data = True
+
+        _buying_type = "DELIVERY"
         if self.delivery_type == "pickup":
             self.addresPost = request.POST.get('addresPost')  # адрес
+            _buying_type = BUYING_TYPE_SELF
         else:
             self.addresPost = request.POST.get('addresPost-show')  # адрес
+            _buying_type = BUYING_TYPE_DELIVERY
         self.pricePost = request.POST.get('pricePost')  # стоимость доставки
         self.timePost = request.POST.get('timePost')  # приблизительное время доставки
 
@@ -199,18 +207,32 @@ class PaymentMixin(View):
             self.lastName = self.order.last_name
             self.email = self.order.email
             self.phone = self.order.phone
-            self.chosenPost = ''  # номер поста
             self.addresPost = self.order.address  # адрес
-            self.pricePost = 200  # стоимость доставки
-            self.timePost = '1 - 2'  # приблизительное время доставки
+            self.pricePost = self.order.delivery_price  # стоимость доставки
+            self.timePost = '7 - 14'  # приблизительное время доставки
+            self.order_comment = self.order.comment
         else:
-            BUYING_TYPE_SELF = 'SELF'
-            BUYING_TYPE_SELF = 'DELIVERY'
             self.order, _ = Order.objects.get_or_create(
                 first_name=self.firstName, last_name=self.lastName, email=self.email,
-                phone=self.phone, address=self.addresPost, buying_type=BUYING_TYPE_SELF,
+                phone=self.phone, address=self.addresPost, buying_type=_buying_type,
                 paid=False, comment=self.order_comment,
+                total_products=self.cart.total_products,
+                price_before_discount=self.cart.price_before_discount,
+                final_price=self.cart.final_price,
+                delivery_price = int(self.pricePost),
+                cart_id = self.cart.id,
             )
+            for product_in_order in self.cart.products.all():
+                subtotal_price_before_discount = product_in_order.subtotal_price_before_discount
+                if product_in_order.subtotal_price_before_discount is None:
+                    subtotal_price_before_discount = product_in_order.subtotal_price
+                OrderProduct.objects.create(
+                    order=self.order,
+                    name=product_in_order.get_receipt_name(),
+                    qty=product_in_order.qty,
+                    subtotal_price=product_in_order.subtotal_price,
+                    subtotal_price_before_discount=subtotal_price_before_discount,
+                )
             self.cart.order_id = self.order.id
             self.cart.save()
 

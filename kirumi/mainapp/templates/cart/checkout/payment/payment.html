@@ -163,6 +163,14 @@
               <label for="timePost" class="form-label">Время доставки (дни)</label>
             </div>
 
+            <div class="form-floating">
+              <textarea type="text" class="form-control"
+                onkeydown="return false;"
+                style="caret-color: transparent !important; height: auto;"
+                readonly required>{{ delivery_details.order_comment }}</textarea>
+              <label for="orderComment" class="form-label">Комментарий к заказу</label>
+            </div>
+
             <input class="tinkoffPayRow" type="hidden" name="receipt" value="">
             <script type="text/javascript">
               function tinkoffPayFunction(target) {
