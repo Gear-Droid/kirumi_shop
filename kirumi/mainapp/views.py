@@ -564,8 +564,10 @@ class SDEKAPIView(View):
         try:
             delivery_calculation_response = get_delivery_calculation(
                 to_location=self.to_location,
-                hoodie_packages_count=self.hoodie_packages_count,
-                shirt_packages_count=self.shirt_packages_count,
+                hoodie_packages_count=1,
+                shirt_packages_count=0,
+                # hoodie_packages_count=self.hoodie_packages_count,
+                # shirt_packages_count=self.shirt_packages_count,
             )
             print(delivery_calculation_response)
         except requests.exceptions.RequestException as error:

@@ -246,14 +246,14 @@ class OrderMixin(View):
         self.order = Order.objects.filter(id=self.cart.order_id).first()
         if self.order is None:
             return HttpResponseRedirect(reverse('checkout'))
-        # self.cart.paid = True
-        # self.order.paid = True
-        # self.order.paid_datetime = datetime.now()
+        self.cart.paid = True
+        self.order.paid = True
+        self.order.paid_datetime = datetime.now()
         STATUS_IN_PROGRESS = 'IN PROGRESS'
         self.order.status = STATUS_IN_PROGRESS
         self.cart.save()
         self.order.save()
-        # request.session.flush()
+        request.session.flush()
         return super().dispatch(request, *args, **kwargs)
 
 
