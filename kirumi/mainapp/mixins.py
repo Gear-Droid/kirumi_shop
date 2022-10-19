@@ -104,6 +104,7 @@ class CatalogMixin(View):
                 Q(product__collection__is_active=True) & \
                 Q(images__is_active=True)
 
+        self.collection = None
         if self.catalog_slug is not None:
             self.collection = Collection.objects.filter(slug=self.catalog_slug).first()
             if self.collection is not None:

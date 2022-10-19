@@ -66,7 +66,16 @@
     .text-muted {
       color: grey !important;
     }
+
     {% block style %}
+      @media screen and (min-width: 992px){
+        .carousel-item > div{
+          padding-right: 15vw;
+        }
+        .carousel-item img{
+          margin-right: 0;
+        }
+      }
     {% endblock style %}
   </style>
 </head>
@@ -257,7 +266,6 @@
                     style="display: block;
                       width: inherit;
                       min-width: 200px;
-                      margin: auto;"
                     class="d-block"
                     height="600"
                     loading="lazy" />
