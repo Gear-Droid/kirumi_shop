@@ -227,8 +227,10 @@
 
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
 
+                console.log('До наценки', info.price);
                 const premium = document.getElementById('premium').innerText
                 const total_price = parseInt(info.price) + parseInt(premium)
+                console.log('После наценки', total_price);
 
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + total_price + ' руб.' + "\n" +
