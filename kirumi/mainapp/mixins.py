@@ -146,7 +146,15 @@ class PaymentMixin(View):
         self.delivery_type = request.POST.get('delivery_type')  # тип доставки
         self.chosenPost = request.POST.get('chosenPost')  # номер поста
         self.cityPost = request.POST.get('city')  # город
-        self.addresPost = request.POST.get('addresPost')  # адрес
+        if self.delivery_type is None:
+            if self.order is None:
+                return HttpResponseRedirect(reverse('checkout'))
+            else:
+                use_old_order_data = True
+        if self.delivery_type == "pickup":
+            self.addresPost = request.POST.get('addresPost')  # адрес
+        else:
+            self.addresPost = request.POST.get('addresPost-show')  # адрес
         self.pricePost = request.POST.get('pricePost')  # стоимость доставки
         self.timePost = request.POST.get('timePost')  # приблизительное время доставки
 
@@ -194,14 +202,14 @@ class OrderMixin(View):
         self.order = Order.objects.filter(id=self.cart.order_id).first()
         if self.order is None:
             return HttpResponseRedirect(reverse('checkout'))
-        self.cart.paid = True
-        self.order.paid = True
-        self.order.paid_datetime = datetime.now()
+        # self.cart.paid = True
+        # self.order.paid = True
+        # self.order.paid_datetime = datetime.now()
         STATUS_IN_PROGRESS = 'IN PROGRESS'
         self.order.status = STATUS_IN_PROGRESS
         self.cart.save()
         self.order.save()
-        request.session.flush()
+        # request.session.flush()
         return super().dispatch(request, *args, **kwargs)
 
 

@@ -10,3 +10,4 @@ settings.py
 *.sqlite3
 __init__.py
 kirumi/mainapp/migrations/
+kirumi/file_caches/
