@@ -10,10 +10,7 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
   <!--===============================================================================================-->
     <!-- SDEK widget -->
-      <script id="ISDEKscript" type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" charset="utf-8"></script>
-      <script src="https://widget.cdek.ru/widget/scripts/ipjq.js" type="text/javascript"></script>
-      <link href="https://widget.cdek.ru/widget/scripts/style.css" rel="stylesheet" type="text/css">
-      <script src="https://widget.cdek.ru/widget/scripts/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+      <script id="ISDEKscript" type="text/javascript" src="{{ base_url }}/static/js/SDEK/widjet.js" charset="utf-8"></script>
   <!--===============================================================================================-->
       <script src="{% static 'js/vue/vue.global.prod.js' %}"></script>
 
@@ -181,7 +178,7 @@
               </div>
 
             </div>
-            <div v-show="shippingMethod === 'pickup'" class="mb-4" id="forpvz" style="height:600px;"></div>
+
             <script>
               var widjet = new ISDEKWidjet({
                 showWarns: true,
@@ -194,7 +191,8 @@
                 cityFrom: 'Москва',
                 inregion: true,
                 link: 'forpvz',
-                path: 'https://widget.cdek.ru/widget/scripts/', //директория с библиотеками
+                path: '{{ base_url }}/static/js/SDEK/scripts/', //директория с библиотеками
+                servicepath: '{{ base_url }}/static/php/SDEK/service.php', //ссылка на файл service.php на вашем сайте
                 choose: true,
                 hidedress: false,
                 hidedelt: true,
@@ -205,11 +203,11 @@
                   height: 15,
                   weight: 1
                 }],
-                onChooseAddress: onChooseAddress,
-                onChoose: onChoose
+                {% comment %} onChooseAddress: onChooseAddress, {% endcomment %}
+                onChoose: onChoose,
               });
 
-              function onChooseAddress(info) {
+              {% comment %} function onChooseAddress(info) {
                 alert('Выбрана доставка курьером по адресу ' + info.address + "\n" +
                     'Цена ' + info.price + ' руб.' + "\n" +
                     'Ориентировочный срок доставки ' + info.term + ' дн.'
@@ -225,7 +223,7 @@
                 ipjq('.pencil-svg').css('display','none');
                 ipjq('.addresPost-show-container').removeClass("col-12");
                 ipjq('.addresPost-show-container').addClass("col-10");
-              }
+              } {% endcomment %}
 
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
 
@@ -259,6 +257,7 @@
                 ipjq('.addresPost-show-container').addClass("col-10");
               }
             </script>
+            <div v-show="shippingMethod === 'pickup'" class="mb-4" id="forpvz" style="height:600px;"></div>
 
             <p><input type="hidden" name="chosenPost" value=""/></p>
             <div class="row">
@@ -327,7 +326,6 @@
       <p hidden id="premium">[[ premium ]]</p>
     </main>
   </div>
-
 
 {% endblock content %}
 

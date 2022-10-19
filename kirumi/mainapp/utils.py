@@ -67,8 +67,13 @@ def get_delivery_calculation(
             # "address": "Московская обл, г Видное, ул Завидная, д 4",
         },
         "to_location": {
+            # "code": 7800000000000,
+            # "city": "Санкт-Петербург",
             "address": to_location,
         },
         "packages": [ hoodie_package for _ in range(hoodie_packages_count) ]
     }
-    return requests.post(request_url, headers=headers, json=request_data).json()
+    res = requests.post(request_url, headers=headers, json=request_data).json()
+
+    # return requests.post(request_url, headers=headers, json=request_data).json()
+    return res

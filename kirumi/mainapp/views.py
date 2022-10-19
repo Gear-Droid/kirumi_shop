@@ -309,6 +309,7 @@ class CheckoutView(BasePageView, CartProductMixin):
             'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
+            'base_url': settings.BASE_URL,
         }
         return render(request, 'cart/checkout/checkout.html', context=context)
 
@@ -566,6 +567,7 @@ class SDEKAPIView(View):
                 hoodie_packages_count=self.hoodie_packages_count,
                 shirt_packages_count=self.shirt_packages_count,
             )
+            print(delivery_calculation_response)
         except requests.exceptions.RequestException as error:
             error_file_logger.error('SDEK calculator request fail: {}'.format(error))
             return HttpResponseNotFound()
