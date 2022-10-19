@@ -1,0 +1,408 @@
+{% extends 'homepage.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block header %}
+
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+  <!--===============================================================================================-->
+
+{% endblock header %}
+
+{% block style %}
+  h2, .container{
+    text-align: center;
+  }
+  button:not(.collapsed) .bi-chevron-down{
+    display: none;
+  }
+  button.collapsed .bi-chevron-up{
+      display: none;
+  }
+  button.collapsed .bi-chevron-down{
+    display: block;
+  }
+
+  .btn.w-100{
+    margin-bottom: 15px;
+  }
+{% endblock style %}
+
+{% block intro %}
+{% endblock intro %}
+
+{% block content %}
+<h2 class="fade-in p-2 my-5">{% trans "ВОПРОС-ОТВЕТ" %}</h2>
+<div class="container mb-3">
+  <div class="my-5">
+    Возникли вопросы по доставке или оплате?</br>
+    Возможно, мы уже ответили на них в этом разделе.
+  </div>
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq1"
+        aria-expanded="false" aria-controls="faq1">
+        Как оформить заказ на сайте?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq1">
+      <div class="container p-5 py-3">
+        <div>
+          Оформить заказ очень просто:</br></br>
+          Чтобы найти нужный товар, воспользуйтесь навигацией сайта или выберите его на главной страницей.</br>
+          Сверху сайта расположен каталог, нажав на него, вы можете выбрать интересующую вас категорию.</br>
+          Выберите нужный товар и зайдите на его страницу, кликнув на него.</br>
+          На странице товара вы увидите дополнительные изображения, описание, состав и размеры.</br>
+          Внимательно ознакомьтесь с характеристиками товара и выберите нужный размер.</br>
+          Также для категории худи есть возможность выбрать ткань, которая вам больше нравится: флис и база.</br>
+          После этого нажмите на кнопку «Добавить в корзину». Чтобы продолжить покупки, снова воспользуйтесь навигацией.</br>
+          Для оформления заказа кликните на “корзина”, после чего откроется страница оформления заказа.</br>
+          Укажите ваши данные, адрес и способ доставки, после чего нажмите кнопку «Перейти к оплате».</br>
+          На следующей странице проверьте всю введенную Вами информацию и нажмите кнопку “Оплатить”.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq2"
+        aria-expanded="false" aria-controls="faq2">
+        Какие есть способы оформления заказа?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq2">
+      <div class="container p-5 py-3">
+        <div>
+          Вы можете оформить заказ на нашем сайте или через наши социальные сети.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq3"
+        aria-expanded="false" aria-controls="faq3">
+        Резервируется ли товар в корзине?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq3">
+      <div class="container p-5 py-3">
+        <div>
+          Товар в корзине не резервируется. Товар резервируется только после оформления заказа и его 100% предоплаты.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq4"
+        aria-expanded="false" aria-controls="faq4">
+        Можно ли оплатить заказ при получении?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq4">
+      <div class="container p-5 py-3">
+        <div>
+          Мы работаем только по 100% предоплате.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq5"
+        aria-expanded="false" aria-controls="faq5">
+        Как узнать что мой заказ принят в работу?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq5">
+      <div class="container p-5 py-3">
+        <div>
+          После покупки вам придет электронный чек на почту, который означает начало работы над Вашим заказом . В день отправки вам придет уведомление от СДЭК c трек-номером, что ваш заказ в доставке.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq6"
+        aria-expanded="false" aria-controls="faq6">
+        Есть ли примерка при получении?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq6">
+      <div class="container p-5 py-3">
+        <div>
+          Нет, такая возможность не предоставляется. Мы хотим продавать исключительно новый и неношеный товар.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq7"
+        aria-expanded="false" aria-controls="faq7">
+        Как отследить заказ?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq7">
+      <div class="container p-5 py-3">
+        <div>
+          Для отслеживания отправления Вам необходимо знать трек-номер отправления и перейти на сайт <a href="https://www.cdek.ru/ru/tracking">www.cdek.ru/ru/tracking</a>. СДЭК отправит Вам трек-номер, когда примет Ваш заказ в доставку. Если Вам не приходило уведомление от СДЭК и прошло более 14 дней, то обязательно напишите нам на <a href="mailto:info@kirumi.ru">info@kirumi.ru</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq8"
+        aria-expanded="false" aria-controls="faq8">
+        Можно ли отменить заказ или внести изменения?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq8">
+      <div class="container p-5 py-3">
+        <div>
+          Если вы решили внести изменения или отменить заказ, пожалуйста, сразу же свяжитесь с нами через соц. сети или напишите нам на нашу электронную почту <a href="mailto:info@kirumi.ru">info@kirumi.ru</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq9"
+        aria-expanded="false" aria-controls="faq9">
+        Что делать если при оплате банковской картой произошла ошибка?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq9">
+      <div class="container p-5 py-3">
+        <div>
+          Незамедлительно свяжитесь с нами  через соц. сети или напишите нам на нашу электронную почту <a href="mailto:info@kirumi.ru">info@kirumi.ru</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq10"
+        aria-expanded="false" aria-controls="faq10">
+        В какой срок можно вернуть или обменять товар?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq10">
+      <div class="container p-5 py-3">
+        <div>
+          Если вы решили внести изменения или отменить заказ, пожалуйста, сразу же свяжитесь с нами через соц. сети или напишите нам на нашу электронную почту <a href="mailto:info@kirumi.ru">info@kirumi.ru</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq11"
+        aria-expanded="false" aria-controls="faq11">
+        В какой срок можно вернуть или обменять товар?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq11">
+      <div class="container p-5 py-3">
+        <div>
+          Вы можете вернуть или обменять товар надлежащего качества в течение 7 календарных дней после его доставки. Товар должен сохранять свой первоначальный вид, фабричные ярлыки и оригинальную упаковку. Подробную информацию о порядке возврата можно прочитать в разделе Возврат и обмен.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col mt-4 mb-5 border-bottom" style="max-width: 800px; margin: auto;">
+    <div class="row" style="margin: 0px 15px; min-width: 240px;">
+      <button class="btn w-100 collapsed"
+        style="
+          text-align: left; width:auto; color: #262626;
+          background-color: transparent;
+          border-color: transparent;
+          display: flex; justify-content: space-between;
+        "
+        type="button" data-bs-toggle="collapse" data-bs-target="#faq12"
+        aria-expanded="false" aria-controls="faq12">
+        Как скоро будут возвращены деньги?
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sizes-table-container collapse" id="faq12">
+      <div class="container p-5 py-3">
+        <div>
+          Перечисление денежных средств осуществляется в течение 1-7 рабочих дней или может быть в тот же день. Срок зачисления денежных средств зависит от внутреннего регламента банка-получателя.
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block scripts %}
+{% endblock scripts %}

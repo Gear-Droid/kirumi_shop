@@ -20,6 +20,7 @@
   <!-- <meta name="google-site-verification" content="HAaj6DI9-GH18Me0i4aGBNiA0T3ueYTMTYLOvMrX6uA" /> -->
 
   <link rel="preload" href="{% static 'fonts/Inter-Regular.otf' %}" as="font" type="font/ttf" crossorigin>
+  <link rel="canonical" href="{{ meta.main_page }}">
 
   <!--===============================================================================================-->
     <!-- Bootstrap core CSS -->
@@ -547,8 +548,10 @@
       <section class="showcase">
         <video class="" preload="auto"
           no-controls autoplay loop playsinline muted
-          src="{% static 'videos/FASHION VIDEO.mp4' %}"
-          loading="lazy" />
+          src="{% static 'videos/hello_video_2.mp4' %}"
+          loading="lazy"    
+          style="opacity: 0.65;"
+        >
           Your browser does not support the video tag. (Тег video не поддерживается вашим браузером.)
         </video>
         <h1 id="title" class="title text-center">KIRUMI</h1>
@@ -575,8 +578,8 @@
       <ul class="nav col-lg-4 p-2 justify-content-end">
         <li class="nav-item"><a href="{% url 'about_brand' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "О бренде" %}</a></li>
         <li class="nav-item"><a href="{% url 'contacts' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Контакты" %}</a></li>
-        <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
-        <li class="nav-item"><a href="#" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Возрат-обмен" %}</a></li>
+        <li class="nav-item"><a href="{% url 'faq' %}" class="footer-nav-link px-2 text-muted text-decoration-none">FAQ</a></li>
+        <li class="nav-item"><a href="{% url 'return_exchange' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Возрат-обмен" %}</a></li>
         <li class="nav-item"><a href="{% url 'delivery_and_payment' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Доставка и оплата" %}</a></li>
         <li class="nav-item"><a href="{% url 'public_offer' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Публичная оферта" %}</a></li>
         <li class="nav-item"><a href="{% url 'terms_of_use' %}" class="footer-nav-link px-2 text-muted text-decoration-none">{% trans "Пользовательское соглашение" %}</a></li>

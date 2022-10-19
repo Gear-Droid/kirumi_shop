@@ -1,8 +1,19 @@
-User-agent: Yandex
-Sitemap: http://kirumi.ru/sitemap.xml
+User-agent: *
+
 Allow: /offers/
-Disallow: /en
+Allow: /
+Allow: /ru
+Disallow: /cart
 Disallow: /ru/cart
+Disallow: /en/cart
+Disallow: /catalog?
 Disallow: /ru/catalog?
+Disallow: /en/catalog?
+Disallow: /catalog/hoodie?
 Disallow: /ru/catalog/hoodie?
+Disallow: /en/catalog/hoodie?
+Disallow: /catalog/t-shirts?
 Disallow: /ru/catalog/t-shirts?
+Disallow: /en/catalog/t-shirts?
+
+Sitemap: http://kirumi.ru/sitemap.xml

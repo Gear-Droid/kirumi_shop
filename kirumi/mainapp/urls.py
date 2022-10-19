@@ -33,12 +33,14 @@ urlpatterns = [
     path('cart/checkout/payment/success/', SuccessView.as_view(), name='succes'),
     path('terms_of_use/', TermsOfUseView.as_view(), name='terms_of_use'),
     path('public_offer/', PublicOfferView.as_view(), name='public_offer'),
+    path('faq/', FAQView.as_view(), name='faq'),
+    path('return_exchange/', ReturnExchangeView.as_view(), name='return_exchange'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
     path('privacy_policy/', PrivacyPolicyView.as_view(), name='privacy_policy'),
     path('delivery_and_payment/', DeliveryAndPaymentView.as_view(), name='delivery_and_payment'),
+    path('offers/', OffersAPIView.as_view(), name='offers'),
     # === REST API === #
     path('cities/', CitiesAPIView.as_view(), name='cities'),
     path('addresses/', AddressesAPIView.as_view(), name='addresses'),
     path('sdek/calculator/', SDEKAPIView.as_view(), name='sdek_calculator'),
-    path('offers/', OffersAPIView.as_view(), name='offers'),
 ]

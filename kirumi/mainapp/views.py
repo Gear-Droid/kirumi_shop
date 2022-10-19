@@ -30,7 +30,7 @@ from mainapp.utils import get_delivery_calculation
 error_file_logger = logging.getLogger('django')
 
 
-class BasePageView(CartMixin, CollectionsMixin):
+class BasePageView(CartMixin, CollectionsMixin, SEOMixin):
     pass
 
 
@@ -38,12 +38,12 @@ class HomePageView(BasePageView, NewProductsMixin):
 
     def get(self, request, *args, **kwargs):
         self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
-
         context = {
             'meta':{
-                'Title': "Kirumi онлайн-магазин аниме-одежды",
-                'keywords': "кируми kirumi онлайн-магазин аниме-одежды",
-                'page_description': "Свободный крой. Оригинальные цвета. 100% хлопок.",
+                'Title': "KIRUMI - Интернет-магазин аниме-одежды",
+                'keywords': "кируми kirumi интернет-магазин аниме-одежды",
+                'page_description': "KIRUMI - молодой бренд, вдохновленный многогранностью аниме. У нас вы найдете худи и футболки с Атака Титанов, HunterxHunter, Клинок, рассекающий демонов, Магическая битва",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -60,6 +60,7 @@ class HomePageView(BasePageView, NewProductsMixin):
                 'Title': "Kirumi онлайн-магазин аниме-одежды",
                 'keywords': "кируми kirumi онлайн-магазин аниме-одежды",
                 'page_description': "Kirumi онлайн-магазин аниме-одежды",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -100,6 +101,7 @@ class ProductView(BasePageView):
                 'Title': str(colored_product),
                 'keywords': colored_product.product.description,
                 'page_description': colored_product.product.description,
+                'main_page': self.main_path,
             },
             'other_variations': self.new_products,
             'collections': self.collections,
@@ -158,6 +160,7 @@ class AboutBrandView(BasePageView):
         context = {
             'meta':{
                 'Title': "О бренде Kirumi",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -171,6 +174,7 @@ class NewProductsView(BasePageView, NewProductsMixin):
         context = {
             'meta':{
                 'Title': "Новинки аниме-одежды Kirumi",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -182,9 +186,11 @@ class NewProductsView(BasePageView, NewProductsMixin):
 class CatalogView(BasePageView, CatalogMixin):
 
     def get(self, request, *args, **kwargs):
+        print
         context = {
             'meta':{
                 'Title': "Каталог аниме-одежды Kirumi",
+                'main_page': self.main_path,
             },
             'catalog_slug': self.catalog_slug,
             'collections': self.collections,
@@ -201,6 +207,7 @@ class CartView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Корзина покупок Kirumi",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -270,6 +277,7 @@ class CheckoutView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Детали заказа",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -302,6 +310,7 @@ class PaymentView(BasePageView, CartProductMixin, PaymentMixin):
         context = {
             'meta': {
                 'Title': 'Оплата заказа',
+                'main_page': self.main_path,
             },
             'delivery_details':{
                 'chosenPost': self.chosenPost,
@@ -331,6 +340,7 @@ class SuccessView(BasePageView, OrderMixin):
         context = {
             'meta': {
                 'Title': 'Успешная оплата',
+                'main_page': self.main_path,
             },
             'cart': self.cart,
         }
@@ -343,6 +353,7 @@ class TermsOfUseView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Пользовательское соглашение",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -356,11 +367,40 @@ class PublicOfferView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Публичная офферта",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
         }
         return render(request, 'public_offer/public_offer.html', context=context)
+
+
+class FAQView(BasePageView, CartProductMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "FAQ",
+                'main_page': self.main_path,
+            },
+            'collections': self.collections,
+            'cart': self.cart,
+        }
+        return render(request, 'faq/faq.html', context=context)
+
+
+class ReturnExchangeView(BasePageView, CartProductMixin):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'meta':{
+                'Title': "Возврат-обмен",
+                'main_page': self.main_path,
+            },
+            'collections': self.collections,
+            'cart': self.cart,
+        }
+        return render(request, 'return_exchange/return_exchange.html', context=context)
 
 
 class ContactsView(BasePageView, CartProductMixin):
@@ -369,6 +409,7 @@ class ContactsView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Контакты",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -382,6 +423,7 @@ class PrivacyPolicyView(BasePageView):
         context = {
             'meta':{
                 'Title': "Политика конфиденциальности",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,
@@ -395,6 +437,7 @@ class DeliveryAndPaymentView(BasePageView):
         context = {
             'meta':{
                 'Title': "Доставка и оплата",
+                'main_page': self.main_path,
             },
             'collections': self.collections,
             'cart': self.cart,

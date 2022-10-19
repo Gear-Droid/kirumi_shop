@@ -2,6 +2,7 @@ import requests
 import csv
 from datetime import datetime
 
+from django.conf import settings
 from django.db import transaction
 from django.db.models import Q, F
 from django.urls import reverse
@@ -79,6 +80,21 @@ class CollectionsMixin(View):
         return super().dispatch(request, *args, **kwargs)
 
 
+class SEOMixin(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        current_path = str(request.path)
+        if current_path.startswith("/ru/"):
+            pass
+        elif current_path.startswith("/en/"):
+            current_path = "/ru/" + current_path[4:]
+        else:
+            current_path = "/ru/" + current_path[1:]
+
+        self.main_path = settings.BASE_URL + current_path
+        return super().dispatch(request, *args, **kwargs)
+
+
 class CatalogMixin(View):
 
     def dispatch(self, request, *args, **kwargs):
@@ -146,6 +162,9 @@ class PaymentMixin(View):
         self.delivery_type = request.POST.get('delivery_type')  # тип доставки
         self.chosenPost = request.POST.get('chosenPost')  # номер поста
         self.cityPost = request.POST.get('city')  # город
+        self.order_comment = request.POST.get('order_comment')  # комментарий
+        if self.order_comment is None:
+            self.order_comment = ""
         if self.delivery_type is None:
             if self.order is None:
                 return HttpResponseRedirect(reverse('checkout'))
@@ -160,6 +179,7 @@ class PaymentMixin(View):
 
         required_params_list = [
             self.firstName, self.lastName, self.email, self.phone,
+            self.delivery_type, self.cityPost,
             self.addresPost, self.pricePost, self.timePost,
         ]
         null_param = False
@@ -184,10 +204,11 @@ class PaymentMixin(View):
             self.timePost = '1 - 2'  # приблизительное время доставки
         else:
             BUYING_TYPE_SELF = 'SELF'
+            BUYING_TYPE_SELF = 'DELIVERY'
             self.order, _ = Order.objects.get_or_create(
                 first_name=self.firstName, last_name=self.lastName, email=self.email,
                 phone=self.phone, address=self.addresPost, buying_type=BUYING_TYPE_SELF,
-                paid=False,
+                paid=False, comment=self.order_comment,
             )
             self.cart.order_id = self.order.id
             self.cart.save()

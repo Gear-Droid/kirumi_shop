@@ -27,10 +27,29 @@
 						<h4 class="my-0 fw-normal">Успешно!</h4>
 					</div>
 					<div class="card-body mb-5">
-						<h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
 						<ul class="list-unstyled mt-3 mb-5">
-							<li>referer</li>
+							<li>
+								Благодарим Вас за заказ.
+							</li>
+							<li>
+								Чек придет Вам на почту.
+							</li>
+							<li>
+								Ожидайте доставку в течение 7-14 дней.
+							</li>
+							<li>
+								За несколько дней до доставки Вам придет уведомление от СДЭК.
+							</li>
 						</ul>
+						<a href="{% url 'homepage' %}">
+							<!-- SVG place -->
+							<img class="footer-kirumi-logo"
+							  src="{% static "images/kirumi-logo.svg" %}"
+							  style="filter: invert(0); margin-bottom: 40px;"
+							  alt="Kirumi logo"
+							  width="200px"
+							  loading="lazy" />
+						</a>
 						<form action="/">
 							<button type="submit" class="w-75 btn btn-lg btn-outline-success">Вернуться на главную</button>
 						</form>

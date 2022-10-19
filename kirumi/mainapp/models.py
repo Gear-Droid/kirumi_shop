@@ -385,7 +385,9 @@ class Order(models.Model):
         choices=BUYING_TYPE_CHOICES,
         default=BUYING_TYPE_DELIVERY,
     )
-    comment = models.TextField(verbose_name='Комментарий к заказу', null=True, blank=True)
+    comment = models.TextField(
+        max_length=256, verbose_name='Комментарий к заказу', null=True, blank=True
+    )
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
     paid = models.BooleanField(verbose_name='Заказ оплачен?', default=False)
     paid_datetime = models.DateTimeField(
