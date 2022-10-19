@@ -37,10 +37,18 @@
                 {% for image in images %}
                   <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}">
                     {% thumbnail image.image "100x140" crop="center" as im %}
-                      <img style="display:block;"
-                        src="{{ im.url }}"
-                        width="100"
-                      />
+                      <div itemscope itemtype="http://schema.org/ImageObject" style="width: 100px">
+                        <h2 itemprop="name" hidden>{{ colored_product.product.collection.first }} {{ colored_product.variation.name }} {{ image }}</h2>
+                        <img src="{{ im.url }}"
+                          itemprop="{{ image.image.url }}"
+                          style="display: block;
+                            width: inherit;
+                            margin: auto;"
+                          class="d-block"
+                          width="100"
+                          loading="lazy" />
+                        <span itemprop="description" hidden>Kirumi онлайн-магазин {{ colored_product.product.collection.first }} {{ colored_product.variation.name }} {{ image }}</span>
+                      </div>
                     {% endthumbnail %}
                   </button>
                 {% endfor %}
@@ -50,10 +58,18 @@
                 {% for image in images %}
                   <div class="carousel-item {% if forloop.first %}active{% endif %}">
                     {% thumbnail image.image "500x700" crop="center" as im %}
-                      <img src="{{ im.url }}" alt="{{ img.description }}"
-                        class="d-block w-100"
-                        height="700"
-                        loading="lazy" />
+                      <div itemscope itemtype="http://schema.org/ImageObject">
+                        <h2 itemprop="name" hidden>{{ colored_product.product.collection.first }} {{ colored_product.variation.name }} {{ image }}</h2>
+                        <img src="{{ im.url }}"
+                          itemprop="{{ image.image.url }}"
+                          style="display: block;
+                            width: inherit;
+                            margin: auto;"
+                          class="d-block w-100"
+                          height="700"
+                          loading="lazy" />
+                        <span itemprop="description" hidden>Kirumi онлайн-магазин {{ colored_product.product.collection.first }} {{ colored_product.variation.name }} {{ image }}</span>
+                      </div>
                     {% endthumbnail %}
                   </div>
                 {% endfor %}

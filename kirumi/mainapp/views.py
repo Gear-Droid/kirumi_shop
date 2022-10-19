@@ -41,7 +41,7 @@ class HomePageView(BasePageView, NewProductsMixin):
         context = {
             'meta':{
                 'Title': "KIRUMI - Интернет-магазин аниме-одежды",
-                'keywords': "кируми kirumi интернет-магазин аниме-одежды",
+                'keywords': "интернет-магазин, аниме, аниме одежда, худи, Kirumi, кируми",
                 'page_description': "KIRUMI - молодой бренд, вдохновленный многогранностью аниме. У нас вы найдете худи и футболки с Атака Титанов, HunterxHunter, Клинок, рассекающий демонов, Магическая битва",
                 'main_page': self.main_path,
             },
@@ -57,9 +57,9 @@ class HomePageView(BasePageView, NewProductsMixin):
 
         context = {
             'meta':{
-                'Title': "Kirumi онлайн-магазин аниме-одежды",
-                'keywords': "кируми kirumi онлайн-магазин аниме-одежды",
-                'page_description': "Kirumi онлайн-магазин аниме-одежды",
+                'Title': "KIRUMI - Интернет-магазин аниме-одежды",
+                'keywords': "интернет-магазин, аниме, аниме одежда, худи, Kirumi, кируми",
+                'page_description': "KIRUMI - молодой бренд, вдохновленный многогранностью аниме. У нас вы найдете худи и футболки с Атака Титанов, HunterxHunter, Клинок, рассекающий демонов, Магическая битва",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -98,8 +98,18 @@ class ProductView(BasePageView):
 
         context = {
             'meta':{
-                'Title': str(colored_product),
-                'keywords': colored_product.product.description,
+                'Title': '{} {} - {} {}'.format(
+                    colored_product.product.collection.first().name,
+                    colored_product.product.name,
+                    colored_product.name,
+                    colored_product.variation.name,
+                ),
+                'keywords': 'купить, {}, {}, {}, {}, Kirumi, кируми'.format(
+                    colored_product.product.collection.first().name,
+                    colored_product.product.name,
+                    colored_product.name,
+                    colored_product.variation.name,
+                ),
                 'page_description': colored_product.product.description,
                 'main_page': self.main_path,
             },
@@ -159,7 +169,15 @@ class AboutBrandView(BasePageView):
     def get(self, request, *args, **kwargs):
         context = {
             'meta':{
+                'main_page': self.main_path,
+            },
+            'meta':{
                 'Title': "О бренде Kirumi",
+                'keywords': "интернет-магазин, аниме, аниме одежда, худи, бренд, Kirumi, кируми",
+                'page_description': """Мир аниме – это особая философия, которой следуем мы и хотим поделиться с вами.  \
+                    В дизайне нашей одежды отражены различные истории персонажей аниме, у каждого из которых свой неповторимый жизненный путь.  \
+                    Это делает каждую вещь по-своему уникальной. Стань частью культуры аниме и найди свой путь вместе с Kirumi!  \
+                """,
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -174,6 +192,8 @@ class NewProductsView(BasePageView, NewProductsMixin):
         context = {
             'meta':{
                 'Title': "Новинки аниме-одежды Kirumi",
+                'keywords': "новинки, аниме, аниме одежда, худи, интернет-магазин, Kirumi, кируми",
+                'page_description': "Новинки худи и футболки с Атака Титанов, HunterxHunter, Клинок, рассекающий демонов, Магическая битва. Онлайн-магазин Kirumi.",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -186,10 +206,17 @@ class NewProductsView(BasePageView, NewProductsMixin):
 class CatalogView(BasePageView, CatalogMixin):
 
     def get(self, request, *args, **kwargs):
-        print
+        title = "Каталог Kirumi"
+        wear = "Одежда"
+        if self.collection is not None:
+            title = "{} Kirumi".format(self.collection.name)
+            wear = self.collection.name
+
         context = {
             'meta':{
-                'Title': "Каталог аниме-одежды Kirumi",
+                'Title': title,
+                'keywords': "купить, аниме, {}, каталог, аниме одежда, интернет-магазин, Kirumi, кируми".format(wear),
+                'page_description': "Каталог худи и футболки с аниме Атака Титанов, HunterxHunter, Клинок, рассекающий демонов, Магическая битва в онлайн-магазине Kirumi.",
                 'main_page': self.main_path,
             },
             'catalog_slug': self.catalog_slug,
@@ -353,6 +380,7 @@ class TermsOfUseView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Пользовательское соглашение",
+                'page_description': "Пользовательское соглашение онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -367,6 +395,7 @@ class PublicOfferView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Публичная офферта",
+                'page_description': "Публичная офферта онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -381,6 +410,7 @@ class FAQView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "FAQ",
+                'page_description': "FAQ онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -395,6 +425,7 @@ class ReturnExchangeView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Возврат-обмен",
+                'page_description': "Возврат-обмен онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -409,6 +440,7 @@ class ContactsView(BasePageView, CartProductMixin):
         context = {
             'meta':{
                 'Title': "Контакты",
+                'page_description': "Контакты онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -423,6 +455,7 @@ class PrivacyPolicyView(BasePageView):
         context = {
             'meta':{
                 'Title': "Политика конфиденциальности",
+                'page_description': "Политика конфиденциальности онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,
@@ -437,6 +470,7 @@ class DeliveryAndPaymentView(BasePageView):
         context = {
             'meta':{
                 'Title': "Доставка и оплата",
+                'page_description': "Доставка и оплата онлайн-магазина Kirumi",
                 'main_page': self.main_path,
             },
             'collections': self.collections,

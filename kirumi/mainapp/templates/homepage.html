@@ -250,10 +250,19 @@
           {% for banner in banners %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3500">
               {% thumbnail banner.image "428x600" crop="center" as im %}
-                <img src="{{ im.url }}" alt="{{ banner.description }}"
-                  class="d-block"
-                  height="600"
-                  loading="lazy" />
+                <div itemscope itemtype="http://schema.org/ImageObject">
+                  <h2 itemprop="name" hidden>О бренде Kirumi</h2>
+                  <img src="{{ im.url }}"
+                    itemprop="{{ im.url }}"
+                    style="display: block;
+                      width: inherit;
+                      min-width: 200px;
+                      margin: auto;"
+                    class="d-block"
+                    height="600"
+                    loading="lazy" />
+                  <span itemprop="description" hidden>Kirumi онлайн-магазин {{ banner.description }}</span>
+                </div>
               {% endthumbnail %}
               <div class="overlay carousel-caption d-md-block">
                 <span class="banner-description">{{ banner.description|linebreaks }}</span>

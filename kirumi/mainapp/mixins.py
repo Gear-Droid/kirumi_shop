@@ -105,9 +105,9 @@ class CatalogMixin(View):
                 Q(images__is_active=True)
 
         if self.catalog_slug is not None:
-            collection = Collection.objects.filter(slug=self.catalog_slug).first()
-            if collection is not None:
-                catalog_filters = catalog_filters & Q(product__collection=collection)
+            self.collection = Collection.objects.filter(slug=self.catalog_slug).first()
+            if self.collection is not None:
+                catalog_filters = catalog_filters & Q(product__collection=self.collection)
 
         if self.catalog_slug == "hoodie":
             catalog_filters = catalog_filters & Q(variation__id=2)
