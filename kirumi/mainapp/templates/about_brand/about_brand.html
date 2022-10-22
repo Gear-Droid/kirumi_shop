@@ -37,18 +37,18 @@
     Мир аниме – это особая философия, которой следуем мы и хотим поделиться с вами.
     <br>
     <br>
+
     <div itemscope itemtype="http://schema.org/ImageObject">
-      <img src="{% static 'images/about.jpg' %}"
-        itemprop="{% static 'images/about.jpg' %}"
-        style="display: block;
-        width: 100%;
-        min-width: 200px;
-        max-width: fit-content;
-        margin: auto;"
-      >
+    <!-- SVG place -->
+      <img class="footer-kirumi-logo mt-4"
+        style="max-width: 300px; filter: none;"
+        src="{% static "images/kirumi-logo.svg" %}"
+        itemprop="{% static "images/kirumi-logo.svg" %}"
+        alt="Kirumi logo"
+        loading="lazy" />
       <h2 hidden itemprop="name">О бренде Kirumi</h2>
       <br>
-      <span itemprop="description">В дизайне нашей одежды отражены различные истории персонажей аниме, у каждого из которых свой неповторимый жизненный путь. Это делает каждую вещь по-своему уникальной. Стань частью культуры аниме и найди свой путь вместе с онлайн-магазином Kirumi!</span>
+      <span hidden itemprop="description">В дизайне нашей одежды отражены различные истории персонажей аниме, у каждого из которых свой неповторимый жизненный путь. Это делает каждую вещь по-своему уникальной. Стань частью культуры аниме и найди свой путь вместе с онлайн-магазином Kirumi!</span>
     </div>
     <br>
     <br>
@@ -57,7 +57,7 @@
     Это делает каждую вещь по-своему уникальной. 
     <br>
     <br>
-    Стань частью культуры аниме и найди свой путь вместе с <a href="/">Kirumi</a>!
+    Стань частью культуры аниме и найди свой путь вместе с <a href="/">KIRUMI</a>!
     <br>
   </div>
 {% endblock content %}

@@ -78,29 +78,43 @@
         #KirumiCarouselDark{
           margin-top: 15px;
         }
+        .social-media-container{
+          justify-content: left!important;
+        }
       }
     {% endblock style %}
   </style>
 </head>
 
 <body>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-      ym(90592432, "init", {
-          clickmap:true,
-          trackLinks:true,
-          accurateTrackBounce:true,
-          webvisor:true
-      });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/90592432" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
+    ym(90592432, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+    });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/90592432" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JNT2R8B7LL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JNT2R8B7LL');
+  </script>
+  <!-- Google tag (gtag.js) -->
 
   {% block navbar %}
     <!-- Navigation -->
@@ -268,7 +282,7 @@
                     itemprop="{{ im.url }}"
                     style="display: block;
                       width: inherit;
-                      min-width: 200px;
+                      min-width: 200px;"
                     class="d-block"
                     height="600"
                     loading="lazy" />
@@ -584,7 +598,27 @@
   {% block footer %}
     <!-- Footer -->
     <footer class="d-flex flex-wrap justify-content-between align-items-center">
-      <p class="copyright-text col-lg-4 mb-0 text-muted">© {% trans "2022 Kirumi интернет-магазин аниме одежды" %}</p>
+      <div class="col-lg-4 mb-0">
+        <p class="copyright-text col-lg-4 mb-0 text-muted" style="width: auto;">© {% trans "2022 Kirumi интернет-магазин аниме одежды" %}</p>
+        <div class="social-media-container mt-3" style="display: flex; justify-content: center;">
+          <a href="{% url 'homepage' %}" class="col-md-2 d-flex justify-content-center">
+            <!-- SVG place -->
+            <img class="footer-kirumi-logo"
+              src="{% static "images/instagram_logo.svg" %}"
+              alt="Kirumi logo"
+              width="50px"
+              loading="lazy" />
+          </a>
+          <a href="{% url 'homepage' %}" class="col-md-2 d-flex justify-content-center">
+            <!-- SVG place -->
+            <img class="footer-kirumi-logo"
+              src="{% static "images/vk_logo.svg" %}"
+              alt="Kirumi logo"
+              width="50px"
+              loading="lazy" />
+          </a>
+        </div>
+      </div>
 
       <a href="{% url 'homepage' %}" class="col-lg-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
         <!-- SVG place -->

@@ -401,9 +401,10 @@ class OrderAdmin(admin.ModelAdmin):
         'address', 'paid', 'paid_datetime',
     )
     readonly_fields = (
-        'get_status', 'first_name', 'last_name', 'created_at', 'paid_datetime',
+        'get_status', 'first_name', 'last_name', 'created_at',
     )
     list_filter = ('status', 'paid', 'paid_datetime', )
+    search_fields = ('id', 'last_name', 'first_name', 'email', 'phone', )
     inlines = [
         OrderProductInline,
     ]

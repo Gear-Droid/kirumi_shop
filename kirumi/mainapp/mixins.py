@@ -101,8 +101,8 @@ class CatalogMixin(View):
     def dispatch(self, request, *args, **kwargs):
         self.catalog_slug = kwargs.get('catalog_slug')
 
-        catalog_filters = Q(is_active=True) & Q(product__is_active=True) & \
-                Q(product__collection__is_active=True) & \
+        catalog_filters = Q(is_active=True) & Q(product__is_active=True) &  \
+                Q(product__collection__is_active=True) &  \
                 Q(images__is_active=True)
 
         self.collection = None
@@ -111,8 +111,10 @@ class CatalogMixin(View):
             if self.collection is not None:
                 catalog_filters = catalog_filters & Q(product__collection=self.collection)
 
-        if self.catalog_slug == "hoodie":
-            catalog_filters = catalog_filters & Q(variation__id=2)
+        catalog_filters = catalog_filters & (
+            (Q(product__collection__slug="hoodie") & Q(variation__id=2)) |  \
+            ~Q(product__collection__slug="hoodie")
+        )
 
         self.catalog_products = ColoredProduct.objects.select_related('product')  \
             .prefetch_related('images').prefetch_related('product__sizes').filter(
@@ -215,13 +217,16 @@ class PaymentMixin(View):
             self.order, _ = Order.objects.get_or_create(
                 first_name=self.firstName, last_name=self.lastName, email=self.email,
                 phone=self.phone, address=self.addresPost, buying_type=_buying_type,
-                paid=False, comment=self.order_comment,
-                total_products=self.cart.total_products,
-                price_before_discount=self.cart.price_before_discount,
-                final_price=self.cart.final_price,
-                delivery_price = int(self.pricePost),
-                cart_id = self.cart.id,
+                paid=False, 
             )
+            self.order.comment=self.order_comment
+            self.order.total_products=self.cart.total_products
+            self.order.price_before_discount=self.cart.price_before_discount
+            self.order.final_price=self.cart.final_price
+            self.order.delivery_price = int(self.pricePost)
+            self.order.cart_id = self.cart.id
+            self.order.save()
+
             for product_in_order in self.cart.products.all():
                 subtotal_price_before_discount = product_in_order.subtotal_price_before_discount
                 if product_in_order.subtotal_price_before_discount is None:
