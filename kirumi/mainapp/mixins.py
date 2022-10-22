@@ -66,11 +66,13 @@ class NewProductsMixin(View):
             .prefetch_related('images').prefetch_related('product__sizes').filter(
                 Q(is_active=True) & Q(product__is_active=True) & \
                 Q(product__collection__is_active=True) & \
-                Q(images__is_active=True)
-            ).distinct().order_by('-pub_date', '-sort_order').defer(
-                'id', 'is_active', 'sort_order', 'product_id',
-                'product__is_active', 'product__pub_date',
-            )[:6]
+                Q(images__is_active=True) & (  \
+                    (Q(product__collection__slug="hoodie") & Q(variation__id=2)) |  \
+                    ~Q(product__collection__slug="hoodie")
+                )).distinct().order_by('-pub_date', '-sort_order').defer(
+                    'id', 'is_active', 'sort_order', 'product_id',
+                    'product__is_active', 'product__pub_date',
+                )[:6]
         return super().dispatch(request, *args, **kwargs)
 
 
