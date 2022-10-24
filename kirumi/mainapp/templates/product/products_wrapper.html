@@ -17,7 +17,7 @@
 
         <a class="product-link" href="{% url 'product_page' product_color.product.slug product_color.slug %}">
           {% for img in product_color.get_two_first_images %}
-            {% thumbnail img.image "322x450" crop="center" as im %}
+            {% thumbnail img.image "644x900" crop="center" as im %}
               <img src="{{ im.url }}" alt="{{ img.description }}"
                 width="322" height="450"
                 class="productImg"

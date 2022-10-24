@@ -65,6 +65,11 @@
     .text-muted {
       color: grey !important;
     }
+    @media screen and (min-width: 992px){
+      .social-media-container{
+        justify-content: left!important;
+      }
+    }
 
     {% block style %}
       @media screen and (min-width: 992px){
@@ -77,8 +82,10 @@
         #KirumiCarouselDark{
           margin-top: 15px;
         }
-        .social-media-container{
-          justify-content: left!important;
+      }
+      @media screen and (max-width: 430px){
+        .carousel-item img {
+            width: 100%!important;
         }
       }
     {% endblock style %}
@@ -274,7 +281,7 @@
         <div class="carousel-inner">
           {% for banner in banners %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3500">
-              {% thumbnail banner.image "428x600" crop="center" as im %}
+              {% thumbnail banner.image "856x1200" crop="center" as im %}
                 <div itemscope itemtype="http://schema.org/ImageObject">
                   <h2 itemprop="name" hidden>О бренде Kirumi</h2>
                   <img src="{{ im.url }}"
@@ -334,7 +341,7 @@
               <a class="product-link" href="{% url 'product_page' colored_products.0.product.slug colored_products.0.slug %}">
                 <div>
                   {% for img in colored_products.0.get_two_first_images %}
-                    {% thumbnail img.image "322x450" crop="center" as im %}
+                    {% thumbnail img.image "644x900" crop="center" as im %}
                       <img src="{{ im.url }}" alt="{{ img.description }}"
                         width="322" height="450"
                         class="productImg"
@@ -369,7 +376,7 @@
                   <a class="product-link" href="{% url 'product_page' colored_products.1.product.slug colored_products.1.slug %}">
                     <div>
                       {% for img in colored_products.1.get_two_first_images %}
-                        {% thumbnail img.image "320x448" crop="center" as im %}
+                        {% thumbnail img.image "640x896" crop="center" as im %}
                           <img src="{{ im.url }}" alt="{{ img.description }}"
                             width="320" height="448"
                             class="productImg"
@@ -403,7 +410,7 @@
                     <a class="product-link" href="{% url 'product_page' colored_products.2.product.slug colored_products.2.slug %}">
                       <div>
                         {% for img in colored_products.2.get_two_first_images %}
-                          {% thumbnail img.image "500x700" crop="center" as im %}
+                          {% thumbnail img.image "1000x1400" crop="center" as im %}
                             <img src="{{ im.url }}" alt="{{ img.description }}"
                               width="500" height="700"
                               class="productImg"/>
@@ -439,7 +446,7 @@
                 <a class="product-link" href="{% url 'product_page' colored_products.3.product.slug colored_products.3.slug %}">
                   <div>
                     {% for img in colored_products.3.get_two_first_images %}
-                      {% thumbnail img.image "322x450" crop="center" as im %}
+                      {% thumbnail img.image "644x900" crop="center" as im %}
                         <img src="{{ im.url }}" alt="{{ img.description }}"
                           width="322" height="450"
                           class="productImg"
@@ -471,7 +478,7 @@
                   <a class="product-link" href="{% url 'product_page' colored_products.4.product.slug colored_products.4.slug %}">
                     <div>
                       {% for img in colored_products.4.get_two_first_images %}
-                        {% thumbnail img.image "322x450" crop="center" as im %}
+                        {% thumbnail img.image "644x900" crop="center" as im %}
                           <img src="{{ im.url }}" alt="{{ img.description }}"
                             width="322" height="450"
                             class="productImg"
@@ -504,7 +511,7 @@
                   <a class="product-link" href="{% url 'product_page' colored_products.5.product.slug colored_products.5.slug %}">
                     <div>
                       {% for img in colored_products.5.get_two_first_images %}
-                        {% thumbnail img.image "322x450" crop="center" as im %}
+                        {% thumbnail img.image "644x900" crop="center" as im %}
                           <img src="{{ im.url }}" alt="{{ img.description }}"
                             width="322" height="450"
                             class="productImg"
@@ -542,7 +549,7 @@
               <a class="product-link" href="{% url 'product_page' product_card.product.slug product_card.slug %}">
                 <div>
                   {% for img in product_card.get_two_first_images %}
-                    {% thumbnail img.image "322x450" crop="center" as im %}
+                    {% thumbnail img.image "644x900" crop="center" as im %}
                       <img src="{{ im.url }}" alt="{{ img.description }}"
                         width="322" height="450"
                         class="productImg"

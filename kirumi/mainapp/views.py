@@ -580,10 +580,14 @@ class SDEKAPIView(View):
                 json_dumps_params = dict(ensure_ascii=False),
             )
 
+        total_sum = delivery_calculation_response.get("total_sum")
+        if total_sum > 500:
+            total_sum = 500
+
         return JsonResponse(
             {
                 "status": "OK",
-                "total_sum": delivery_calculation_response.get("total_sum"),
+                "total_sum": total_sum,
                 "calendar_date":  \
                     f"{ delivery_calculation_response.get('calendar_min') } - { delivery_calculation_response.get('calendar_max') }",
             }, json_dumps_params = dict(ensure_ascii=False),
