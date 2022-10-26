@@ -509,8 +509,8 @@ class CitiesAPIView(CachedCitiesMixin):
 from django.views.decorators.cache import never_cache
 class AddressesAPIView(CachedCitiesMixin):
 
-    # @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
-    @method_decorator(cache_page(30, cache="address_requests_cache"), name='get')
+    # @method_decorator(cache_page(30, cache="address_requests_cache"), name='get')
+    @method_decorator(cache_page(60*60*24*7, cache="address_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         dadata = Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET)
 
@@ -546,8 +546,8 @@ class AddressesAPIView(CachedCitiesMixin):
 
 class SDEKAPIView(View):
 
-    # @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
-    @method_decorator(cache_page(30, cache="SDEK_requests_cache"), name='get')
+    # @method_decorator(cache_page(30, cache="SDEK_requests_cache"), name='get')
+    @method_decorator(cache_page(60*60*24*7, cache="SDEK_requests_cache"), name='get')
     def get(self, request, *args, **kwargs):
         self.to_location = request.GET.get("to_location")
         self.hoodie_packages_count = request.GET.get("hoodie_packages_count")
