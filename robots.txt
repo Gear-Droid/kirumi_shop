@@ -16,4 +16,4 @@ Disallow: /catalog/t-shirts?
 Disallow: /ru/catalog/t-shirts?
 Disallow: /en/catalog/t-shirts?
 
-Sitemap: http://kirumi.ru/sitemap.xml
+Sitemap: https://kirumi.ru/sitemap.xml

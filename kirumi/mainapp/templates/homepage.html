@@ -26,10 +26,10 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <!--===============================================================================================-->
     <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=1">
   <!--===============================================================================================-->
     <!-- Navbar CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=1">
   <!--===============================================================================================-->
 
   <title>{{ meta.Title }}</title>
@@ -39,10 +39,10 @@
   {% block header %}
     <!--===============================================================================================-->
       <!-- Product Card CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=1">
     <!--===============================================================================================-->
       <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=1">
     <!--===============================================================================================-->  
   {% endblock header %}
 
@@ -189,6 +189,10 @@
                   </li>
                 {% endfor %}
               </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'delivery_and_payment' %}">{% trans "Доставка" %}</a>
             </li>
           </ul>
 
