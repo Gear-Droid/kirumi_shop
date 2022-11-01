@@ -160,7 +160,7 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
     name = models.CharField(max_length=64, verbose_name='Название цвета', )
     variation = models.ForeignKey(
         ProductVariation, verbose_name='Вариация ткани', on_delete=models.CASCADE,
-        related_name='variations', null=True, blank=True
+        related_name='variations'
     )
     color_hex_code = models.CharField(max_length=6, verbose_name='Hex code цвета товара (после #)', )
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Актуальная цена', )
