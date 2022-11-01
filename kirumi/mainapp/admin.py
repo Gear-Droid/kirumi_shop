@@ -166,7 +166,7 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
     list_editable = ('sort_order', )
     list_filter = ('is_active', 'pub_date', )
     search_fields = ('name_ru', 'name_en', 'slug', 'product__name_ru', 'product__name_en')
-    readonly_fields = ('pub_date', 'product', 'get_color', )
+    readonly_fields = ('product', 'get_color', )
     inlines = [
         ProductImageInline,
     ]
