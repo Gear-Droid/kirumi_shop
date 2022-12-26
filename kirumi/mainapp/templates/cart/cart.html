@@ -116,7 +116,7 @@
                         </form>
                         {% if cart.promocode %}
                           <label class="form-label" for="promocodeArea" style="color: green;">
-                            {% trans "Промокод успешно применён" %}
+                            {% trans "Промокод успешно применён" %} ( {{ cart.promocode.discount }}% )
                           </label>
                         {% else %}
                           <label class="form-label" for="promocodeArea">

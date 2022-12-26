@@ -271,9 +271,7 @@ class Cart(models.Model):
                 discount = self.promocode.discount
         cart_products = CartProduct.objects.filter(cart=self).all()
         for cart_product in cart_products:
-            if cart_product.colored_product.old_price:
-                pass
-            elif discount > 0 and discount <= 100:
+            if discount > 0 and discount <= 100:
                 cart_product.save(discount=discount)
             else:
                 cart_product.save()
