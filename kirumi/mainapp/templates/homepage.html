@@ -26,10 +26,10 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <!--===============================================================================================-->
     <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=1">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=2">
   <!--===============================================================================================-->
     <!-- Navbar CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=1">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=2">
   <!--===============================================================================================-->
 
   <title>{{ meta.Title }}</title>
@@ -39,10 +39,10 @@
   {% block header %}
     <!--===============================================================================================-->
       <!-- Product Card CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=1">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=2">
     <!--===============================================================================================-->
       <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=1">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=2">
     <!--===============================================================================================-->  
   {% endblock header %}
 
@@ -276,7 +276,7 @@
   <!-- Page Content -->
   <div class="main-content">
     {% block content %}
-      <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="overflow: visible;">
+      <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="">
         <div class="carousel-indicators">
           {% for banner in banners %}
             <button type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
@@ -288,39 +288,18 @@
               {% thumbnail banner.image "856x1200" crop="center" as im %}
                 <div itemscope itemtype="http://schema.org/ImageObject">
                   <h2 itemprop="name" hidden>О бренде Kirumi</h2>
-                  <img src="{{ im.url }}"
-                    itemprop="{{ im.url }}"
-                    style="display: block;
-                      width: inherit;
-                      min-width: 200px;"
-                    class="d-block"
-                    height="600"
-                    loading="lazy" />
+                  <a href="{{ banner.link }}" >
+                    <img src="{{ im.url }}"
+                      itemprop="{{ im.url }}"
+                      style="display: block;
+                        width: 100vw;
+                        min-width: 200px;"
+                      class="d-block"
+                      loading="lazy" />
+                  </a>
                   <span itemprop="description" hidden>Kirumi онлайн-магазин {{ banner.description }}</span>
                 </div>
               {% endthumbnail %}
-              <div class="overlay carousel-caption d-md-block">
-                <span class="banner-description">{{ banner.description|linebreaks }}</span>
-                <div style="display: flex; flex-direction: row; height: 360px; align-items: center; justify-content: space-around;">
-                  <p class="banner-header" style="">{{ banner.header }}</p>
-                  <div style="display: flex; flex-direction: row;">
-                    <a class="text-decoration-none more-button" href="{{ banner.link }}">
-                      <p style="font-size: 26px; background: #f6f6f6; padding: 5px;">ПОДРОБНЕЕ
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6; rotate: -45deg;">
-                          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                        </svg>
-                      </p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-                <a class="text-decoration-none more-button-visible" style="display:none; color: #262626;" href="{{ banner.link }}">
-                  <p style="padding: 5px; font-size: 26px; background: #f6f6f6;">ПОДРОБНЕЕ
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="zoom: 1.6;">
-                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                    </svg>
-                  </p>
-                </a>
             </div>
           {% endfor %}
         </div>
@@ -329,6 +308,43 @@
           <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#KirumiCarouselDark" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div id="KirumiCarouselDarkPC" class="carousel carousel-dark slide" data-bs-ride="carousel" style="">
+        <div class="carousel-indicators">
+          {% for banner in banners %}
+            <button type="button" data-bs-target="#KirumiCarouselDarkPC" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+          {% endfor %}
+        </div>
+        <div class="carousel-inner">
+          {% for banner in banners %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3500">
+              {% thumbnail banner.pc_image "3840x1200" crop="center" as im %}
+                <div itemscope itemtype="http://schema.org/ImageObject">
+                  <h2 itemprop="name" hidden>О бренде Kirumi</h2>
+                  <a href="{{ banner.link }}" >
+                    <img src="{{ im.url }}"
+                      itemprop="{{ im.url }}"
+                      style="display: block;
+                        width: 100vw;
+                        min-width: 200px;"
+                      class="d-block"
+                      loading="lazy" />
+                  </a>
+                  <span itemprop="description" hidden>Kirumi онлайн-магазин {{ banner.description }}</span>
+                </div>
+              {% endthumbnail %}
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#KirumiCarouselDarkPC" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#KirumiCarouselDarkPC" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>

@@ -60,6 +60,7 @@ class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdm
                 ('description_ru', 'description_en'),
                 ('link', ),
                 ('image', 'get_image'),
+                ('pc_image'),
                 ('sort_order', 'pub_date'),
             )
         }),
@@ -74,6 +75,10 @@ class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdm
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.image.url} width="50" height="70" />')
     get_image.short_description = "Текущее изображение"
+
+    def get_pc_image(self, obj):
+        return mark_safe(f'<img src={obj.pc_image.url} width="50" height="70" />')
+    get_pc_image.short_description = "Текущее изображение"
 
 
 class CollectionAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin, BasicSortOrderAdmin):
@@ -401,7 +406,7 @@ class OrderAdmin(admin.ModelAdmin):
         'address', 'paid', 'paid_datetime',
     )
     readonly_fields = (
-        'get_status', 'first_name', 'last_name', 'created_at',
+        'get_status', 'created_at',
     )
     list_filter = ('status', 'paid', 'paid_datetime', )
     search_fields = ('id', 'last_name', 'first_name', 'email', 'phone', )

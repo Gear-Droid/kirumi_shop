@@ -17,9 +17,18 @@
 {% endblock header %}
 
 {% block style %}
-.btn-check:checked+.btn-outline-dark{
-  background: #232323;
-}
+  .btn-check:checked+.btn-outline-dark{
+    background: #232323;
+  }
+  th, td {
+    line-height: 35px;
+  }
+  th{
+    border: 1px solid;
+  }
+  td{
+    border: 1px solid;
+  }
 {% endblock style %}
 
 {% block intro %}
@@ -166,52 +175,105 @@
                   <div class="container">
 
                     <div class="table-content">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th>S</th>
-                            <th>M</th>
-                            <th>L</th>
-                            <th>XL</th>
-                            <th>+/-</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Длина по спине</td>
-                            <td>62,9</td>
-                            <td>64,5</td>
-                            <td>66,1</td>
-                            <td>68,2</td>
-                            <td>1 см</td>
-                          </tr>
-                          <tr>
-                            <td>Ширина по груди</td>
-                            <td>57</td>
-                            <td>59</td>
-                            <td>61</td>
-                            <td>63</td>
-                            <td>1,0</td>
-                          </tr>
-                          <tr>
-                            <td>Длина рукава</td>
-                            <td>56</td>
-                            <td>57</td>
-                            <td>58</td>
-                            <td>59</td>
-                            <td>1,0</td>
-                          </tr>
-                          <tr>
-                            <td>Длина плеча</td>
-                            <td>23</td>
-                            <td>23</td>
-                            <td>24</td>
-                            <td>24,5</td>
-                            <td>0,5</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      {% if colored_product.product.collection.first.slug == 'hoodie' %}
+                        <table style="text-align: center; font-size: small;">
+                          <thead style="background: #262626; color: #f6f6f6">
+                            <tr>
+                              <th></th>
+                              <th>S</th>
+                              <th>M</th>
+                              <th>L</th>
+                              <th>XL</th>
+                              <th>+/-</th>
+                            </tr>
+                            <tr>
+                              <th>Российский размер</th>
+                              <th>44</th>
+                              <th>46</th>
+                              <th>48-50</th>
+                              <th>52</th>
+                              <th>1 см</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Длина по спине</td>
+                              <td>62,9</td>
+                              <td>64,5</td>
+                              <td>66,1</td>
+                              <td>68,2</td>
+                              <td>1 см</td>
+                            </tr>
+                            <tr>
+                              <td>Ширина по груди</td>
+                              <td>57</td>
+                              <td>59</td>
+                              <td>61</td>
+                              <td>63</td>
+                              <td>1,0</td>
+                            </tr>
+                            <tr>
+                              <td>Длина рукава</td>
+                              <td>56</td>
+                              <td>57</td>
+                              <td>58</td>
+                              <td>59</td>
+                              <td>1,0</td>
+                            </tr>
+                            <tr>
+                              <td>Длина плеча</td>
+                              <td>23</td>
+                              <td>23</td>
+                              <td>24</td>
+                              <td>24,5</td>
+                              <td>0,5</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      {% else %}
+                        <table style="text-align: center; font-size: small;">
+                          <thead style="background: #262626; color: #f6f6f6">
+                            <tr>
+                              <th></th>
+                              <th>S-M</th>
+                              <th>M-L</th>
+                              <th>L-XL</th>
+                            </tr>
+                            <tr>
+                              <th>Российский размер</th>
+                              <th>48-50</th>
+                              <th>50-52</th>
+                              <th>52-54</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Длина по спине</td>
+                              <td>63,9</td>
+                              <td>70,1</td>
+                              <td>73,2</td>
+                            </tr>
+                            <tr>
+                              <td>Ширина по груди</td>
+                              <td>54</td>
+                              <td>58</td>
+                              <td>62</td>
+                            </tr>
+                            <tr>
+                              <td>Длина рукава</td>
+                              <td>17,7</td>
+                              <td>18,2</td>
+                              <td>18,7</td>
+                            </tr>
+                            <tr>
+                              <td>Длина плеча</td>
+                              <td>21</td>
+                              <td>22</td>
+                              <td>24</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      {% endif %}
                     </div>
 
                   </div>

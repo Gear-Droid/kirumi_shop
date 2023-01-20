@@ -53,6 +53,7 @@ class Banner(BasicIsActiveAndDateModel, BasicSortOrderModel):
     description = models.TextField(max_length=128, verbose_name='Описание')
     link = models.TextField(max_length=128, verbose_name='Ссылка')
     image = models.ImageField(upload_to="banner_image/%Y/%m", verbose_name='Изображение баннера')
+    pc_image = models.ImageField(upload_to="banner_image/%Y/%m/pc", verbose_name='Изображение баннера (ПК)', null=True, blank=True)
 
     def __str__(self):
         return self.header
