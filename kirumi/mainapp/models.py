@@ -169,6 +169,12 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
         null=True, blank=True, max_digits=8, decimal_places=2, verbose_name='Устаревшая цена',
     )
 
+    def get_podeli_price(self):
+        return int(self.price/4)
+
+    def get_podeli_overall_price(self):
+        return int(self.price)
+
     def get_two_first_images(self):
         return [im for im in self.images.all() if im.is_active==True][:2]
 

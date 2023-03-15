@@ -1,5 +1,7 @@
 import requests
 import csv
+import hashlib
+
 from datetime import datetime
 
 from django.conf import settings
@@ -248,9 +250,20 @@ class PaymentMixin(View):
 
 class OrderMixin(View):
 
-    @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         self.order = Order.objects.filter(id=self.cart.order_id).first()
+        if self.order is None:
+            return HttpResponseRedirect(reverse('checkout'))
+        # self.cart.save()
+        # self.order.save()
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class SuccessMixin(View):
+
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
         if self.order is None:
             return HttpResponseRedirect(reverse('checkout'))
         self.cart.paid = True
@@ -261,6 +274,7 @@ class OrderMixin(View):
         self.cart.save()
         self.order.save()
         request.session.flush()
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -290,5 +304,23 @@ class CachedCitiesMixin(View):
             del self.cities_dict['kladr_id']
 
             cache.set('cities_dict', self.cities_dict, 60*60*24)
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+def calculate_signature(*args) -> str:
+    """Create signature MD5.
+    """
+    return hashlib.md5(':'.join(str(arg) for arg in args).encode()).hexdigest()
+
+
+class PodeliMixin(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.podeli_amount = int(self.cart.final_price) + int(self.pricePost)
+        self.signature = calculate_signature('KIRUMI', f'{ self.podeli_amount }.00', 0, settings.ROBOKASSA_PASS1)
+        self.podeli_is_available = False
+        if self.podeli_amount > 300 and self.podeli_amount < 15000:
+            self.podeli_is_available = True
 
         return super().dispatch(request, *args, **kwargs)

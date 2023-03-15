@@ -26,10 +26,10 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <!--===============================================================================================-->
     <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=2">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=3">
   <!--===============================================================================================-->
     <!-- Navbar CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=2">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=3">
   <!--===============================================================================================-->
 
   <title>{{ meta.Title }}</title>
@@ -39,10 +39,10 @@
   {% block header %}
     <!--===============================================================================================-->
       <!-- Product Card CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=2">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=3">
     <!--===============================================================================================-->
       <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=2">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=3">
     <!--===============================================================================================-->  
   {% endblock header %}
 
@@ -384,6 +384,16 @@
                     <span class="new_price">{{ colored_products.0.price.normalize }} {% trans "₽" %}</span>
                   </div>
               </div>
+              <div class="podeli-container" style="">
+                <div class="podeli-outter-circle">
+                  <div class="podeli-segment-circle">
+                  </div>
+                  <div class="podeli-inner-circle">
+                  </div>
+                </div>
+                <span class="podeli_text">Подели по</span>
+                <span class="podeli_price">{{ colored_products.0.get_podeli_price }} {% trans "₽" %}</span>
+              </div>
             </a>
           </div>
         {% endif %}
@@ -419,6 +429,16 @@
                         <span class="new_price">{{ colored_products.1.price.normalize }} {% trans "₽" %}</span>
                       </div>
                   </div>
+                  <div class="podeli-container" style="">
+                    <div class="podeli-outter-circle">
+                      <div class="podeli-segment-circle">
+                      </div>
+                      <div class="podeli-inner-circle">
+                      </div>
+                    </div>
+                    <span class="podeli_text">Подели по</span>
+                    <span class="podeli_price">{{ colored_products.1.get_podeli_price }} {% trans "₽" %}</span>
+                  </div>
                 </a>
               </div>
             </div>
@@ -451,6 +471,16 @@
                           {% endif %}
                           <span class="new_price">{{ colored_products.2.price.normalize }} {% trans "₽" %}</span>
                         </div>
+                    </div>
+                    <div class="podeli-container" style="">
+                      <div class="podeli-outter-circle">
+                        <div class="podeli-segment-circle">
+                        </div>
+                        <div class="podeli-inner-circle">
+                        </div>
+                      </div>
+                      <span class="podeli_text">Подели по</span>
+                      <span class="podeli_price">{{ colored_products.2.get_podeli_price }} {% trans "₽" %}</span>
                     </div>
                   </a>
                 </div>
@@ -489,6 +519,16 @@
                     <span class="new_price">{{ colored_products.3.price.normalize }} {% trans "₽" %}</span>
                   </div>
                 </div>
+                <div class="podeli-container" style="">
+                  <div class="podeli-outter-circle">
+                    <div class="podeli-segment-circle">
+                    </div>
+                    <div class="podeli-inner-circle">
+                    </div>
+                  </div>
+                  <span class="podeli_text">Подели по</span>
+                  <span class="podeli_price">{{ colored_products.3.get_podeli_price }} {% trans "₽" %}</span>
+                </div>
               </a>
             </div>
 
@@ -520,6 +560,16 @@
                       {% endif %}
                       <span class="new_price">{{ colored_products.4.price.normalize }} {% trans "₽" %}</span>
                     </div>
+                  </div>
+                  <div class="podeli-container" style="">
+                    <div class="podeli-outter-circle">
+                      <div class="podeli-segment-circle">
+                      </div>
+                      <div class="podeli-inner-circle">
+                      </div>
+                    </div>
+                    <span class="podeli_text">Подели по</span>
+                    <span class="podeli_price">{{ colored_products.4.get_podeli_price }} {% trans "₽" %}</span>
                   </div>
                 </a>
               </div>
@@ -554,12 +604,21 @@
                         <span class="new_price">{{ colored_products.5.price.normalize }} {% trans "₽" %}</span>
                       </div>
                   </div>
+                  <div class="podeli-container" style="">
+                    <div class="podeli-outter-circle">
+                      <div class="podeli-segment-circle">
+                      </div>
+                      <div class="podeli-inner-circle">
+                      </div>
+                    </div>
+                    <span class="podeli_text">Подели по</span>
+                    <span class="podeli_price">{{ colored_products.5.get_podeli_price }} {% trans "₽" %}</span>
+                  </div>
                 </a>
               </div>
             {% endif %}
           </div>
         {% endif %}
-
       </div>
 
       <div class="container mobile-container">
@@ -591,6 +650,16 @@
                     {% endif %}
                     <span class="new_price">{{ product_card.price.normalize }} {% trans "₽" %}</span>
                   </div>
+              </div>
+              <div class="podeli-container" style="">
+                <div class="podeli-outter-circle">
+                  <div class="podeli-segment-circle">
+                  </div>
+                  <div class="podeli-inner-circle">
+                  </div>
+                </div>
+                <span class="podeli_text">Подели по</span>
+                <span class="podeli_price">{{ product_card.get_podeli_price }} {% trans "₽" %}</span>
               </div>
             </a>
           </div>

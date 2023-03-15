@@ -167,23 +167,22 @@
                 <small class="text-muted form-text">Стоимость доставки будет определена после ввода адреса</small>
               </div>
               <div class="col-12">
-                  <div class="form-check d-flex justify-content-between">
-                    <span>
-                        <input v-model="shippingMethod" class="form-check-input" type="radio" name="ship" id="ship2" value="courier" @click="checkCity">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                          Курьер
-                        </label>
-                   </span>
-                  </div>
-                  <div class="form-check form-check d-flex justify-content-between">
-                      <span>
-                        <input v-model="shippingMethod" class="form-check-input" type="radio" name="ship" id="ship3" value="pickup" @click="checkCity">
-                        <label class="form-check-label" for="flexRadioDefault3">
-                          ПВЗ
-                        </label>
-                      </span>
-
-                  </div>
+                <div class="form-check d-flex justify-content-between">
+                  <span>
+                    <input v-model="shippingMethod" class="form-check-input" type="radio" name="ship" id="ship2" value="courier" @click="checkCity">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Курьер
+                    </label>
+                  </span>
+                </div>
+                <div class="form-check form-check d-flex justify-content-between">
+                  <span>
+                    <input v-model="shippingMethod" class="form-check-input" type="radio" name="ship" id="ship3" value="pickup" @click="checkCity">
+                    <label class="form-check-label" for="flexRadioDefault3">
+                      ПВЗ
+                    </label>
+                  </span>
+                </div>
               </div>
 
             </div>

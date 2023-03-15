@@ -13,8 +13,11 @@
     <!-- Card CSS style -->
       <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
   <!--===============================================================================================-->
+    <!-- Podeli CSS style -->
+      <link href="https://cdn.podeli.ru/Default-item-card-widget/index.css" rel="stylesheet">
+  <!--===============================================================================================-->
 
-{% endblock header %}
+  {% endblock header %}
 
 {% block style %}
   .btn-check:checked+.btn-outline-dark{
@@ -279,6 +282,104 @@
                   </div>
                 </div>
               </div>
+              </br>
+
+              <!--  template starts  -->
+              <div class="widget-form__background"></div>
+              <div class="a4-widget-main" style="display: block;">
+                  <div class="widget-container">
+                      <div class="widget-container__header">
+                          <div class="widget-header__left-part">
+                              <span class="widget-header__amount">XXX,XX ₽</span>
+                              <div class="widget-discount__container">
+                                  <span class="widget-header__discount">XXX,XX ₽</span>
+                                  <img class="widget-header__percent" src="https://cdn.podeli.ru/common-img/circle-alert.svg"
+                                      alt="Значок процента">
+                                  <div class="widget-header__cloud">
+                                      <span class="widget-cloud__text">Скидка XXX ₽ для новых клиентов Подели</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="widget-header__right-part">
+                              <img class="widget-container__logo"
+                                  src="https://cdn.podeli.ru/common-img/logo-with-text.svg" alt="логотип">
+                          </div>
+                      </div>
+                      <div class="widget-container__content">
+                          <div class="widget-content__parts">
+                              <div class="widget-content__part widget-content__part_active">
+                                  <div id="quarter-1" class="widget-part__date">Сегодня</div>
+                                  <span class="widget-part__amount"></span>
+                              </div>
+                              <div class="widget-content__part">
+                                  <div id="quarter-2" class="widget-part__date">Через 2 недели</div>
+                                  <span class="widget-part__amount"></span>
+                              </div>
+                              <div class="widget-content__part">
+                                  <div id="quarter-3" class="widget-part__date">Через 4 недели</div>
+                                  <span class="widget-part__amount"></span>
+                              </div>
+                              <div class="widget-content__part">
+                                  <div id="quarter-4" class="widget-part__date">Через 6 недель</div>
+                                  <span class="widget-part__amount"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="widget-container__footer">
+                          <div class="widget-footer__info">
+                              <span class="widget-header__info-text">Без комиссий и переплат</span>
+                              <img class="widget-header__info-img" src="https://cdn.podeli.ru/common-img/circle-alert.svg"
+                                  alt="Информация">
+                          </div>
+                          <button class="widget-footer__button-main">Оплатить по частям</button>
+                      </div>
+
+                      <div class="widget-form">
+                          <img class="widget-form__img_close"
+                              src="https://cdn.podeli.ru/common-img/form_close_button.svg" alt="значок закрытия">
+                          <div class="widget-form__block-1">
+                              <img class="widget-block-1__img" src="https://cdn.podeli.ru/common-img/podeli-logo-big.svg"
+                                  alt="логотип Подели">
+                              <span class="widget-block-1__text_primary">Оплатите сейчас только 25% стоимости покупки</span>
+                              <span class="widget-block-1__text_secondary">Остальное — тремя платежами раз в две недели</span>
+                          </div>
+                          <div class="widget-form__block-2">
+                              <div class="widget-block-2__payment">
+                                  <img class="widget-payment__img" src="https://cdn.podeli.ru/common-img/step1-4.svg" alt="">
+                                  <div class="widget-payment__line"></div>
+                                  <span class="widget-block-1__text_primary">25%</span>
+                                  <span class="widget-block-2__text_secondary">Платеж сегодня</span>
+                              </div>
+                              <div class="widget-block-2__payment">
+                                  <img class="widget-payment__img" src="https://cdn.podeli.ru/common-img/step2-4.svg" alt="">
+                                  <div class="widget-payment__line"></div>
+                                  <span class="widget-block-1__text_primary">25%</span>
+                                  <span class="widget-block-2__text_secondary">Через 2 недели</span>
+                              </div>
+                              <div class="widget-block-2__payment">
+                                  <img class="widget-payment__img" src="https://cdn.podeli.ru/common-img/step3-4.svg" alt="">
+                                  <div class="widget-payment__line"></div>
+                                  <span class="widget-block-1__text_primary">25%</span>
+                                  <span class="widget-block-2__text_secondary">Через 4 недели</span>
+                              </div>
+                              <div class="widget-block-2__payment">
+                                  <img class="widget-payment__img" src="https://cdn.podeli.ru/common-img/step4-4.svg" alt="">
+                                  <span class="widget-block-1__text_primary">25%</span>
+                                  <span class="widget-block-2__text_secondary">Через 6 недель</span>
+                              </div>
+                          </div>
+                          <div class="widget-form__block-3">
+                              <span class="widget-block-3__text">Это бесплатно. Никаких дополнительных платежей и процентов — как обычная оплата картой</span>
+                          </div>
+                          <div class="widget-form__block-4">
+                              <span class="widget-block-4__text_primary">Подробнее на <span
+                                      class="widget-block-4__text_primary-decoration">podeli.ru</span></span>
+                              <span class="widget-block-4__text_secondary">ООО А-4 Технологии, ОГРН 1227700064734<br/>115432, Россия, г. Москва, пр. Андропова, д.18, к. 3, этаж/помещ./ ком. 9/XIV/1.</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- template ends -->
 
               <input type="hidden" name="add_to_cart" />
               <div class="buttons d-flex flex-row mt-5">
@@ -369,4 +470,10 @@
 {% endblock prefooter %}
 
 {% block scripts %}
+  <script src="https://cdn.podeli.ru/Default-item-card-widget/podeli-widget.js"></script>
+  <script>
+    Podeli.init({
+      total: {{ colored_product.get_podeli_overall_price }},
+    })
+  </script>
 {% endblock scripts %}

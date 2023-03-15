@@ -331,10 +331,9 @@ class DeliveryWidgetView(BasePageView, CartProductMixin):
         return HttpResponse(html)
 
 
-class PaymentView(BasePageView, CartProductMixin, PaymentMixin):
+class PaymentView(BasePageView, CartProductMixin, PaymentMixin, PodeliMixin):
 
     def post(self, request, *args, **kwargs):
-
         context = {
             'meta': {
                 'Title': 'Оплата заказа',
@@ -354,15 +353,19 @@ class PaymentView(BasePageView, CartProductMixin, PaymentMixin):
                 'lastName': self.lastName,
                 'email': self.email,
                 'phone': self.phone,
+                'podeli_is_available': self.podeli_is_available,
+                'podeli_amount': self.podeli_amount,
+                'signature': self.signature,
             },
             'collections': self.collections,
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
+            'order_id': self.order.id,
         }
         return render(request, 'cart/checkout/payment/payment.html', context=context)
 
 
-class SuccessView(BasePageView, OrderMixin):
+class SuccessView(BasePageView, OrderMixin, SuccessMixin):
 
     @xframe_options_sameorigin
     def get(self, request, *args, **kwargs):

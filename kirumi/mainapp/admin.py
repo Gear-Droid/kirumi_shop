@@ -401,9 +401,10 @@ class OrderAdmin(admin.ModelAdmin):
     )
     list_display = (
         'id', 'created_at', 'get_status',
+        'paid', 'paid_datetime',
         'last_name', 'first_name',
         'email', 'phone', 'buying_type',
-        'address', 'paid', 'paid_datetime',
+        'address',
     )
     readonly_fields = (
         'get_status', 'created_at',

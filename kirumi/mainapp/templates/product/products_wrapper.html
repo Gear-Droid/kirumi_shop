@@ -41,6 +41,16 @@
               <span class="new_price">{{ product_color.price.normalize }} {% trans "₽" %}</span>
             </div>
         </div>
+        <div class="podeli-container" style="">
+          <div class="podeli-outter-circle">
+            <div class="podeli-segment-circle">
+            </div>
+            <div class="podeli-inner-circle">
+            </div>
+          </div>
+          <span class="podeli_text">Подели по</span>
+          <span class="podeli_price">{{ product_color.get_podeli_price }} {% trans "₽" %}</span>
+        </div>
       </a>
 
     </div>
