@@ -219,18 +219,16 @@
                 </label>
               </span>
             </div>
-            {% comment "" %}
-              {% if order_details.podeli_is_available %}
-                <div class="form-check form-check d-flex justify-content-between">
-                  <span>
-                    <input class="form-check-input" type="radio" name="payment" id="payment2" value="podeli" onclick="checkPayment(this)">
-                    <label class="form-check-label">
-                      Подели - оплата покупок по частям
-                    </label>
-                  </span>
-                </div>
-              {% endif %}
-            {% endcomment %}
+            {% if order_details.podeli_is_available %}
+              <div class="form-check form-check d-flex justify-content-between">
+                <span>
+                  <input class="form-check-input" type="radio" name="payment" id="payment2" value="podeli" onclick="checkPayment(this)">
+                  <label class="form-check-label">
+                    Подели - оплата покупок по частям
+                  </label>
+                </span>
+              </div>
+            {% endif %}
           </div>
 
           <form name="TinkoffPayForm" class="mx-0 px-0" style="display: none;">
@@ -324,7 +322,7 @@
             <input class="tinkoffPayRow w-100 btn btn-dark btn-lg my-4 mb-5" style="background: #262626!important;" type="button" onclick="tinkoffPayFunction(this);" value="Оплатить"/>
           </form>
 
-          <form name="PodeliPayForm" class="mx-0 px-0 mb-5" style="display: none;" src="https://auth.robokassa.ru/Merchant/PaymentForm/FormSS.js?MerchantLogin=KIRUMI&InvoiceID=0&Culture=ru&Encoding=utf-8&Description=%D0%9E%D0%BF%D0%BB%D0%B0%D1%82%D0%B0%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%201%20%D0%B2%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B5%20Kirumi&OutSum=11611.00&SignatureValue=032e3e28801ddcd3f3ec0252d0543cdb&IsTest=1">
+          <form name="PodeliPayForm" class="mx-0 px-0 mb-5" style="display: none;">
             <!--  template starts  -->
             <div class="widget-form__background"></div>
             <div class="a4-widget-main" style="margin-bottom: 30px;">
