@@ -208,7 +208,7 @@
           </script>
           <div class="col-12 mt-5">
             <label class="form-label">Выберите способ оплаты <span class="text-muted">*</span></label><br>
-            <small class="text-muted form-text">Кнопка оплаты будет доступна после выбора способа оплаты.<br>Сервис "Подели" <b>будет доступен на днях</b> при сумме заказа от 300 руб. до 15000 руб.</small>
+            <small class="text-muted form-text">Кнопка оплаты будет доступна после выбора способа оплаты.<br>Сервис "Подели" доступен при сумме заказа от 300 руб. до 15000 руб.</small>
           </div>
           <div class="col-12 mb-5">
             <div class="form-check d-flex justify-content-between">
@@ -219,7 +219,6 @@
                 </label>
               </span>
             </div>
-            {% comment "" %}
             {% if order_details.podeli_is_available %}
               <div class="form-check form-check d-flex justify-content-between">
                 <span>
@@ -230,7 +229,6 @@
                 </span>
               </div>
             {% endif %}
-            {% endcomment %}
 
           </div>
 
