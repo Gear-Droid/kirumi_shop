@@ -90,7 +90,14 @@
         }
       }
 
-
+      .popup-background{
+        position: fixed;
+        z-index: 100;
+        background: black;
+        opacity: 65%;
+        width: 100vw;
+        height: 100vh;
+      }
       #popup1 {
         position: fixed;
         z-index: 200;
@@ -103,7 +110,7 @@
         margin: 50px 10vw;
         aspect-ratio: 4 / 5;
         padding: 20px;
-        background-image: url({% static 'images/about_brand.jpg' %});
+        background-image: url({{ hellobanner.image.url }});
         background-position: center;
         background-size: contain;
         border-radius: 5px;
@@ -131,18 +138,59 @@
       .popup .content {
         overflow: auto;
       }
+
+      @keyframes fadeIn {
+        0% {
+          visibility: hidden;
+          opacity: 0;
+        }
+        80% {
+          visibility: hidden;
+          opacity: 0;
+        }
+        100% {
+          visibility: visible;
+          opacity: 100%;
+        }
+      }
+      .popup, .popup-background {
+        visibility: hidden;
+        animation: fadeIn 6s forwards 6s;
+      }
+
       @media screen and (min-width: 768px){
         .popup {
-          height: 80vh;
-          width: 50vw;
-          margin: 50px 25vw;
+          width: 40vw;
+          aspect-ratio: 4 / 5;
+          margin: 50px 30vw;
+        }
+        .popup .content b {
+          font-size: 7vh!important;
+          line-height: 24vh!important;
         }
         .popup h2 {
-          font-size: 3vw;
-          line-height: 5vw;
+          font-size: 2vw;
+          line-height: 4vw;
         }
         .popup .close {
-          font-size: 5vw;
+          font-size: 4vw;
+        }
+      }
+      @media screen and (min-width: 1024px){
+        .popup {
+          width: 30vw;
+          margin: 50px 35vw;
+        }
+        .popup .content b {
+          font-size: 7vh!important;
+          line-height: 24vh!important;
+        }
+        .popup h2 {
+          font-size: 2vw;
+          line-height: 4vw;
+        }
+        .popup .close {
+          font-size: 4vw;
         }
       }
   
@@ -336,19 +384,27 @@
   <div class="main-content">
     {% block content %}
 
-      <!--Форма для заявки на первую тренировку-->
-      <div id="popup1">
-        <div class="popup">
-          <div style='margin-bottom:40px'>
-            <h2>Промокод на бесплатную доставку</h2>
-            <a class="close" href="#">×</a>
-          </div>
-          <div class="content">
-            <span><b style="line-height: 40vw; font-size: 10vw;">START</b></span>
+      {% if cookie.popup_show %}
+        <div id="popup1-background" class="popup-background" onclick="myFunction()" style="opacity: 65%!important;"></div>
+        <!-- popup для просокода на доставку -->
+        <div id="popup1">
+          <div class="popup">
+            <div style='margin-bottom:40px'>
+              <h2></h2>
+              <a id="close-popup1" class="close" onclick="myFunction()">×</a>
+            </div>
+            <div class="content">
+              <span><b style="line-height: 40vw; font-size: 10vw;"></b></span>
+            </div>
           </div>
         </div>
-      </div>
-
+        <script>
+          function myFunction() {
+            document.getElementById("popup1").style.display = "none";
+            document.getElementById("popup1-background").style.display = "none";
+          }
+        </script>
+      {% endif %}
 
       <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="">
         <div class="carousel-indicators">

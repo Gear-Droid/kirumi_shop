@@ -81,6 +81,17 @@ class BannerAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSortOrderAdm
     get_pc_image.short_description = "Текущее изображение"
 
 
+class HelloBannerAdmin(BasicIsActiveAndDateAdmin, BasicSortOrderAdmin):
+    list_display = (
+        'id', 'sort_order', 'pub_date', 'get_image', 'is_active',
+    )
+    list_display_links = ('id', )
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="50" height="70" />')
+    get_image.short_description = "Текущее изображение"
+
+
 class CollectionAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSlugAdmin, BasicSortOrderAdmin):
     fieldsets = (
         (None, {
@@ -433,6 +444,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Banner, BannerAdmin)
+admin.site.register(HelloBanner, HelloBannerAdmin)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Product, ProductAdmin)

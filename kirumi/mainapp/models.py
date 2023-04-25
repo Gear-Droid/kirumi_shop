@@ -59,6 +59,15 @@ class Banner(BasicIsActiveAndDateModel, BasicSortOrderModel):
         return self.header
 
 
+class HelloBanner(BasicIsActiveAndDateModel, BasicSortOrderModel):
+
+    class Meta:
+        verbose_name = 'Приветственный баннер'
+        verbose_name_plural = 'Приветственные баннеры'
+
+    image = models.ImageField(upload_to="banner_image/%Y/%m", verbose_name='Изображение баннера (4x5)')
+
+
 class Collection(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicSortOrderModel):
 
     class Meta:

@@ -3,6 +3,7 @@ import logging
 
 from dadata import Dadata
 
+from datetime import timedelta
 from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
@@ -19,6 +20,7 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from .models import (
     Banner,
+    HelloBanner,
     ColoredProduct,
     CartProduct,
     Promocode,
@@ -38,6 +40,14 @@ class HomePageView(BasePageView, NewProductsMixin):
 
     def get(self, request, *args, **kwargs):
         self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
+        self.hellobanner = HelloBanner.objects.filter(is_active=True).order_by('-sort_order').first()
+        print(self.hellobanner.image.url)
+        popup_show = request.COOKIES.get('popup_show')
+        if popup_show != "false":
+            popup_show = True
+        else:
+            popup_show = False
+        print(popup_show)
         context = {
             'meta':{
                 'Title': "KIRUMI - Интернет-магазин аниме-одежды",
@@ -45,12 +55,32 @@ class HomePageView(BasePageView, NewProductsMixin):
                 'page_description': "KIRUMI - молодой бренд, вдохновленный многогранностью аниме. У нас вы найдете худи и футболки с Атака Титанов, HunterxHunter, Клинок, рассекающий демонов, Магическая битва",
                 'main_page': self.main_path,
             },
+            'cookie':{
+                'popup_show': popup_show,
+            },
             'collections': self.collections,
             'cart': self.cart,
             'colored_products': self.new_products,
             'banners': self.banners,
+            'hellobanner': self.hellobanner,
         }
-        return render(request, 'homepage.html', context=context)
+        response = render(request, 'homepage.html', context=context)
+        max_age = 60*60  # 1 Hour
+        expires = datetime.strftime(
+            datetime.utcnow() + timedelta(seconds=max_age),
+            "%a, %d-%b-%Y %H:%M:%S GMT",
+        )
+        if popup_show == True:
+            response.set_cookie(
+                key="popup_show",
+                value="false",
+                max_age=max_age,
+                expires=expires,
+                domain=settings.SESSION_COOKIE_DOMAIN,
+                secure=settings.SESSION_COOKIE_SECURE or None,
+            )
+        return response
+
 
     def post(self, request, *args, **kwargs):
         self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')

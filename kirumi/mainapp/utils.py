@@ -1,3 +1,4 @@
+import datetime
 import logging
 import requests
 
@@ -77,3 +78,22 @@ def get_delivery_calculation(
 
     # return requests.post(request_url, headers=headers, json=request_data).json()
     return res
+
+
+def set_cookie(response, key, value, secs_expire=7*24*60*60):
+    if secs_expire is None:
+        max_age = 7 * 24 * 60 * 60  # one week
+    else:
+        max_age = secs_expire
+    expires = datetime.datetime.strftime(
+        datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age),
+        "%a, %d-%b-%Y %H:%M:%S GMT",
+    )
+    response.set_cookie(
+        key,
+        value,
+        max_age=max_age,
+        expires=expires,
+        domain=settings.SESSION_COOKIE_DOMAIN,
+        secure=settings.SESSION_COOKIE_SECURE or None,
+    )
