@@ -157,7 +157,7 @@ class ColoredProductAdmin(BasicIsActiveAndDateAdmin, BasicSlugAdmin, GetCurrentC
         model = ColoredProduct
 
     fields = (
-        'product',
+        ('product', 'status'),
         ('name_ru', 'name_en', 'color_hex_code', 'get_color', 'is_active'),
         ('price', 'old_price'),
         ('sort_order', 'pub_date', 'slug'),
@@ -296,10 +296,10 @@ class PromocodeAdmin(BasicIsActiveAndDateAdmin, BasicSortOrderAdmin):
 
     fields = (
         ('promocode', 'is_active', ),
-        ('discount', ),
+        ('discount', 'free_delivery', ),
         ('sort_order', 'pub_date', ),
     )
-    list_display = ('sort_order', 'pub_date', 'promocode', 'is_active', )
+    list_display = ('sort_order', 'pub_date', 'promocode', 'discount', 'free_delivery', 'is_active', )
     list_display_links = ('promocode', )
     readonly_fields = ('pub_date', )
     list_filter = ('is_active', 'pub_date', )
@@ -390,10 +390,9 @@ class OrderAdmin(admin.ModelAdmin):
     fields = (
         ('status', 'get_status', 'created_at', ),
         ('paid_datetime', 'paid'),
-        ('last_name', ),
-        ('first_name', ),
+        ('last_name', 'first_name', ),
         ('email', 'phone', ),
-        ('buying_type',),
+        ('buying_type', 'city',),
         ('address', 'comment', ),
         ('total_products', ),
         ('final_price', 'price_before_discount', ),
@@ -404,7 +403,7 @@ class OrderAdmin(admin.ModelAdmin):
         'paid', 'paid_datetime',
         'last_name', 'first_name',
         'email', 'phone', 'buying_type',
-        'address',
+        'city', 'address',
     )
     readonly_fields = (
         'get_status', 'created_at',

@@ -295,7 +295,7 @@ class ChangeCartProductQtyView(CartMixin, CartProductMixin):
         return HttpResponseRedirect(reverse('cart'))
 
 
-class CheckoutView(BasePageView, CartProductMixin):
+class CheckoutView(BasePageView, CartProductMixin, PodeliMixin):
 
     def get(self, request, *args, **kwargs):
         if self.products_in_cart.count() == 0:
@@ -310,6 +310,9 @@ class CheckoutView(BasePageView, CartProductMixin):
             'cart': self.cart,
             'products_in_cart': self.products_in_cart,
             'base_url': settings.BASE_URL,
+            'order_details':{
+                'podeli_is_available': self.podeli_is_available,
+            }
         }
         return render(request, 'cart/checkout/checkout.html', context=context)
 

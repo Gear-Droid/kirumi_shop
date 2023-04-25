@@ -189,7 +189,10 @@ class PaymentMixin(View):
         else:
             self.addresPost = request.POST.get('addresPost-show')  # адрес
             _buying_type = BUYING_TYPE_DELIVERY
-        self.pricePost = request.POST.get('pricePost')  # стоимость доставки
+        if self.cart.promocode.free_delivery == True:
+            self.pricePost = 0
+        else: 
+            self.pricePost = request.POST.get('pricePost')  # стоимость доставки
         self.timePost = request.POST.get('timePost')  # приблизительное время доставки
 
         required_params_list = [
@@ -213,6 +216,7 @@ class PaymentMixin(View):
             self.lastName = self.order.last_name
             self.email = self.order.email
             self.phone = self.order.phone
+            self.cityPost = self.order.city  # город
             self.addresPost = self.order.address  # адрес
             self.pricePost = self.order.delivery_price  # стоимость доставки
             self.timePost = '7 - 14'  # приблизительное время доставки
@@ -220,7 +224,7 @@ class PaymentMixin(View):
         else:
             self.order, _ = Order.objects.get_or_create(
                 first_name=self.firstName, last_name=self.lastName, email=self.email,
-                phone=self.phone, address=self.addresPost, buying_type=_buying_type,
+                phone=self.phone, city=self.cityPost, address=self.addresPost, buying_type=_buying_type,
                 paid=False, 
             )
             self.order.comment=self.order_comment
@@ -317,8 +321,11 @@ def calculate_signature(*args) -> str:
 class PodeliMixin(View):
 
     def dispatch(self, request, *args, **kwargs):
-        self.podeli_amount = int(self.cart.final_price) + int(self.pricePost)
-        self.signature = calculate_signature('KIRUMI', f'{ self.podeli_amount }.00', 0, settings.ROBOKASSA_PASS1)
+        try:
+            self.podeli_amount = int(self.cart.final_price) + int(self.pricePost)
+            self.signature = calculate_signature('KIRUMI', f'{ self.podeli_amount }.00', 0, settings.ROBOKASSA_PASS1)
+        except AttributeError:
+            self.podeli_amount = int(self.cart.final_price)
         self.podeli_is_available = False
         if self.podeli_amount > 300 and self.podeli_amount < 15000:
             self.podeli_is_available = True

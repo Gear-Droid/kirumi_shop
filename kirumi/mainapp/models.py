@@ -152,6 +152,16 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
         verbose_name_plural = 'Карточки товаров'
         unique_together = (('product', 'sort_order'), ('product', 'slug'))
 
+    STATUS_ACTIVE = 'ACTIVE'
+    STATUS_SOLD_OUT = 'SOLD OUT'
+    STATUS_COMING_SOON = 'COMING SOON'
+
+    STATUS_CHOICES = (
+        (STATUS_ACTIVE, 'Активная карточка'),
+        (STATUS_SOLD_OUT, 'SOLD OUT'),
+        (STATUS_COMING_SOON, 'COMING SOON'),
+    )
+
     slug = models.SlugField(max_length=64, unique=False, verbose_name='Уникальное обозначение карточки')
     sort_order = models.PositiveIntegerField(verbose_name='Порядок сортировки')
     product = models.ForeignKey(
@@ -163,11 +173,22 @@ class ColoredProduct(BasicIsActiveAndDateModel, KirumiBasicSlugNameModel, BasicS
         ProductVariation, verbose_name='Вариация ткани', on_delete=models.CASCADE,
         related_name='variations'
     )
+    status = models.CharField(
+        max_length=20,
+        verbose_name='Статус заказа',
+        choices=STATUS_CHOICES,
+        default=STATUS_ACTIVE,
+    )
     color_hex_code = models.CharField(max_length=6, verbose_name='Hex code цвета товара (после #)', )
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Актуальная цена', )
     old_price = models.DecimalField(
         null=True, blank=True, max_digits=8, decimal_places=2, verbose_name='Устаревшая цена',
     )
+
+    def is_disabled(self):
+        if self.status == self.STATUS_ACTIVE:
+            return False
+        return True
 
     def get_podeli_price(self):
         return int(self.price/4)
@@ -228,6 +249,9 @@ class Promocode(BasicIsActiveAndDateModel, BasicSortOrderModel):
     discount =  models.PositiveIntegerField(
         default=0, verbose_name='Скидка в %',
         validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
+    free_delivery =  models.BooleanField(
+        default=False, verbose_name='Бесплатная доставка?',
     )
 
     def __str__(self):
@@ -378,6 +402,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=128, verbose_name='Фамилия')
     email = models.EmailField(max_length=254, verbose_name='Email')
     phone = models.CharField(max_length=20, verbose_name='Телефон')
+    city = models.CharField(max_length=256, verbose_name='Город')
     address = models.TextField(max_length=1024, verbose_name='Адрес')
     status = models.CharField(
         max_length=100,

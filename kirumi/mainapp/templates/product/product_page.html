@@ -382,9 +382,21 @@
               <!-- template ends -->
 
               <input type="hidden" name="add_to_cart" />
-              <div class="buttons d-flex flex-row mt-5">
-                <button type="submit" class="btn btn-dark" style="background: #262626;"><b>Добавить в корзину</b></button>
-              </div>
+              {% if colored_product.is_disabled %}
+                <span style="
+                  display: block;
+                  margin: 15px;
+                  text-align: center;
+                  font-size: 40px;
+                  font-weight: 900;
+                ">
+                  {{ colored_product.status }}
+                </span>
+              {% else %}
+                <div class="buttons d-flex flex-row mt-5">
+                  <button type="submit" class="btn btn-dark" style="background: #262626;"><b>Добавить в корзину</b></button>
+                </div>
+              {% endif %}
             </form>
 
             <div class="col">

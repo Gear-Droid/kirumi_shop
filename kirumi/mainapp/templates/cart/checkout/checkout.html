@@ -99,7 +99,7 @@
               </span>
               <span>
                 <strong id="shippingCost">
-                   [[ shippingCost ]] {% trans "₽" %}
+                  {% if cart.promocode.free_delivery %}0{% else %}[[ shippingCost ]]{% endif %} {% trans "₽" %}
                 </strong>
               </span>
             </li>
@@ -282,12 +282,12 @@
                         @keyup="updateAddresses"
                         @focusout="getDeliveryPrice"
                 />
-                  <div class="dropdown-menu" :class="showAddressList ? 'show' : ''">
-                      <a v-for="address in addresses" :key="address" class="dropdown-item" href="#" @click.prevent="chooseAddress([[ address ]])">[[ address ]]</a>
-                  </div>
-                  <div class="invalid-feedback">
-                    [[ errorMessage ]]
-                  </div>
+                <div class="dropdown-menu" :class="showAddressList ? 'show' : ''">
+                    <a v-for="address in addresses" :key="address" class="dropdown-item" href="#" @click.prevent="chooseAddress([[ address ]])">[[ address ]]</a>
+                </div>
+                <div class="invalid-feedback">
+                  [[ errorMessage ]]
+                </div>
               </div>
               <div class="col-2 pencil-svg" style="display: none; margin-top: 32px; cursor: pointer; padding-left: 0;" onclick="setWidgetVisible()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#343434" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -302,6 +302,48 @@
                   ipjq('.addresPost-show-container').addClass("col-12");
                 }
               </script>
+
+              <script>
+                function checkPayment() {
+                  if (event.target.value == "tinkoff") {
+                    form_names = document.getElementsByName("TinkoffPayForm");
+                    form_names[0].style.display = 'initial';
+                    form_names = document.getElementsByName("PodeliPayForm");
+                    form_names[0].style.display = 'none';
+                  }
+                  else {
+                    form_names = document.getElementsByName("TinkoffPayForm");
+                    form_names[0].style.display = 'none';
+                    form_names = document.getElementsByName("PodeliPayForm");
+                    form_names[0].style.display = 'initial';
+                  }
+                }
+              </script>
+              <div class="col-12 mt-5">
+                <label class="form-label">Выберите способ оплаты <span class="text-muted">*</span></label><br>
+                <small class="text-muted form-text">Сервис "Подели" доступен при сумме заказа от 300 руб. до 15000 руб.</small>
+              </div>
+              <div class="col-12 mb-5">
+                <div class="form-check d-flex justify-content-between">
+                  <span>
+                    <input class="form-check-input" type="radio" name="payment" id="payment1" value="tinkoff" onclick="checkPayment(this)">
+                    <label class="form-check-label">
+                      Банковской картой
+                    </label>
+                  </span>
+                </div>
+                {% if order_details.podeli_is_available %}
+                  <div class="form-check form-check d-flex justify-content-between">
+                    <span>
+                      <input class="form-check-input" type="radio" name="payment" id="payment2" value="podeli" onclick="checkPayment(this)">
+                      <label class="form-check-label">
+                        Подели - оплата покупок по частям
+                      </label>
+                    </span>
+                  </div>
+                {% endif %}
+              </div>
+    
             </div>
             <p><input type="hidden" name="addresPost" value="" /></p>
             <p><input type="hidden" name="pricePost" value="" /></p>
@@ -311,7 +353,7 @@
             <div col="12" style="display: none;" id="double">
               <div class="d-flex justify-content-between">
                 <span>Стоимость доставки</span>
-                <span id="shippingCostDouble">[[ shippingCost ]] {% trans "₽" %}</span>
+                <span id="shippingCostDouble">{% if cart.promocode.free_delivery %}0{% else %}[[ shippingCost ]]{% endif %} {% trans "₽" %}</span>
               </div>
             </div>
 

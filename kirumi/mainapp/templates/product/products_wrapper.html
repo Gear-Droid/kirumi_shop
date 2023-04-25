@@ -7,6 +7,11 @@
   {% for product_color in colored_products %}
 
     <div class="fade-in card">
+      {% if product_color.is_disabled %}
+        <div class="productDisabled" style="">
+          <span style="">{{ product_color.status }}</span>
+        </div>
+      {% endif %}
       <div class="productBackground">
         <span class="new">{% trans "Новинка" %}</span>
         {% with discount=product_color|get_discount %}
@@ -29,17 +34,16 @@
 
       <a href="{% url 'product_page' product_color.product.slug product_color.slug %}"
         style="text-align: left; font-size: 16px; text-decoration: none;">
-        <div class="info">
+        <div class="info" {% if product_color.is_disabled %}style="color: #d1d1d1;"{% endif %}>
           <div class="productName">
             <h1 class="big"><div>{{ product_color.product.name }}</div></h1>
           </div>
-
-            <div class="buy-price price">
-              {% if product_color.old_price is not none %}
-                <span class="old_price">{{ product_color.old_price.normalize }} {% trans "₽" %}<br></span>
-              {% endif %}
-              <span class="new_price">{{ product_color.price.normalize }} {% trans "₽" %}</span>
-            </div>
+          <div class="buy-price price">
+            {% if product_color.old_price is not none %}
+              <span class="old_price">{{ product_color.old_price.normalize }} {% trans "₽" %}<br></span>
+            {% endif %}
+            <span class="new_price">{{ product_color.price.normalize }} {% trans "₽" %}</span>
+          </div>
         </div>
         <div class="podeli-container" style="">
           <div class="podeli-outter-circle">

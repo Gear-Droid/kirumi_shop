@@ -17,6 +17,7 @@
 
   <!-- <meta name="yandex-verification" content="6900977733fba006" /> -->
   <!-- <meta name="google-site-verification" content="HAaj6DI9-GH18Me0i4aGBNiA0T3ueYTMTYLOvMrX6uA" /> -->
+  <meta name="p:domain_verify" content="b63f20ddfa2d7e06c2d443784dff6248"/>
 
   <link rel="preload" href="{% static 'fonts/Inter-Regular.otf' %}" as="font" type="font/ttf" crossorigin>
   <link rel="canonical" href="{{ meta.main_page }}">
@@ -26,10 +27,10 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <!--===============================================================================================-->
     <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=3">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=4">
   <!--===============================================================================================-->
     <!-- Navbar CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=3">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}?v=4">
   <!--===============================================================================================-->
 
   <title>{{ meta.Title }}</title>
@@ -39,10 +40,10 @@
   {% block header %}
     <!--===============================================================================================-->
       <!-- Product Card CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=3">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}?v=4">
     <!--===============================================================================================-->
       <!-- Homepage CSS style -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=3">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}?v=4">
     <!--===============================================================================================-->  
   {% endblock header %}
 
@@ -88,6 +89,64 @@
             width: 100%!important;
         }
       }
+
+
+      #popup1 {
+        position: fixed;
+        z-index: 200;
+      }
+      .popup {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 80vw;
+        margin: 50px 10vw;
+        aspect-ratio: 4 / 5;
+        padding: 20px;
+        background-image: url({% static 'images/about_brand.jpg' %});
+        background-position: center;
+        background-size: contain;
+        border-radius: 5px;
+        text-align: center; 
+        color: white;
+      }
+      .popup h2 {
+        width: 90%;
+        font-weight: bold;
+        font-size: 5vw;
+        margin-top: 0;
+      }
+      .popup .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 10vw;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+      }
+      .popup .close:hover {
+        color: orange;
+      }
+      .popup .content {
+        overflow: auto;
+      }
+      @media screen and (min-width: 768px){
+        .popup {
+          height: 80vh;
+          width: 50vw;
+          margin: 50px 25vw;
+        }
+        .popup h2 {
+          font-size: 3vw;
+          line-height: 5vw;
+        }
+        .popup .close {
+          font-size: 5vw;
+        }
+      }
+  
+
     {% endblock style %}
   </style>
 </head>
@@ -276,6 +335,21 @@
   <!-- Page Content -->
   <div class="main-content">
     {% block content %}
+
+      <!--Форма для заявки на первую тренировку-->
+      <div id="popup1">
+        <div class="popup">
+          <div style='margin-bottom:40px'>
+            <h2>Промокод на бесплатную доставку</h2>
+            <a class="close" href="#">×</a>
+          </div>
+          <div class="content">
+            <span><b style="line-height: 40vw; font-size: 10vw;">START</b></span>
+          </div>
+        </div>
+      </div>
+
+
       <div id="KirumiCarouselDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="">
         <div class="carousel-indicators">
           {% for banner in banners %}
@@ -623,7 +697,7 @@
 
       <div class="container mobile-container">
         {% for product_card in colored_products %}
-          <div class="fade-in card first-card" style="padding: 5vw 0 5vw 7vw;">
+          <div class="fade-in card first-card" style="">
             <div class="productBackground">
               <a class="product-link" href="{% url 'product_page' product_card.product.slug product_card.slug %}">
                 <div>
@@ -700,7 +774,7 @@
             <!-- SVG place -->
             <img class="footer-kirumi-logo"
               src="{% static "images/instagram_logo.svg" %}"
-              alt="Kirumi logo"
+              alt="Kirumi instagram logo"
               width="50px"
               loading="lazy" />
           </a>
@@ -708,8 +782,17 @@
             <!-- SVG place -->
             <img class="footer-kirumi-logo"
               src="{% static "images/vk_logo.svg" %}"
-              alt="Kirumi logo"
+              alt="Kirumi vk logo"
               width="50px"
+              loading="lazy" />
+          </a>
+          <a href="https://www.t.me/kirumi_brand/" class="col-md-2 d-flex justify-content-center">
+            <!-- SVG place -->
+            <img class="footer-kirumi-logo"
+              src="{% static "images/tg_logo.svg" %}"
+              alt="Kirumi tg logo"
+              width="50px"
+              style="padding: 0px 5px 5px 5px;"
               loading="lazy" />
           </a>
         </div>
