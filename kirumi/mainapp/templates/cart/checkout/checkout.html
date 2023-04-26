@@ -237,7 +237,7 @@
 
                 const premium = document.getElementById('premium').innerText
                 const total_price = parseInt(info.price) + parseInt(premium)
-
+                {% if cart.promocode.free_delivery %}total_price = 0{% endif %}
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + total_price + ' руб.' + "\n" +
                   'Ориентировочный срок доставки от 7 до 14 дней'

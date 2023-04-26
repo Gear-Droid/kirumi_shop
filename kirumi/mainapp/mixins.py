@@ -170,10 +170,12 @@ class PaymentMixin(View):
         self.lastName = request.POST.get('lastName')
         self.email = request.POST.get('email')
         self.phone = request.POST.get('phone')
+        self.payment = request.POST.get('payment')
         self.delivery_type = request.POST.get('delivery_type')  # тип доставки
         self.chosenPost = request.POST.get('chosenPost')  # номер поста
         self.cityPost = request.POST.get('city')  # город
         self.order_comment = request.POST.get('order_comment')  # комментарий
+
         if self.order_comment is None:
             self.order_comment = ""
         if self.delivery_type is None:
@@ -197,7 +199,7 @@ class PaymentMixin(View):
 
         required_params_list = [
             self.firstName, self.lastName, self.email, self.phone,
-            self.delivery_type, self.cityPost,
+            self.payment, self.delivery_type, self.cityPost,
             self.addresPost, self.pricePost, self.timePost,
         ]
         null_param = False
