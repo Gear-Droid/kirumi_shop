@@ -329,6 +329,11 @@ class CheckoutView(BasePageView, CartProductMixin, PodeliMixin):
         if self.products_in_cart.count() == 0:
             return HttpResponseRedirect(reverse('cart'))
 
+        free_delivery = False
+        if self.cart.promocode is not None:
+            if self.cart.promocode.free_delivery == True:
+                free_delivery = True
+
         context = {
             'meta':{
                 'Title': "Детали заказа",
@@ -340,6 +345,7 @@ class CheckoutView(BasePageView, CartProductMixin, PodeliMixin):
             'base_url': settings.BASE_URL,
             'order_details':{
                 'podeli_is_available': self.podeli_is_available,
+                'free_delivery': free_delivery,
             }
         }
         return render(request, 'cart/checkout/checkout.html', context=context)

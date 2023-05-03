@@ -99,7 +99,7 @@
               </span>
               <span>
                 <strong id="shippingCost">
-                  {% if cart.promocode.free_delivery %}0{% else %}[[ shippingCost ]]{% endif %} {% trans "₽" %}
+                  {% if order_details.free_delivery %}0{% else %}[[ shippingCost ]]{% endif %} {% trans "₽" %}
                 </strong>
               </span>
             </li>
@@ -236,11 +236,7 @@
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
 
                 const premium = document.getElementById('premium').innerText
-                {% if cart.promocode is not None and cart.promocode.free_delivery %}
-                  const total_price = parseInt(0)
-                {% else %}
-                  const total_price = parseInt(info.price) + parseInt(premium)
-                {% endif %}
+                const total_price = {% if order_details.free_delivery %}parseInt(0){% else %}parseInt(info.price) + parseInt(premium){% endif %}
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + total_price + ' руб.' + "\n" +
                   'Ориентировочный срок доставки от 7 до 14 дней'
@@ -356,7 +352,7 @@
             <div col="12" style="display: none;" id="double">
               <div class="d-flex justify-content-between">
                 <span>Стоимость доставки</span>
-                <span id="shippingCostDouble">{% if cart.promocode.free_delivery %}0{% else %}[[ shippingCost ]]{% endif %} {% trans "₽" %}</span>
+                <span id="shippingCostDouble">{% if order_details.free_delivery %}0{% else %}[[ shippingCost ]]{% endif %} {% trans "₽" %}</span>
               </div>
             </div>
 
