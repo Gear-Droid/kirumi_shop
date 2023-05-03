@@ -234,8 +234,10 @@
               } {% endcomment %}
 
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
-
                 const premium = document.getElementById('premium').innerText
+                console.log('Выбрана доставка в ПВЗ ', info);
+                console.log('premium ', premium);
+
                 const total_price = {% if order_details.free_delivery %}parseInt(0){% else %}parseInt(info.price) + parseInt(premium){% endif %}
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + total_price + ' руб.' + "\n" +
