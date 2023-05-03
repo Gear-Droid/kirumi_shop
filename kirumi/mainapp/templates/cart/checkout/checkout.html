@@ -236,8 +236,11 @@
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
 
                 const premium = document.getElementById('premium').innerText
-                const total_price = {% if cart.promocode.free_delivery %}parseInt(0){% else %}parseInt(info.price) + parseInt(premium){% endif %}
-                
+                {% if cart.promocode %}
+                  const total_price = {% if cart.promocode.free_delivery %}parseInt(0){% else %}parseInt(info.price) + parseInt(premium){% endif %}
+                {% else %}
+                  const total_price = parseInt(info.price) + parseInt(premium)
+                {% endif %}
                 alert('Выбрана доставка в пункт выдачи заказов по адресу ' + info.PVZ.Address + "\n" +
                   'Цена ' + total_price + ' руб.' + "\n" +
                   'Ориентировочный срок доставки от 7 до 14 дней'
