@@ -191,11 +191,12 @@ class PaymentMixin(View):
         else:
             self.addresPost = request.POST.get('addresPost-show')  # адрес
             _buying_type = BUYING_TYPE_DELIVERY
-        if self.cart.promocode.free_delivery == True:
-            self.pricePost = 0
-        else: 
-            self.pricePost = request.POST.get('pricePost')  # стоимость доставки
+
         self.timePost = request.POST.get('timePost')  # приблизительное время доставки
+        self.pricePost = request.POST.get('pricePost')  # стоимость доставки
+        if self.cart.promocode is not None:
+            if self.cart.promocode.free_delivery == True:
+                self.pricePost = 0
 
         required_params_list = [
             self.firstName, self.lastName, self.email, self.phone,
