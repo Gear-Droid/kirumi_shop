@@ -236,7 +236,7 @@
               function onChoose(info) { // при выборе ПВЗ: запишем номер ПВЗ в текстовое поле и доп. информацию
 
                 const premium = document.getElementById('premium').innerText
-                {% if cart.promocode %}
+                {% if cart.promocode is not None %}
                   const total_price = {% if cart.promocode.free_delivery %}parseInt(0){% else %}parseInt(info.price) + parseInt(premium){% endif %}
                 {% else %}
                   const total_price = parseInt(info.price) + parseInt(premium)
