@@ -259,6 +259,7 @@ class ProductVariationAdmin(TranslationAdmin, BasicIsActiveAndDateAdmin, BasicSl
         ('image', 'get_image'),
         ('sort_order', 'pub_date', 'slug'),
     )
+    list_editable = ('sort_order', )
     list_display = ('sort_order', 'pub_date', 'slug', 'name_ru', 'name_en', 'get_image', 'is_active', )
     list_filter = ('is_active', 'pub_date', )
     readonly_fields = ('pub_date', 'get_image')
