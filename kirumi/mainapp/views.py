@@ -42,10 +42,14 @@ class HomePageView(BasePageView, NewProductsMixin):
         self.banners = Banner.objects.filter(is_active=True).order_by('-sort_order')
         self.hellobanner = HelloBanner.objects.filter(is_active=True).order_by('-sort_order').first()
         popup_show = request.COOKIES.get('popup_show')
-        if popup_show != "false":
-            popup_show = True
-        else:
+        if self.hellobanner is None:
             popup_show = False
+        else:
+            if popup_show != "false":
+                popup_show = True
+            else:
+                popup_show = False
+
         context = {
             'meta':{
                 'Title': "KIRUMI - Интернет-магазин аниме-одежды",
@@ -54,7 +58,7 @@ class HomePageView(BasePageView, NewProductsMixin):
                 'main_page': self.main_path,
             },
             'cookie':{
-                'popup_show': False,
+                'popup_show': popup_show,
             },
             'collections': self.collections,
             'cart': self.cart,
