@@ -422,6 +422,20 @@ class SuccessView(BasePageView, OrderMixin, SuccessMixin):
         return render(request, 'cart/checkout/payment/success/success.html', context=context)
 
 
+class SuccessOrderRequestView(BasePageView, OrderRequestMixin, SuccessOrderRequestMixin):
+
+    def post(self, request, *args, **kwargs):
+        context = {
+            'meta': {
+                'Title': 'Успешный заказ',
+                'main_page': self.main_path,
+            },
+            'cart': self.cart,
+            'order_id': self.order_request.id,
+        }
+        return render(request, 'cart/success.html', context=context)
+
+
 class TermsOfUseView(BasePageView, CartProductMixin):
 
     def get(self, request, *args, **kwargs):

@@ -42,6 +42,7 @@ urlpatterns = [
     path('cart/delivery_widget/', DeliveryWidgetView.as_view(), name='delivery_widget'),
     path('cart/checkout/payment/', PaymentView.as_view(), name='payment'),
     path('cart/checkout/payment/success/', SuccessView.as_view(), name='succes'),
+    path('cart/success/', SuccessOrderRequestView.as_view(), name='request_succes'),
     # ============ #
     # === REST API === #
     path('cities/', CitiesAPIView.as_view(), name='cities'),

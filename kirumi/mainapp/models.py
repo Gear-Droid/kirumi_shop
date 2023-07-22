@@ -449,6 +449,55 @@ class Order(models.Model):
         return str(self.id)
 
 
+class OrderRequest(models.Model):
+
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+
+    STATUS_NEW = 'NEW'
+    STATUS_IN_PROGRESS = 'IN PROGRESS'
+    STATUS_COMPLETED = 'COMPLETED'
+    STATUS_REJECTED = 'REJECTED'
+
+    STATUS_CHOICES = (
+        (STATUS_NEW, 'Новая заявка'),
+        (STATUS_IN_PROGRESS, 'Заявка в обработке'),
+        (STATUS_COMPLETED, 'Заявка выполнена'),
+        (STATUS_REJECTED, 'Заявка отклонена'),
+    )
+
+    first_name = models.CharField(max_length=128, verbose_name='Имя')
+    last_name = models.CharField(max_length=128, verbose_name='Фамилия')
+    email = models.EmailField(max_length=254, verbose_name='Email')
+    phone = models.CharField(max_length=20, verbose_name='Телефон')
+    status = models.CharField(
+        max_length=100,
+        verbose_name='Статус заявки',
+        choices=STATUS_CHOICES,
+        default=STATUS_NEW,
+    )
+    comment = models.TextField(
+        max_length=256, verbose_name='Комментарий к заявке', null=True, blank=True
+    )
+    total_products = models.PositiveIntegerField(default=0, verbose_name='Общее число товаров в заявке')
+    promocode = models.CharField(max_length=32, verbose_name='Промокод', null=True, blank=True)
+    price_before_discount = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0, verbose_name='Цена до применения скидки'
+    )
+    final_price = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0, verbose_name='Итоговая цена'
+    )
+    changed_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения заявки')
+    created_datetime = models.DateTimeField(
+        verbose_name='Дата и время создания заявки', null=True, blank=True
+    )
+    cart_id = models.PositiveIntegerField(verbose_name='Номер корзины', null=True, blank=True)
+
+    def __str__(self):
+        return str(self.id)
+
+
 class OrderProduct(models.Model):
 
     class Meta:
@@ -457,6 +506,32 @@ class OrderProduct(models.Model):
 
     order = models.ForeignKey(
         Order, verbose_name='Заказ', on_delete=models.CASCADE,
+        related_name='products',
+    )
+    name = models.CharField(
+        max_length=128, verbose_name='Позиция чека'
+    )
+    qty = models.PositiveIntegerField(default=1)
+    subtotal_price_before_discount = models.DecimalField(
+        max_digits=9, decimal_places=2, verbose_name='Cумма до скидки',
+        null=True, blank=True
+    )
+    subtotal_price = models.DecimalField(
+        max_digits=9, decimal_places=2, verbose_name='Cумма'
+    )
+
+    def __str__(self):
+        return '{}. {}'.format(self.id, self.name)
+
+
+class OrderRequestProduct(models.Model):
+
+    class Meta:
+        verbose_name = 'Товар в заявке'
+        verbose_name_plural = 'Товары в заявке'
+
+    order_request = models.ForeignKey(
+        OrderRequest, verbose_name='Заявка', on_delete=models.CASCADE,
         related_name='products',
     )
     name = models.CharField(

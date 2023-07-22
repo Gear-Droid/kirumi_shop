@@ -1,0 +1,95 @@
+{% extends 'homepage.html' %}
+
+{% load static i18n thumbnail %}
+
+{% block header %}
+  <!--===============================================================================================-->
+    <!-- Card CSS style -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
+  <!--===============================================================================================-->
+{% endblock header %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+  <div class="container" style="height: 90vh;">
+		<div class="mb-3 text-center h-100" style="">
+
+			<div class="col h-100" style="">
+				<div class="card my-3 shadow-sm h-100" style="">
+					<div class="pt-5 pb-3 text-success">
+						<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+						</svg>
+					</div>
+					<div class="py-3">
+						<h4 class="my-0 fw-normal">Успешно!</h4>
+					</div>
+					<div class="card-body mb-5">
+						<ul class="list-unstyled mt-3 mb-5">
+							<li class="mb-3">
+								Благодарим Вас за заказ!
+							</li>
+							<li>
+								Номер вашего заказа - 10{{ order_id }}.
+							</li>
+							<li>
+								В течение дня с Вами свяжется менеджер для уточнения деталей по доставке и оплате.
+							</li>
+							<li>
+								При возникновении любых вопросов, можете обратиться в наши соц.сети.
+							</li>
+						</ul>
+						<a href="{% url 'homepage' %}">
+							<!-- SVG place -->
+							<img class="footer-kirumi-logo"
+							  src="{% static "images/kirumi-logo.svg" %}"
+							  style="filter: invert(0); margin-bottom: 40px;"
+							  alt="Kirumi logo"
+							  width="200px"
+							  loading="lazy" />
+						</a>
+						<div class="social-media-container my-3" style="display: flex; justify-content: center; filter: invert(1);">
+							<a href="https://www.instagram.com/kirumi.brand/" class="col-md-2 d-flex justify-content-center">
+							  <!-- SVG place -->
+							  <img class="footer-kirumi-logo"
+								src="{% static "images/instagram_logo.svg" %}"
+								alt="Kirumi instagram logo"
+								width="50px"
+								loading="lazy" />
+							</a>
+							<a href="https://www.vk.com/kirumi_brand/" class="col-md-2 d-flex justify-content-center">
+							  <!-- SVG place -->
+							  <img class="footer-kirumi-logo"
+								src="{% static "images/vk_logo.svg" %}"
+								alt="Kirumi vk logo"
+								width="50px"
+								loading="lazy" />
+							</a>
+							<a href="https://www.t.me/kirumi_brand/" class="col-md-2 d-flex justify-content-center">
+							  <!-- SVG place -->
+							  <img class="footer-kirumi-logo"
+								src="{% static "images/tg_logo.svg" %}"
+								alt="Kirumi tg logo"
+								width="50px"
+								style="padding: 0px 5px 5px 5px;"
+								loading="lazy" />
+							</a>
+						</div>
+						<form action="/">
+							<button type="submit" class="w-75 btn btn-lg btn-outline-success">Вернуться на главную</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+{% endblock content %}
+
+{% block prefooter %}
+{% endblock prefooter %}
+
+{% block footer %}
+{% endblock footer %}

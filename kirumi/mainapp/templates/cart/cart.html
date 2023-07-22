@@ -12,6 +12,9 @@
 {% endblock header %}
 
 {% block style %}
+  .form-label .text-muted{
+    color: red!important;
+  }
 {% endblock %}
 
 {% block intro %}
@@ -126,21 +129,69 @@
                       </div>
 
                       <hr class="my-4">
+                      {% if products_in_cart|length %}
+                        <div class="col">
+                          <form id="form1" class="" action="{% url 'request_succes' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row g-3 mb-4">
+                
+                              <div class="col-sm-5">
+                                <label for="firstName" class="form-label">Имя <span class="text-muted">*</span></label>
+                                <input type="text" class="form-control" name="firstName" id="firstName" value="" required/>
+                              </div>
+                
+                              <div class="col-sm-7">
+                                <label for="lastName" class="form-label">Фамилия <span class="text-muted">*</span></label>
+                                <input type="text" class="form-control" name="lastName" id="lastName" value="" required/>
+                              </div>
+                              
+                              <div class="col-12">
+                                <label for="phone" class="form-label">Номер телефона <span class="text-muted">*</span></label>
+                                <input type="phone" class="form-control" name="phone" id="phone" value="" required/>
+                              </div>
 
-                      <div class="d-flex justify-content-between mb-5">
-                        <h5 class="text-uppercase m-0 p-0" style="font-size: 1.1rem; font-weight: bold; line-height: 54px;">{% trans "Сумма к оплате" %}</h5>
-                        <ul class="m-0 p-0">
-                          {% if cart|show_discount %}
-                            <h5 style="font-size: 1.1rem; text-decoration: line-through;">{{ cart.price_before_discount }} {% trans "₽" %}</h5>
-                            <h5 style="font-size: 1.1rem; font-weight: bold;">{{ cart.final_price }} {% trans "₽" %}</h5>
-                          {% else %}
-                            <h5 style="font-size: 1.1rem; font-weight: bold; line-height: 58px;">{{ cart.final_price }} {% trans "₽" %}</h5>
-                          {% endif %}
-                        </ul>
-                      </div>
-                      <a href="{% url 'checkout' %}">
-                        <button type="button" class="checkout btn btn-dark btn-block btn-lg w-100">{% trans "Оформить заказ" %}</button>
-                      </a>
+                              <div class="col-12">
+                                <label class="form-label"><span class="text-muted">*</span> - поля обязательные для заполнения</label>
+                              </div>
+
+                              <div class="col-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com" value=""/>
+                              </div>
+
+                            </div>
+  
+                            <div class="col-12 mt-3">
+                              <label for="request_comment" class="form-label">Комментарий к заказу</label>
+                              <textarea type="text" class="form-control"
+                                style="background: #ffffff!important; height: 140px;"
+                                id="request_comment"
+                                name="request_comment"
+                                maxlength="255"
+                              ></textarea>
+                            </div>
+                
+                            <div class="d-flex justify-content-between mb-5">
+                              <h5 class="text-uppercase m-0 p-0" style="font-size: 1.1rem; font-weight: bold; line-height: 54px;">{% trans "Сумма к оплате" %}</h5>
+                              <ul class="m-0 p-0">
+                                {% if cart|show_discount %}
+                                  <h5 style="font-size: 1.1rem; text-decoration: line-through;">{{ cart.price_before_discount }} {% trans "₽" %}</h5>
+                                  <h5 style="font-size: 1.1rem; font-weight: bold;">{{ cart.final_price }} {% trans "₽" %}</h5>
+                                {% else %}
+                                  <h5 style="font-size: 1.1rem; font-weight: bold; line-height: 58px;">{{ cart.final_price }} {% trans "₽" %}</h5>
+                                {% endif %}
+                              </ul>
+                            </div>
+      
+                            <button type="submit" class="mb-5 mt-4 w-100 btn btn-dark btn-lg">Оформить заявку</button>
+                          </form>
+                        </div>
+                        {% endif %}
+                      {% comment "кнопка оплаты" %}
+                        <a href="{% url 'checkout' %}">
+                          <button type="button" class="checkout btn btn-dark btn-block btn-lg w-100">{% trans "Оформить заказ" %}</button>
+                        </a>
+                      {% endcomment %}
                     </div>
                   </div>
                 </div>

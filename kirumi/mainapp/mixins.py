@@ -19,6 +19,8 @@ from .models import (
     Collection,
     Order,
     OrderProduct,
+    OrderRequest,
+    OrderRequestProduct,
 )
 
 
@@ -267,6 +269,43 @@ class OrderMixin(View):
         return super().dispatch(request, *args, **kwargs)
 
 
+class OrderRequestMixin(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.firstName = request.POST.get('firstName')
+        self.lastName = request.POST.get('lastName')
+        self.email = request.POST.get('email')
+        self.phone = request.POST.get('phone')
+        self.request_comment = request.POST.get('request_comment')  # комментарий
+
+        self.order_request, _ = OrderRequest.objects.get_or_create(
+            first_name=self.firstName, last_name=self.lastName,
+            phone=self.phone, email=self.email,
+        )
+        self.order_request.comment=self.request_comment
+        self.order_request.total_products=self.cart.total_products
+        if self.cart.promocode is not None:
+            self.order_request.promocode=self.cart.promocode.promocode
+        self.order_request.price_before_discount=self.cart.price_before_discount
+        self.order_request.final_price=self.cart.final_price
+        self.order_request.cart_id = self.cart.id
+        self.order_request.save()
+
+        for product_in_order in self.cart.products.all():
+            subtotal_price_before_discount = product_in_order.subtotal_price_before_discount
+            if product_in_order.subtotal_price_before_discount is None:
+                subtotal_price_before_discount = product_in_order.subtotal_price
+            OrderRequestProduct.objects.create(
+                order_request=self.order_request,
+                name=product_in_order.get_receipt_name(),
+                qty=product_in_order.qty,
+                subtotal_price=product_in_order.subtotal_price,
+                subtotal_price_before_discount=subtotal_price_before_discount,
+            )
+
+        return super().dispatch(request, *args, **kwargs)
+
+
 class SuccessMixin(View):
 
     @transaction.atomic
@@ -280,6 +319,18 @@ class SuccessMixin(View):
         self.order.status = STATUS_IN_PROGRESS
         self.cart.save()
         self.order.save()
+        request.session.flush()
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class SuccessOrderRequestMixin(View):
+
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+
+        self.order_request.created_datetime = datetime.now()
+        self.order_request.save()
         request.session.flush()
 
         return super().dispatch(request, *args, **kwargs)

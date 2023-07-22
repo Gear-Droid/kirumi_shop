@@ -444,6 +444,68 @@ class OrderAdmin(admin.ModelAdmin):
     get_status.short_description = "Статус"
 
 
+class OrderRequestProductInline(admin.TabularInline):
+
+    model = OrderRequestProduct
+    extra = 0
+
+    fields = (
+        'order_request', 'name',
+        'qty',
+        'subtotal_price',
+        'subtotal_price_before_discount',
+    )
+    readonly_fields = ('order_request', )
+
+
+class OrderRequestAdmin(admin.ModelAdmin):
+
+    class Meta:
+        model = OrderRequest
+
+    fields = (
+        ('status', 'get_status', 'changed_at', ),
+        ('created_datetime', ),
+        ('last_name', 'first_name', ),
+        ('email', 'phone', ),
+        ('comment', ),
+        ('total_products', ),
+        ('promocode', ),
+        ('final_price', 'price_before_discount', ),
+    )
+    list_display = (
+        'id', 'created_datetime',
+        'get_status',
+        'last_name', 'first_name',
+        'email', 'phone',
+    )
+    readonly_fields = (
+        'get_status', 'changed_at', 'promocode',
+    )
+    list_filter = ('status', 'created_datetime', )
+    search_fields = ('id', 'last_name', 'first_name', 'email', 'phone', )
+    inlines = [
+        OrderRequestProductInline,
+    ]
+
+    def get_status(self, obj):
+        status_choice = ""
+        for status, value in obj.STATUS_CHOICES:
+            if obj.status==status:
+                status_choice = value
+        color_dict = {
+            obj.STATUS_NEW: "red",
+            obj.STATUS_IN_PROGRESS: "orange",
+            obj.STATUS_COMPLETED: "green",
+            obj.STATUS_REJECTED: "black",
+        }
+        order_color = color_dict.get(obj.status)
+        return mark_safe(
+            f'<span style="color: { order_color };">{ status_choice }</span>'
+        )
+    get_status.short_description = "Статус"
+
+
 admin.site.register(Banner, BannerAdmin)
 admin.site.register(HelloBanner, HelloBannerAdmin)
 admin.site.register(Collection, CollectionAdmin)
@@ -454,4 +516,5 @@ admin.site.register(Promocode, PromocodeAdmin)
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartProduct, CartProductAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderRequest, OrderRequestAdmin)
 admin.site.register(ProductVariation, ProductVariationAdmin)
