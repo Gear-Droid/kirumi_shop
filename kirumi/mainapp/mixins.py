@@ -77,20 +77,6 @@ class NewProductsMixin(View):
                     'id', 'is_active', 'sort_order', 'product_id',
                     'product__is_active', 'product__pub_date',
                 )[:10]
-        from django.db.models import Avg, Count
-        self._ = ColoredProduct.objects.select_related('product').select_related('variation')  \
-            .prefetch_related('images').prefetch_related('product__collection').prefetch_related('product__sizes').filter(
-                Q(is_active=True) & Q(product__is_active=True) &  \
-                Q(product__collection__is_active=True) &  \
-                Q(images__is_active=True)
-            ).values(
-                'product__slug',
-                'variation__sort_order',
-            ).order_by(
-                '-variation__sort_order'
-            ).distinct()
-        for i in self._:
-            print(i)
         return super().dispatch(request, *args, **kwargs)
 
 
